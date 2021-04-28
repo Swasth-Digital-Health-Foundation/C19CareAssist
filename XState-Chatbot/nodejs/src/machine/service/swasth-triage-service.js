@@ -47,11 +47,6 @@ class TriageService {
     query GetTriageDetailsForPerson($uuid: uuid!) {
       person(where: {uuid: {_eq: $uuid}}) {
         uuid
-        age
-        first_name
-        gender
-        mobile
-        mobile_hash
         c19_triage {
           created_at
           comorbidities
