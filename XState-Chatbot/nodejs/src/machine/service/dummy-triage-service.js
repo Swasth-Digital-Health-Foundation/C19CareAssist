@@ -1,4 +1,5 @@
 const pdfCreator = require('pdf-creator-node');
+const htmlTemplate = require('../../../resources/pdf-template-download-reports');
 
 class TriageService {
 
@@ -8,46 +9,38 @@ class TriageService {
         console.log(JSON.stringify(triage));
     }
 
-    getTriageDetails() {
-        const triage = {
-            isComorbid:false,
-            person: {first_name: 'Manzur', age: 28, gender: 'male', uuid: '123'},
-            age:28,
-            first_name:'Manzur',
-            gender:'male',
-            uuid:'123',
-            rtpcr:'positive',
-            spo2:'above95',
-            timestamp: new Date(),
-            symptoms:false,
+    getUserData() {
+        const userData = {
+            "uuid": "9f9896c6-1e9f-4d8b-ac5a-0163670f0bf8",
+            "age": 12,
+            "first_name": "ads",
+            "gender": "female",
+            "mobile": "9123123123",
+            "mobile_hash": null,
+            "c19_triage": {
+                "created_at": "2021-04-23T17:04:16.978548+00:00",
+                "comorbidities": "true",
+                "rt_pcr_status": null,
+                "symptoms": null
+            },
+            "c19_vitals": [
+                {
+                "created_at": "2021-04-23T17:28:16.359211+00:00",
+                "spo2": "good",
+                "temperature": "bad"
+                },
+                {
+                "created_at": "2021-04-27T15:01:21.462757+00:00",
+                "spo2": "bad",
+                "temperature": "good"
+                }
+            ]
         }
-        return triage;
+        return userData;
     }
 
     async downloadReportForPerson(person) {
-        //TODO: Move this template to a separate file
-        const html = `<!DOCTYPE html>
-            <html>
-            <head>
-                <mate charest="utf-8" />
-                <title>{{this.person.first_name}}'s Report</title>
-            </head>
-            <body>
-                <h1>Hi {{this.person.first_name}}, here's your report</h1>
-                <div>
-                Patient Details:
-                <p>Symptoms: - {{this.triage.symptoms}}</p>
-                <p>What is the result of rtPCR - {{this.triage.rtpcr}}</p>
-                <p>Is having comorbid condition? - {{this.triage.isComorbid}}</p>
-                </div>
-                <div>
-                Patient Readings:
-                <p>Date of reading: {{this.triage.timestamp}}</>
-                <p>SPO2 reading: {{this.triage.spo2}}</>
-                <p>Temperature reading: {{this.triage.temperature}}</>
-                </div>
-            </body>
-            </html>`
+        const html = htmlTemplate;
 
         const options = {
                 format: "A3",
@@ -55,27 +48,27 @@ class TriageService {
                 border: "10mm",
                 header: {
                     height: "45mm",
-                    contents: '<div style="text-align: center;">Swasth Chatbot</div>'
-                },
-                footer: {
-                    height: "28mm",
-                    contents: {
-                        first: 'Cover page',
-                        2: 'Second page', // Any page number is working. 1-based index
-                        default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-                        last: 'Last Page'
-                    }
+                    contents: '<div style="text-align: center;">Swasth Chatbot Report</div>'
                 }
             };
 
+        const userData = this.getUserData();
+
+        const c19_vitals = JSON.parse(JSON.stringify(userData.c19_vitals));
+        c19_vitals.forEach(vital => {
+            vital.created_date = new Date('2021-04-23T17:04:16.978548+00:00').toDateString();
+            vital.created_time = new Date('2021-04-23T17:04:16.978548+00:00').toLocaleTimeString()
+        });
+            
         const variables = {
                 person: {
-                    first_name: person.first_name,
-                    mobile: person.mobile
+                    first_name: userData.first_name,
+                    mobile: userData.mobile,
+                    gender: userData.gender,
+                    age: userData.age
                 },
-                triage: this.getTriageDetails(),
-                vitals: [
-                ]
+                c19_triage: {...userData.c19_triage, 'created_date': new Date('2021-04-23T17:04:16.978548+00:00').toDateString()},
+                c19_vitals: c19_vitals
         };
               
         const document = {
