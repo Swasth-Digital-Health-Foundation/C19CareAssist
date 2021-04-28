@@ -10,14 +10,9 @@ class TriageService {
         console.log(JSON.stringify(triage));
     }
 
-    async getUserData(person) {
+    async getTriageDetailsForPerson(person) {
         const userData = {
             "uuid": "9f9896c6-1e9f-4d8b-ac5a-0163670f0bf8",
-            "age": 12,
-            "first_name": "ads",
-            "gender": "female",
-            "mobile": "9123123123",
-            "mobile_hash": null,
             "c19_triage": {
                 "created_at": "2021-04-23T17:04:16.978548+00:00",
                 "comorbidities": "true",
@@ -40,7 +35,7 @@ class TriageService {
         return userData;
     }
 
-    async downloadReportForPerson(person) {
+    async downloadReportForPerson(person, locale) {
         const html = fs.readFileSync(path.resolve(__dirname, "../../../resources/pdf-template-download-report.html")).toString()
 
         const options = {
@@ -53,7 +48,7 @@ class TriageService {
                 }
             };
 
-        const userData = await this.getUserData(person);
+        const userData = await this.getTriageDetailsForPerson(person);
 
         const c19_vitals = JSON.parse(JSON.stringify(userData.c19_vitals));
         c19_vitals.forEach(vital => {
@@ -63,10 +58,10 @@ class TriageService {
             
         const variables = {
                 person: {
-                    first_name: userData.first_name,
-                    mobile: userData.mobile,
-                    gender: userData.gender,
-                    age: userData.age
+                    first_name: person.first_name,
+                    mobile: person.mobile,
+                    gender: person.gender,
+                    age: person.age
                 },
                 c19_triage: {...userData.c19_triage, 'created_date': new Date('2021-04-23T17:04:16.978548+00:00').toDateString()},
                 c19_vitals: c19_vitals
