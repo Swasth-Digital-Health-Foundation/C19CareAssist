@@ -1,5 +1,6 @@
 const pdfCreator = require('pdf-creator-node');
-const htmlTemplate = require('../../../resources/pdf-template-download-reports');
+const fs = require('fs');
+const path = require("path");
 
 class TriageService {
 
@@ -9,7 +10,7 @@ class TriageService {
         console.log(JSON.stringify(triage));
     }
 
-    getUserData() {
+    async getUserData(person) {
         const userData = {
             "uuid": "9f9896c6-1e9f-4d8b-ac5a-0163670f0bf8",
             "age": 12,
@@ -40,7 +41,7 @@ class TriageService {
     }
 
     async downloadReportForPerson(person) {
-        const html = htmlTemplate;
+        const html = fs.readFileSync(path.resolve(__dirname, "../../../resources/pdf-template-download-report.html")).toString()
 
         const options = {
                 format: "A3",
@@ -52,7 +53,7 @@ class TriageService {
                 }
             };
 
-        const userData = this.getUserData();
+        const userData = await this.getUserData(person);
 
         const c19_vitals = JSON.parse(JSON.stringify(userData.c19_vitals));
         c19_vitals.forEach(vital => {
