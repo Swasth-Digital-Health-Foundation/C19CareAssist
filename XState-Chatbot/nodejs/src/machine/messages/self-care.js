@@ -7,6 +7,11 @@ let messages = {
       en_IN: 'Please select the patient whose vitals you want to add:\n\n'
     }
   },
+  selectPersonForExit: {
+    prompt: {
+      en_IN: 'Please select the patient for whom you want to exit the program:\n\n'
+    }
+  },
   userConsent: {
     prompt: {
       en_IN: 'Consent Message'
