@@ -88,7 +88,7 @@ class TriageService {
         border: "10mm",
         header: {
           height: "45mm",
-          contents: '<div style="text-align: center;">Swasth Chatbot Report</div>'
+          contents: '<div style="text-align: center;">Vitals</div>'
         }
       };
 
@@ -111,7 +111,12 @@ class TriageService {
           gender: person.gender,
           age: person.age
         },
-        c19_triage: { ...userData.c19_triage, 'created_date': new Date(userData.c19_triage.created_at).toDateString() },
+        c19_triage: { 
+          ...userData.c19_triage,
+          'hasComorbidities': userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No',
+          'hasSymptoms': userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No',
+          'created_date': new Date(userData.c19_triage.created_at).toDateString() 
+        },
         c19_vitals: c19_vitals
       };
 

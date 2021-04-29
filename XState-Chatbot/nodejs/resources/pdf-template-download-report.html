@@ -3,27 +3,49 @@
 
 <head>
     <mate charest="utf-8" />
-    <title>{{this.person.first_name}}'s Report</title>
+    <title>Vitals</title>
     <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
+      .brand-logo {
+        display: flex;
+        margin-bottom: 20px;
+        justify-content: flex-end;
+        padding: 0 30px;
+      }
+      
+      .brand-logo > img {
+        background: black;
+        width: 100px;
+        height: 100px;
+      }
+      
+      li {
+        margin-bottom: 10px;
+      }
+      ul {
+        margin-bottom: 30px;
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
 
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
 
-    tr:nth-child(even) {
-      background-color: #dddddd4d;
-    }
+      tr:nth-child(even) {
+        background-color: #dddddd4d;
+      }
     </style>
 </head>
 
 <body>
+    <!-- <div class="brand-logo">
+      <img src="./swasth-logo.jpeg"/>
+    </div> -->
     <ul>
         <li>Patient's Name: {{this.person.first_name}}</li>
         <li>Age: {{this.person.age}}</li>
@@ -31,9 +53,9 @@
         <span style="text-transform: capitalize">{{this.person.gender}}</span>
         </li>
         <li>Enrollment Date: {{this.c19_triage.created_date}}</li>
-        <li>Symptoms: {{this.c19_triage.symptoms}}</li>
+        <li>Symptoms: {{this.c19_triage.hasSymptoms}}</li>
         <li>RT PCR result: {{this.c19_triage.rt_pcr_status}}</li>
-        <li>Comorbidities: {{this.c19_triage.comorbidities}}</li>
+        <li>Comorbidities: {{this.c19_triage.hasComorbidities}}</li>
     </ul>
     <div>
         <table>
