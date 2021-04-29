@@ -1,5 +1,4 @@
 
-// const { personService } = require('./service/service-loader');
 const { getQuery } = require('../util/api');
 const { personService } = require('../service/service-loader');
 const channelProvider = require('../../channel');
@@ -42,8 +41,6 @@ class RemindersService {
     async decryptUserData(triageData) {
       let people = triageData.map(item => item.person);
       return await personService.decryptPersons(people);
-      return people;
-
     }
 
     filterDuplicateMobileNumbers(people) {
