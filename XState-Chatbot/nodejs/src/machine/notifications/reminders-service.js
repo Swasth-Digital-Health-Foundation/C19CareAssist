@@ -1,10 +1,10 @@
 
-const { getQuery } = require('../util/api');
+const { getQuery } = require('../service/util/api');
 const { personService } = require('../service/service-loader');
 const channelProvider = require('../../channel');
-const { decryptPersons } = require('../service/swasth-person-service');
 const envVariables = require('../../env-variables');
 const { messages } = require('../messages/reminders');
+const dialog = require('../util/dialog.js');
 
 class RemindersService {
 
@@ -54,9 +54,10 @@ class RemindersService {
           whatsAppBusinessNumber: envVariables.whatsAppBusinessNumber
         }
 
-        const message = messages[time].en_IN;
+        const message = dialog.get_message(messages[time]);
 
         people.forEach(person => {
+          person.mobileNumber = person.mobile;
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
     }

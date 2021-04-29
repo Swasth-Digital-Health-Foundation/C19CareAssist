@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const config = require('../../env-variables');
+const config = require('../../../env-variables');
 
 async function getQuery(query, variables, operationName = null) {
     
