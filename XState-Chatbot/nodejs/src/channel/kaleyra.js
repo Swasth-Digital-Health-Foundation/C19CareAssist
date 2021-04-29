@@ -80,13 +80,10 @@ class KaleyraWhatsAppProvider {
           body: form
       }
 
-      await fetch(this.url, request).then(res => res.json())
-      .then(data => {
-        console.log('data is: ', data);
-      })
-      .catch(e => {
-        console.log('error is: ', error);
-      });
+      const response = await fetch(this.url, request).then(res => res.json());
+      if (response && message.type === 'media' && message.output) {
+        fs.unlinkSync(`nodejs/pdf-output/${message.output}`);
+      }
     }
   }
 
