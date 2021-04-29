@@ -3,7 +3,6 @@ const dialog = require('./util/dialog.js');
 const triageFlow = require('./triage');
 const selfCareFlow = require('./self-care');
 const { personService } = require('./service/service-loader');
-const { remindersService } = require('./service/service-loader');
 const { messages } = require('./messages/chat-machine');
 
 const chatStateMachine = Machine({
@@ -55,8 +54,6 @@ const chatStateMachine = Machine({
             message += prompt;
             message += dialog.get_message(messages.menu.prompt.postscript, context.user.locale);
             dialog.sendMessage(context, message);
-            //TODO: Remove after test
-            remindersService.getSubscribedPeople();
           }),
           on: {
             USER_MESSAGE: 'process'
