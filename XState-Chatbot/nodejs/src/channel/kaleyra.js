@@ -2,6 +2,8 @@ const fetch = require("node-fetch");
 require('url-search-params-polyfill');
 const config = require('../env-variables');
 var geturl = require("url");
+const fs = require('fs');
+const FormData = require('form-data');   
 
 class KaleyraWhatsAppProvider {
 
@@ -47,31 +49,44 @@ class KaleyraWhatsAppProvider {
       let phone = user.mobileNumber;
 
       let headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
         'api-key': config.kaleyra.apikey
       }
 
-      var urlSearchParams = new URLSearchParams();
+      let form = new FormData();
       
-      urlSearchParams.append("channel", "whatsapp");
-      urlSearchParams.append("from", extraInfo.whatsAppBusinessNumber);
-      urlSearchParams.append("to", '91' + phone);
+      form.append("channel", "whatsapp");
+      form.append("from", extraInfo.whatsAppBusinessNumber);
+      form.append("to", '91' + phone);
 
       if(typeof(message) == 'string') {
-        urlSearchParams.append("type", 'text');
-        urlSearchParams.append("body", message);
+        form.append("type", 'text');
+        form.append("body", message);
+      } else if (message.type == 'media') {
+        const buffer = fs.readFileSync(`nodejs/pdf-output/${message.output}`);
+        form.append("type", 'media');
+        form.append("media", buffer, {
+          contentType: 'text/plain',
+          name: 'file',
+          filename: message.output,
+        });
       } else {
-        urlSearchParams.append("type", message.type);
-        urlSearchParams.append("body", message.output);
+        form.append("type", message.type);
+        form.append("body", message.output);
       }
       
       var request = {
           method: "POST",
           headers: headers,
-          body: urlSearchParams
+          body: form
       }
 
-      await fetch(this.url, request);
+      await fetch(this.url, request).then(res => res.json())
+      .then(data => {
+        console.log('data is: ', data);
+      })
+      .catch(e => {
+        console.log('error is: ', error);
+      });
     }
   }
 

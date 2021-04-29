@@ -67,20 +67,16 @@ class TriageService {
                 c19_vitals: c19_vitals
         };
               
+        const fileName = `${person.first_name}-vitals-report-${variables.c19_triage.created_date}-id-${person.uuid}.pdf`;
         const document = {
                 html: html,
                 data: variables,
-                path: `pdf-output/pdf-${person.uuid}-${new Date().getTime()}.pdf`,
-                type: "",
+                path: `nodejs/pdf-output/${fileName}`,
+                type: "pdf",
               };
         
-        pdfCreator.create(document, options)
-                .then((res) => {
-                        console.log(res);
-                    })
-                .catch((error) => {
-                        console.error(error);
-                    });
+        await pdfCreator.create(document, options)
+        return fileName;
     }
 
     async exitProgram(person, exitSlots) {
