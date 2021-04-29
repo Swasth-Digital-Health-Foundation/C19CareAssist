@@ -52,8 +52,8 @@ class TriageService {
 
         const c19_vitals = JSON.parse(JSON.stringify(userData.c19_vitals));
         c19_vitals.forEach(vital => {
-            vital.created_date = new Date('2021-04-23T17:04:16.978548+00:00').toDateString();
-            vital.created_time = new Date('2021-04-23T17:04:16.978548+00:00').toLocaleTimeString()
+            vital.created_date = new Date(vital.created_at).toDateString();
+            vital.created_time = new Date(vital.created_at).toLocaleTimeString()
         });
             
         const variables = {
@@ -63,7 +63,7 @@ class TriageService {
                     gender: person.gender,
                     age: person.age
                 },
-                c19_triage: {...userData.c19_triage, 'created_date': new Date('2021-04-23T17:04:16.978548+00:00').toDateString()},
+                c19_triage: {...userData.c19_triage, 'created_date': new Date(userData.c19_triage.created_at).toDateString()},
                 c19_vitals: c19_vitals
         };
               

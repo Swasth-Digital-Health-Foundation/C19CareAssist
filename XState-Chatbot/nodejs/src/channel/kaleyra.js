@@ -4,6 +4,7 @@ const config = require('../env-variables');
 var geturl = require("url");
 const fs = require('fs');
 const FormData = require('form-data');   
+const path = require("path");
 
 class KaleyraWhatsAppProvider {
 
@@ -62,7 +63,7 @@ class KaleyraWhatsAppProvider {
         form.append("type", 'text');
         form.append("body", message);
       } else if (message.type == 'media') {
-        const buffer = fs.readFileSync(`nodejs/pdf-output/${message.output}`);
+        const buffer = fs.readFileSync(path.resolve(__dirname, `../../pdf-output/${message.output}`));
         form.append("type", 'media');
         form.append("media", buffer, {
           contentType: 'text/plain',
