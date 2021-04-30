@@ -41,9 +41,7 @@ const persistUser = async (user) => {
   let variable = {
     object: user
   };
-  callHasura(query, variable, 'insert_o2_user');
-
-  user.uuid = 'dummy';
+  user.uuid = callHasura(query, variable, 'insert_o2_user').insert_o2_user_one.uuid;
   return user;
 };
 
