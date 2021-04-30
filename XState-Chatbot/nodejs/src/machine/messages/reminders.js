@@ -7,6 +7,9 @@ let messages = {
     },
     evening: {
         en_IN: `Good Evening! Hope you have your oximeter and thermometer handy. It is time to record your vitals and you can do that by typing “Hi” and going to “Manage my program” in the main menu.`
+    },
+    default: {
+        en_IN: `Good Day! Hope you have your oximeter and thermometer handy. It is time to record your vitals and you can do that by typing “Hi” and going to “Manage my program” in the main menu.`
     }
   }
   
