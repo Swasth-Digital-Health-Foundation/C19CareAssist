@@ -8,8 +8,14 @@ const dialog = require('../util/dialog.js');
 
 class RemindersService {
 
-    async triggerReminders(time) {
+    async triggerReminders(time=null) {
+      console.log('time is: ', time);
       const people = await this.getSubscribedPeople();
+
+      if (!time) {
+        time = this.getTime();
+      }
+
       this.sendMessages(people, time);
     }
 
@@ -60,6 +66,20 @@ class RemindersService {
           person.mobileNumber = person.mobile;
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
+    }
+
+    getTime() {
+     const hour = new Date().getHours();
+     switch(hour) {
+       case hour >= 9 || hour <= 11:
+         return 'morning';
+       case hour >= 14 || hour <= 16:
+         return 'afternoon'; 
+       case hour >= 20 || hour <= 22:
+          return 'evening'; 
+       default:
+          return 'default';
+     }
     }
 }
 
