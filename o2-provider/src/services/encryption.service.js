@@ -22,7 +22,6 @@ const encryptObject = async (object) => {
   };
 
   let response = await axios.post(url, requestBody);
-  logger.info(JSON.stringify(response.data));
 
   let encryptedValue = response.data[0].encrypted;
   let hashedValue = response.data[0].hashed;

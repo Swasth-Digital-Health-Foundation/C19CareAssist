@@ -10,16 +10,26 @@ const { createUser } = require('./user.service');
  */
 const registerProvider = async (providerBody) => {
   logger.info(JSON.stringify(providerBody));
-  validateRegisterProvider(providerBody);
-  // create user
-  // persist provider
+  await validateRegisterProvider(providerBody);
+  let provider = providerBody.message.provider;
+  let user = {
+    name: provider.name,
+    mobile: provider.contact.mobile,
+    email: provider.contact.email,
+    type: 'supplier'
+  };
+  let user = await createUser(user);
 
-  if (false) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Provider mobile already taken');
+  let providerDbObject = {
+    user_id: user.uuid,
+    status: provider.status,
+    pin_code: provider.located_at.pin_code
   }
-  // const user = await User.create(providerBody);
+
+  providerDbObject = await persistProvider(providerDbObject);
+
   return {
-    uuid: "duummy-uuid"
+    uuid: providerDbObject.uuid
   };
 };
 
@@ -32,7 +42,8 @@ const validateUpdateProvider = async (providerBody) => {
 }
 
 const persistProvider = async (provider) => {
-  // 
+  provider.uuid = 'dummy';
+  return provider;
 }
 
 module.exports = {
