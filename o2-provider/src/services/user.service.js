@@ -5,12 +5,12 @@ const { encryptObject } = require('./encryption.service');
 const { callHasura } = require('./util/hasura');
 
 const createUser = async (user) => {
-  let objectToEncrypt = {
+  const objectToEncrypt = {
     name: user.name,
     mobile: user.mobile,
-    email: user.email
+    email: user.email,
   };
-  let encryptedObject = await encryptUser(objectToEncrypt);
+  const encryptedObject = await encryptUser(objectToEncrypt);
 
   user = { ...user, ...encryptedObject };
 
@@ -20,7 +20,7 @@ const createUser = async (user) => {
 };
 
 const encryptUser = async (user) => {
-  let { encryptedValue, hashedValue } = await encryptObject(user);
+  const { encryptedValue, hashedValue } = await encryptObject(user);
   user.name = encryptedValue.name;
   user.mobile = encryptedValue.mobile;
   user.email = encryptedValue.email;
@@ -31,15 +31,15 @@ const encryptUser = async (user) => {
 };
 
 const persistUser = async (user) => {
-  let query = `
+  const query = `
     mutation insert_o2_user($object: o2_user_insert_input!) {
       insert_o2_user_one(object: $object) {
         uuid
       }
     }  
   `;
-  let variable = {
-    object: user
+  const variable = {
+    object: user,
   };
   const response = await callHasura(query, variable, 'insert_o2_user');
   user.uuid = response.insert_o2_user_one.uuid;

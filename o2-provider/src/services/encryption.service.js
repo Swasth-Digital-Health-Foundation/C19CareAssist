@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
+const { default: axios } = require('axios');
 const ApiError = require('../utils/ApiError');
 const logger = require('../config/logger');
-const { default: axios } = require('axios');
 
 const tenantId = process.env.ROOT_TENANT_ID;
 const host = process.env.ENCRYPTION_SERVICE_HOST;
@@ -10,21 +10,21 @@ const decryptEndpoint = process.env.ENCRYPTION_SERVICE_DECRYPT_ENDPOINT;
 const hashEndpoint = process.env.ENCRYPTION_SERVICE_HASH_ENDPOINT;
 
 const encryptObject = async (object) => {
-  let url = host + encryptEndpoint;
-  let requestBody = {
+  const url = host + encryptEndpoint;
+  const requestBody = {
     encryptionRequests: [
       {
-        tenantId: tenantId,
-        type: "Normal",
-        value: object
-      }
-    ]
+        tenantId,
+        type: 'Normal',
+        value: object,
+      },
+    ],
   };
 
-  let response = await axios.post(url, requestBody);
+  const response = await axios.post(url, requestBody);
 
-  let encryptedValue = response.data[0].encrypted;
-  let hashedValue = response.data[0].hashed;
+  const encryptedValue = response.data[0].encrypted;
+  const hashedValue = response.data[0].hashed;
 
   return { encryptedValue, hashedValue };
 };

@@ -1,8 +1,9 @@
-const httpStatus = require('http-status');
-const ApiError = require('../utils/ApiError');
-const logger = require('../config/logger');
 const { createUser } = require('./user.service');
 const { callHasura } = require('./util/hasura');
+
+const validateRegisterProvider = async (providerBody) => {};
+
+const validateUpdateProvider = async (providerBody) => {};
 
 /**
  * Create a user
@@ -11,7 +12,7 @@ const { callHasura } = require('./util/hasura');
  */
 const registerProvider = async (providerBody) => {
   await validateRegisterProvider(providerBody);
-  let provider = providerBody.message.provider;
+  const { provider } = providerBody.message;
   let user = {
     name: provider.name,
     mobile: provider.contact.mobile,
@@ -33,14 +34,6 @@ const registerProvider = async (providerBody) => {
   };
 };
 
-const validateRegisterProvider = async (providerBody) => {
-
-};
-
-const validateUpdateProvider = async (providerBody) => {
-
-};
-
 const persistProvider = async (provider) => {
   const query = `
     mutation upsert_o2_provider($object: o2_provider_insert_input!) {
@@ -53,10 +46,10 @@ const persistProvider = async (provider) => {
   const variable = {
     object: provider,
   };
-  let response = await callHasura(query, variable, 'upsert_o2_provider');
+  const response = await callHasura(query, variable, 'upsert_o2_provider');
   provider.uuid = response.insert_o2_provider_one.uuid;
   return provider;
-}
+};
 
 module.exports = {
   registerProvider,
