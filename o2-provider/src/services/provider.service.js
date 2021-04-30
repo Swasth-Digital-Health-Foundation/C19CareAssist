@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const logger = require('../config/logger');
 const { createUser } = require('./user.service');
+const { callHasura } = require('./util/hasura');
 
 /**
  * Create a user
@@ -42,7 +43,18 @@ const validateUpdateProvider = async (providerBody) => {
 }
 
 const persistProvider = async (provider) => {
-  provider.uuid = 'dummy';
+  let query = `
+    mutation upsert_o2_provider($object: o2_provider_insert_input!) {
+      insert_o2_provider_one(object:$object, on_conflict: {constraint: o2_provider_pkey, update_columns:[address, status, pin_code]}) {
+        uuid,
+        user_id
+      }
+    }
+  `;
+  let variable = {
+    object: provider
+  }
+  provider.uuid = await callHasura(query, variable, 'upsert_o2_provider').insert_o2_provider_one.uuid;
   return provider;
 }
 
