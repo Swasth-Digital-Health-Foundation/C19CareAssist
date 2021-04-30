@@ -18,7 +18,9 @@ const registerProvider = async (providerBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Provider mobile already taken');
   }
   // const user = await User.create(providerBody);
-  return {};
+  return {
+    uuid: "duummy-uuid"
+  };
 };
 
 const validateRegisterProvider = async (providerBody) => {
