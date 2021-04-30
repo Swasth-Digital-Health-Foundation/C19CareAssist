@@ -1,5 +1,8 @@
 const fetch = require("node-fetch");
 const config = require('../../env-variables');
+const pdfCreator = require('pdf-creator-node');
+const fs = require('fs');
+const path = require("path");
 
 class TriageService {
 
@@ -38,8 +41,95 @@ class TriageService {
     return data.data.insert_c19_triage_one.uuid;
   }
 
-  async downloadReportForPerson(person) {
+  async getTriageDetailsForPerson(person) {
+    //TODO: Create a helper function for graphql API calls
+    var query = `
+    query GetTriageDetailsForPerson($uuid: uuid!) {
+      person(where: {uuid: {_eq: $uuid}}) {
+        uuid
+        c19_triage {
+          created_at
+          comorbidities
+          rt_pcr_status
+          symptoms
+        }
+        c19_vitals {
+          created_at
+          spo2
+          temperature
+        }
+      }
+    }`
+    var options = {
+      method: 'POST',
+      body: JSON.stringify({
+        query: query,
+        variables: {
+          "uuid": person.uuid
+        },
+      }),
+      headers: {
+        'x-hasura-admin-secret': config.hasuraAdminSecret,
+      }
+    }
 
+    let response = await fetch(config.hasuraUrl, options);
+    let data = await response.json()
+
+    return data.data.person;
+  }
+
+  async downloadReportForPerson(person, locale) {
+      const html = fs.readFileSync(path.resolve(__dirname, "../../../resources/pdf-template-download-report.html")).toString()
+
+      const options = {
+        format: "A3",
+        orientation: "portrait",
+        border: "10mm",
+        header: {
+          height: "45mm",
+          contents: '<div style="text-align: center;">Vitals</div>'
+        }
+      };
+
+      const userData = await this.getTriageDetailsForPerson(person);
+
+      if (!userData || !userData.length) {
+        return;
+      }
+
+      const c19_vitals = JSON.parse(JSON.stringify(userData[0].c19_vitals));
+      c19_vitals.forEach(vital => {
+        vital.created_date = new Date(vital.created_at).toDateString();
+        vital.created_time = new Date(vital.created_at).toLocaleTimeString()
+      });
+
+      const variables = {
+        person: {
+          first_name: person.first_name,
+          mobile: person.mobile,
+          gender: person.gender,
+          age: person.age
+        },
+        c19_triage: { 
+          ...userData.c19_triage,
+          'hasComorbidities': userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No',
+          'hasSymptoms': userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No',
+          'created_date': new Date(userData.c19_triage.created_at).toDateString() 
+        },
+        c19_vitals: c19_vitals
+      };
+
+      const fileName = `${person.first_name}-vitals-report-${variables.c19_triage.created_date}-id-${person.uuid}.pdf`;
+      const document = {
+        html: html,
+        data: variables,
+        path: `nodejs/pdf-output/${fileName}`,
+        type: "pdf",
+      };
+
+      await pdfCreator.create(document, options)
+      return fileName;
   }
 
   async exitProgram(person, exitSlots) {

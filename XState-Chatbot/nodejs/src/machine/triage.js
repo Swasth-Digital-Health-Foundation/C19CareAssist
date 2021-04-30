@@ -176,6 +176,7 @@ const triageFlow = {
             {
               cond: (context) => context.intention === true,
               actions: assign((context, event) => {
+                  context.slots.triage.symptoms = context.intention
                   let message = dialog.get_message(messages.endFlow.specialSymptomsEnd, context.user.locale);
                   message = message.replace('{{name}}', context.slots.triage.person.first_name);
                   dialog.sendMessage(context, message);

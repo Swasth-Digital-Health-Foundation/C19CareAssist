@@ -344,7 +344,12 @@ const selfCareFlow = {
           src: (context) => triageService.downloadReportForPerson(context.slots.report.person),
           onDone: {
             actions: assign((context, event) => {
-              dialog.sendMessage(context, '_Report_');
+              const media = event.data;
+              const message =  {
+                "type": "media",
+                "output": media
+              }
+              dialog.sendMessage(context, message);
             }),
             target: '#endstate'
           }
