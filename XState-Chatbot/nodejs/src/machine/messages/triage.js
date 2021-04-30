@@ -109,7 +109,7 @@ let messages = {
       }
     },
     normalSpo2: {
-      en_IN: '*Your SpO2 is well within the normal range! This is a good sign! :) *'
+      en_IN: '*Your SpO2 is well within the normal range! This is a good sign! :)*'
     },
   },
   triageSpo2Walk: {

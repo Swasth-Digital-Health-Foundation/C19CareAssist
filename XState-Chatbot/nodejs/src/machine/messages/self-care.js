@@ -9,7 +9,17 @@ let messages = {
   },
   vitalsSpo2: {
     prompt: {
-      en_IN: 'Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2. SpO2 is between 90 and 94% \n3. SpO2 is below 90%'
+      en_IN: 'Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2.SpO2 is 94% or below'
+    }
+  },
+  vitalsPulse: {
+    prompt: {
+      en_IN: 'What is your pulse? (Also seen on the pulse oximeter)'
+    }
+  },
+  vitalsBreathing: {
+    prompt: {
+      en_IN: 'What is your breating rate?'
     }
   },
   vitalsSpo2Bad: {
@@ -31,10 +41,10 @@ let messages = {
     }
   },
   temperatureGood: {
-    en_IN: '*No fever! Your SpO2 and your temperature are both normal!* Let’s keep it that way. I will check up on you again in a few hours to see how you are feeling!'
+    en_IN: 'Your vitals have been recorded. *No fever! Your SpO2 and your temperature are both normal!* Let’s keep it that way. I will check up on you again in a few hours to see how you are feeling!'
   },
   temperatureBad: {
-    en_IN: '*Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling!\n\n More information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
+    en_IN: 'Your vitals have been recorded. *Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling.\n\n More information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
   },
   exitProgram: {
     exitPersonSelection: {
@@ -61,8 +71,7 @@ let messages = {
 let grammer = {
   vitalsSpo2: [
     { intention: 'good', recognize: ['1'] },
-    { intention: 'recheck', recognize: ['2'] },
-    { intention: 'bad', recognize: ['3'] }
+    { intention: 'bad', recognize: ['2'] }
   ],
   vitalsTemperature: [
     { intention: 'bad', recognize: ['1'] },
