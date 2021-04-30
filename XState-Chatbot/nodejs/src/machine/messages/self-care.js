@@ -9,7 +9,7 @@ let messages = {
   },
   vitalsSpo2: {
     prompt: {
-      en_IN: 'Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2.SpO2 is 94% or below'
+      en_IN: 'Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below'
     }
   },
   vitalsPulse: {

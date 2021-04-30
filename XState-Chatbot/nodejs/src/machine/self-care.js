@@ -186,8 +186,8 @@ const selfCareFlow = {
           process: {
             onEntry: assign((context, event) => {
               if (event.message.type == 'text') {
-                let breathing = parseInt(dialog.get_input(event, false));
-                context.slots.vitals.breathing = breathing;
+                let breathing_rate = parseInt(dialog.get_input(event, false));
+                context.slots.vitals.breathing_rate = breathing_rate;
                 context.validMessage = true;
                 return;
               }
@@ -195,7 +195,7 @@ const selfCareFlow = {
             }),
             always: [
               {
-                cond: (context) => context.slots.vitals.breathing,
+                cond: (context) => context.slots.vitals.breathing_rate,
                 target: '#vitalsTemperature'
               },
               {
