@@ -14,7 +14,7 @@ const createUser = async (user) => {
 
   user = { ...user, ...encryptedObject };
 
-  user = persistUser(user);
+  user = await persistUser(user);
 
   return user;
 };
@@ -41,10 +41,11 @@ const persistUser = async (user) => {
   let variable = {
     object: user
   };
-  user.uuid = callHasura(query, variable, 'insert_o2_user').insert_o2_user_one.uuid;
+  const response = await callHasura(query, variable, 'insert_o2_user');
+  user.uuid = response.insert_o2_user_one.uuid;
   return user;
 };
 
 module.exports = {
-  createUser
+  createUser,
 };
