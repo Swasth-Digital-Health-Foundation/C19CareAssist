@@ -2,7 +2,7 @@ let messages = {
   menu: {
     prompt: {
       preamble: {
-        en_IN: 'Hi there! I am an evolving COVID-19 chatbot created by the Swasth Alliance to help address your COVID concerns. How can I help you?'
+        en_IN: 'Welcome to the Swasth Alliance COVID-19 Chat! I’m here to assist you with your COVID-19 questions and concerns. What do you need help with right now?'
       },
       postscript: {
         en_IN: '\n\nYou can always get back to the main menu by sending "Reset".\n\nBy continuing to use our chat facility, you agree to our Terms & Conditions of use https://www.swasth.app/swasth_terms_wb.pdf'
@@ -27,10 +27,10 @@ let messages = {
   triageMenu: {
     prompt: {
       preamble: {
-        en_IN: 'Let me try and address them! Tell me more about your concerns:'
+        en_IN: 'Let me try and address them! Tell me more about your concerns...'
       },
       options: {
-        list: [ 'symptoms', 'contactCovid', 'doctorAdvise', 'awaitingResult' ],
+        list: [ 'symptoms', 'contactCovid', 'doctorAdvise' ],
         messageBundle: {
           symptoms: {
             en_IN: 'I may have COVID-19 symptoms'
@@ -40,9 +40,6 @@ let messages = {
           },
           doctorAdvise: {
             en_IN: 'My doctor has advised homecare for COVID management'
-          },
-          'awaitingResult': {
-            en_IN: 'I am awaiting my test results'
           }
         },
       }

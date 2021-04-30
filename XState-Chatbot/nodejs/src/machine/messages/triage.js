@@ -41,7 +41,7 @@ let messages = {
   },
   symptoms: {
     prompt: {
-      en_IN: 'Thanks for this information {{name}}! Do you have one or more of these complaints?: \n- Fever\n- Cough with or without spit/Sore throat\n- Loss of smell/taste\n- Runny nose\n- Difficulty breathing/Persistent pain/pressure in the chest\n- Muscle pain\n- Nausea & loose motions\n'
+      en_IN: 'That is good to know {{name}}! Do you have one or more of these complaints?: \n- Fever (>37.8 C or 100F)\n- Cough with or without spit/Sore throat\n- Loss of smell/taste\n- Runny nose\n- Muscle pain\n- Nausea & loose motions\n'
     }
   },
   rtpcr: {
@@ -52,10 +52,10 @@ let messages = {
   comorbidity: {
     prompt: {
       male: {
-        en_IN: 'Do you have one or more of these conditions? \n- Diabetes\n- Hypertension\n- Chronic lung disease\n- Immunocompromised state\n- Heart disease\n- Obesity\n',
+        en_IN: 'Do you have one or more of these conditions? \n- Diabetes\n- Hypertension (High BP)\n- Chronic lung disease\n- Immunocompromised state\n- Heart disease\n- Obesity\n',
       },
       female: {
-        en_IN: 'Do you have one or more of these conditions? \n- Diabetes\n- Hypertension\n- Chronic lung disease\n- Immunocompromised state\n- Heart disease\n- Obesity\n- Pregnancy\n'
+        en_IN: 'Do you have one or more of these conditions? \n- Diabetes\n- Hypertension (High BP)\n- Chronic lung disease\n- Immunocompromised state\n- Heart disease\n- Obesity\n- Pregnancy\n'
       }
     }
   },
@@ -64,16 +64,16 @@ let messages = {
       en_IN: '{{name}}, your age poses an additional risk factor! It would be best, if you consulted a doctor right away so that you can undergo tests if required and start the right medication. \nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
     },
     symptomComorbidConsultDoctorEnd: {
-      en_IN: '*{{name}} your current symptoms along with your other medical condition(s) are making the situation risky.* It would be best, if you consulted a doctor right away so that you can undergo a few tests and start the right medication.\n\nMore information regarding COVID-19 is available here https://life.coronasafe.network'
+      en_IN: '*{{name}} your current symptoms along with your other medical condition(s) may need professional medical attention.* It would be best, if you consulted a doctor right away so that you can undergo the necessary tests and start the right medication.\n\nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
     },
     testComorbidConsultDoctorEnd: {
-      en_IN: '*{{name}} your test result along with your other medical condition(s) are making the situation risky.* \nIt would be best, if you  consulted a doctor right away so that you can undergo tests and start the right medication.\n\nMore information regarding COVID-19 is available here https://life.coronasafe.network'
+      en_IN: '*{{name}} your test result along with your other medical condition(s) may need professional medical attention.* \nIt would be best if you  consulted a doctor so that you can undergo the necessary tests if required and start the right medications.\n\nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
     },
     precautionEnd: {
-      en_IN: '*{{name}}, based on your responses,  your chances of getting COVID-19 are higher than that of the  average population.* I suggest following these simple tips to stay healthy!!\n- Wear N95 mask covering both mouth and nose\n- Take adequate rest 7-8 hours a day\n- Drink a lot of fluids to stay hydrated\n- Eat a healthy low carbohydrate, high protein diet\n- Avoid alcohol intake and quite smoking\n- Exercise , practise yoga and meditate\n\nMore information regarding COVID-19 is available here https://life.coronasafe.network'
+      en_IN: '*{{name}}, Rahul, given your age/comorbidities you should exercise caution.* I suggest following these simple tips to stay healthy!!\n- Wear N95 mask covering both mouth and nose\n- Sleep for 7-8 hours a day\n- Drink fluids to stay hydrated\n- Avoid alcohol and smoking\n- Practise yoga and meditate\n\nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
     },
     noCovidEnd: {
-      en_IN: '*{{name}}, based on your responses, it is less likely that you are suffering from COVID-19.* I suggest following these simple tips to stay healthy!\n1. Wear N95 mask covering both mouth and nose\n2. Take adequate rest 7-8 hrs a day and drink a lot of fluids to stay hydrated.\n3. Eat a healthy low carbohydrate, high protein diet.\n4. Avoid alcohol intake and quit smoking.\n5. Exercise, practise yoga and meditate.\n\nMore information regarding COVID-19 is available here https://life.coronasafe.network'
+      en_IN: '*{{name}}, based on your responses, it is less likely that you are suffering from COVID-19.* I suggest following these simple tips to stay healthy!\n- Wear an N95 mask covering both mouth and nose\n- Sleep for 7-8 hrs a day\n- Drink fluids to stay hydrated.\n- Avoid alcohol and smoking.\n5. Practise yoga and meditate.\n\nMore information regarding COVID-19 and nearby care facilities is available here  https://life.coronasafe.network'
     },
     lowSpo2End: {
       en_IN: '*{{name}}, your current oxygen level is below the normal value. Please consult a doctor right away!* \nMore information regarding COVID-19 is available here https://life.coronasafe.network'
@@ -94,16 +94,13 @@ let messages = {
         en_IN: 'I hope you have a pulse oximeter at home, {{name}}. Plese check your SpO2 and select an option from below'
       },
       options: {
-        list: [ 'above95', '90to94', 'below90', 'noOximeter' ],
+        list: [ 'above95', 'below94', 'noOximeter' ],
         messageBundle: {
           above95: {
             en_IN: 'SpO2 is 95% or above'
           },
-          '90to94': {
-            en_IN: 'SpO2 is between 90 and  94%'
-          }, 
-          below90: {
-            en_IN: 'SpO2 is below 90%'
+          below94: {
+            en_IN: 'SpO2 is 94% or below'
           }, 
           noOximeter: {
             en_IN: 'Don’t have an oximeter'
@@ -145,7 +142,7 @@ let messages = {
   subscribe: {
     prompt: {
       preamble: {
-        en_IN: '{{name}}, I will be following up with you to ensure you get better right at home by:\n- Making you check your vitals regularly\n- Maintaining your SpO2 and temperature chart  \n- Sharing scientifically accurate health information\n- Helping you cope with isolation \n- Supporting your family members if COVID assistance is needed\n'
+        en_IN: '{{name}}, I will be following up with you regularly to ensure you get better right at home by:\n- Making you check your vitals three times a day\n- Maintaining your SpO2 and temperature chart  \n- Sharing scientifically accurate health information\n- Helping you cope up with isolation \n- Supporting your family members if COVID assistance is needed\n'
       },
       options: {
         list: [ true, false ],
@@ -160,7 +157,7 @@ let messages = {
       }
     },
     doSubscribe: {
-      en_IN: 'That\'s awesome, {{name}}! Thank you for choosing me as your aid to recovery. If you want any more details about my guided recovery program or want to make any modifications, please use the Manage program option in the main menu. I will be in touch with you again in a few hours to check on you. \nMore information regarding COVID-19 is available here https://life.coronasafe.network'
+      en_IN: 'That\'s awesome, {{name}}! Thank you for choosing me as your aid to recovery. :) If you want any more details about my guided recovery program or want to make any modifications, please use the *Manage program* option in the main menu. I will be in touch with you again in a few hours to check on you.\n To view home isolation guide click here https://www.youtube.com/watch?v=xTvd7oAEyhs (English) https://www.youtube.com/watch?v=VfVwoNzIC1c&t=2s (Hindi) \n Additional health tips are available here https://www.youtube.com/watch?v=ejukjKIClkg and https://www.youtube.com/channel/UCyPfxTI_VTymjcjHX_QRDRA/playlists  \nFor more information regarding COVID-19 and nearby care facilities click here https://life.coronasafe.network'
     },
     dontSubscribe: {
       en_IN: 'Ok. You can always come back when you need help. \nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network'
