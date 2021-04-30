@@ -1,14 +1,14 @@
 const express = require('express');
 const docsRoute = require('./docs.route');
-const providerRoute = require('./provider.route');
+const { registerProviderRoute } = require('./provider.route');
 const config = require('../../config/config');
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: '/provider',
-    route: providerRoute,
+    path: '/register/provider',
+    route: registerProviderRoute,
   },
   // {
   //   path: '/users',
