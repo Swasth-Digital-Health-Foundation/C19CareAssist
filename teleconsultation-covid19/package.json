@@ -1,0 +1,28 @@
+{
+  "name": "covid-19",
+  "version": "1.0.0",
+  "description": "teleconsultation for covid 19",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/siamcomputing-projects/application/covid-19-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/siamcomputing-projects/application/covid-19-app/issues"
+  },
+  "homepage": "https://gitlab.com/siamcomputing-projects/application/covid-19-app#readme",
+  "dependencies": {
+    "async": "^3.2.0",
+    "aws-sdk": "^2.897.0",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-env-file": "^0.1.8"
+  }
+}
