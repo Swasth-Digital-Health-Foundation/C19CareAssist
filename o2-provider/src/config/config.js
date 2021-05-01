@@ -10,6 +10,7 @@ const envVarsSchema = Joi.object()
     PORT: Joi.number().default(3000),
     HASURA_ADMIN_SECRET: Joi.string().custom(hasuraAdminSecret).required(),
     HASURA_URL: Joi.string().required(),
+    API_TOKEN: Joi.string(),
   })
   .unknown();
 
@@ -19,9 +20,14 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
+if (envVars.NODE_ENV === 'production' && !envVars.API_TOKEN) {
+  throw new Error(`Config validation error: API_TOKEN not configured `);
+}
+
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   hasuraAdminSecret: envVars.HASURA_ADMIN_SECRET,
   hasuraUrl: envVars.HASURA_URL,
+  apiToken: envVars.API_TOKEN,
 };
