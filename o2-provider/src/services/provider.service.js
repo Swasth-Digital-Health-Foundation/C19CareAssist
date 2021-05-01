@@ -5,6 +5,23 @@ const validateRegisterProvider = async (providerBody) => {};
 
 const validateUpdateProvider = async (providerBody) => {};
 
+const persistProvider = async (provider) => {
+  const query = `
+    mutation upsert_o2_provider($object: o2_provider_insert_input!) {
+      insert_o2_provider_one(object:$object, on_conflict: {constraint: o2_provider_pkey, update_columns:[address, status, pin_code]}) {
+        uuid,
+        user_id
+      }
+    }
+  `;
+  const variable = {
+    object: provider,
+  };
+  const response = await callHasura(query, variable, 'upsert_o2_provider');
+  provider.uuid = response.data.insert_o2_provider_one.uuid;
+  return provider;
+};
+
 /**
  * Create a user
  * @param {Object} providerBody
@@ -32,23 +49,6 @@ const registerProvider = async (providerBody) => {
   return {
     uuid: providerDbObject.uuid,
   };
-};
-
-const persistProvider = async (provider) => {
-  const query = `
-    mutation upsert_o2_provider($object: o2_provider_insert_input!) {
-      insert_o2_provider_one(object:$object, on_conflict: {constraint: o2_provider_pkey, update_columns:[address, status, pin_code]}) {
-        uuid,
-        user_id
-      }
-    }
-  `;
-  const variable = {
-    object: provider,
-  };
-  const response = await callHasura(query, variable, 'upsert_o2_provider');
-  provider.uuid = response.insert_o2_provider_one.uuid;
-  return provider;
 };
 
 module.exports = {

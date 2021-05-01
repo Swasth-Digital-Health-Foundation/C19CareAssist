@@ -6,7 +6,8 @@ const callHasura = async (query, variables, operationName) => {
     variables,
     operationName,
   });
-  return response.data.data;
+
+  return response.data;
 };
 
 module.exports = {
