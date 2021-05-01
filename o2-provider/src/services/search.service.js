@@ -12,7 +12,11 @@ const ApiError = require('../utils/ApiError');
 const registerO2Requirement = async (searchRequest) => {
   const { intent } = searchRequest.message;
 
-  const user = await upsertUser(intent.mobile);
+  let user = {
+    mobile: intent.mobile,
+    type: 'consumer',
+  };
+  user = await upsertUser(user);
 
   const query = `
   mutation insert_o2_requirement_one($object: o2_requirement_insert_input!) {

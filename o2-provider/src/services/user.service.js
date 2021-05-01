@@ -65,11 +65,16 @@ const getUserIdByMobile = async (mobile) => {
   return response.data.o2_user;
 };
 
-const upsertUser = async (mobile) => {
-  const hashReq = {
-    mobile,
+const upsertUser = async (user) => {
+  const objectToEncrypt = {
+    mobile: user.mobile,
   };
-  const hashResponse = await hashObject(hashReq);
+  const { encryptedValue, hashedValue } = await encryptObject(objectToEncrypt);
+  const userDbObject = {
+    mobile: encryptedValue.mobile,
+    mobile_hash: hashedValue.mobile,
+    type: user.type,
+  };
   const query = `
   mutation upsert_o2_provider($object: o2_user_insert_input!) {
     insert_o2_user_one(object:$object, on_conflict: {constraint: o2_user_uniqueness , update_columns:[mobile_hash]}) {
@@ -78,11 +83,7 @@ const upsertUser = async (mobile) => {
   }
 `;
   const variable = {
-    object: {
-      mobile,
-      mobile_hash: hashResponse.mobile,
-      type: 'consumer',
-    },
+    object: userDbObject,
   };
   const response = await callHasura(query, variable, 'upsert_o2_provider');
   return response.data.insert_o2_user_one;
