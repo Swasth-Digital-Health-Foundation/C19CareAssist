@@ -6,6 +6,7 @@ const createUser = async (user) => {
     name: user.name,
     mobile: user.mobile,
     email: user.email,
+    phone: user.phone,
   };
   const encryptedObject = await encryptUser(objectToEncrypt);
 
@@ -21,9 +22,11 @@ const encryptUser = async (user) => {
   user.name = encryptedValue.name;
   user.mobile = encryptedValue.mobile;
   user.email = encryptedValue.email;
+  user.phone = encryptedValue.phone;
 
   user.mobile_hash = hashedValue.mobile;
   user.email_hash = hashedValue.email;
+  user.phone_hash = hashedValue.phone;
   return user;
 };
 
@@ -39,7 +42,7 @@ const persistUser = async (user) => {
     object: user,
   };
   const response = await callHasura(query, variable, 'insert_o2_user');
-  user.uuid = response.insert_o2_user_one.uuid;
+  user.uuid = response.data.insert_o2_user_one.uuid;
   return user;
 };
 

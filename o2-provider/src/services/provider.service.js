@@ -34,6 +34,7 @@ const registerProvider = async (providerBody) => {
     name: provider.name,
     mobile: provider.contact.mobile,
     email: provider.contact.email,
+    phone: provider.contact.phone,
     type: 'supplier',
   };
   user = await createUser(user);
@@ -42,6 +43,8 @@ const registerProvider = async (providerBody) => {
     user_id: user.uuid,
     status: provider.status,
     pin_code: provider.located_at.pin_code,
+    address: provider.located_at.address,
+    city: provider.located_at.city.name,
   };
 
   providerDbObject = await persistProvider(providerDbObject);
