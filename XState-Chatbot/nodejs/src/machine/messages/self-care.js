@@ -1,7 +1,7 @@
 let messages = {
   noUserFound: {
     en_IN: 'No patients found against your mobile number.',
-    hi_IN: 'No patients found against your mobile number.'
+    hi_IN: 'इस मोबाइल नंबर से जुड़ा कोई मरीज नहीं मिला।'
   },
   selectPerson: {
     prompt: {
@@ -18,12 +18,13 @@ let messages = {
   vitalsPulse: {
     prompt: {
       en_IN: 'What is your pulse? (Also seen on the pulse oximeter)',
-      hi_IN: ''
+      hi_IN: 'आपकी पल्स संख्या क्या है? (पल्स ऑक्सीमीटर पर देखें)'
     }
   },
   vitalsBreathing: {
     prompt: {
-      en_IN: 'What is your breating rate?'
+      en_IN: 'What is your breating rate?',
+      hi_IN: 'आपकी सांस लेने की दर क्या है?'
     }
   },
   vitalsSpo2Bad: {
