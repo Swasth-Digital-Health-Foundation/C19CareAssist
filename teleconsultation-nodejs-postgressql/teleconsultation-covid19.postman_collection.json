@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "50b624b4-38cf-45a8-babc-2d6be822886e",
+		"name": "teleconsultation-covid19",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/user_acceptance_request/8682897283/2021-04-30 12:07:05",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/user_acceptance_request/8682897283/2021-05-03 4:33",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user_acceptance_request",
+						"8682897283",
+						"2021-05-03 4:33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user_fullfilment_request/TELECONCOVID01/sdfasdfsaf2342414sdf/yes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/user_fullfilment_request/TELECONCOVID01/sdfasdfsaf2342414sdf/yes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user_fullfilment_request",
+						"TELECONCOVID01",
+						"sdfasdfsaf2342414sdf",
+						"yes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
