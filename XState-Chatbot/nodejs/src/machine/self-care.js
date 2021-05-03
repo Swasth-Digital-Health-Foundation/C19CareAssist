@@ -100,7 +100,9 @@ const selfCareFlow = {
           prompt: {
             onEntry: assign((context, event) => {
               context.grammer = grammer.vitalsSpo2;
-              dialog.sendMessage(context, dialog.get_message(messages.vitalsSpo2.prompt, context.user.locale));
+              let message = dialog.get_message(messages.vitalsSpo2.prompt, context.user.locale);
+              message = message.replace('{{name}}', context.slots.vitals.person.first_name);
+              dialog.sendMessage(context, message);
             }),
             on: {
               USER_MESSAGE: 'process'
