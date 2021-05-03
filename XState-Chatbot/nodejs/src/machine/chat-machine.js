@@ -29,15 +29,14 @@ const chatStateMachine = Machine({
       invoke: {
         src: (context) => personService.getPeople(context.user.mobileNumber),
         onDone: [
+          // {
+          //   cond: (context, event) => context.user.locale,
+          //   actions: assign((context, event) => {
+          //     context.persons = event.data;
+          //   }),
+          //   target: '#menu'
+          // },
           {
-            cond: (context, event) => context.user.locale,
-            actions: assign((context, event) => {
-              context.persons = event.data;
-            }),
-            target: '#menu'
-          },
-          {
-            cond: (context, event) => !context.user.locale,
             actions: assign((context, event) => {
               context.persons = event.data;
             }),
@@ -52,9 +51,8 @@ const chatStateMachine = Machine({
       states: {
         prompt: {
           onEntry: assign((context, event) => {
-            const tempLocale = 'en_IN';
-            let message = dialog.get_message(messages.selectLanguage.prompt.preamble, tempLocale);
-            let { prompt, grammer } = dialog.constructListPromptAndGrammer(messages.selectLanguage.prompt.options.list, messages.selectLanguage.prompt.options.messageBundle, tempLocale);
+            let message = dialog.get_message(messages.selectLanguage.prompt.preamble, context.user.locale);
+            let { prompt, grammer } = dialog.constructListPromptAndGrammer(messages.selectLanguage.prompt.options.list, messages.selectLanguage.prompt.options.messageBundle, context.user.locale);
             context.grammer = grammer;
             message += prompt;
             dialog.sendMessage(context, message);
