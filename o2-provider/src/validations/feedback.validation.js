@@ -18,13 +18,11 @@ const registerFeedback = {
         rating: Joi.number(),
         mobile: Joi.number(),
         reason: Joi.string(),
-        additional: Joi.string(),        
+        additional: Joi.string(),
       }),
     }),
   }),
 };
-
-
 
 module.exports = {
   registerFeedback,

@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const feedbackService  = require('../services/feedback.service');
+const feedbackService = require('../services/feedback.service');
 
 const registerFeedback = catchAsync(async (req, res) => {
   const feedback = await feedbackService.registerFeedback(req.body);

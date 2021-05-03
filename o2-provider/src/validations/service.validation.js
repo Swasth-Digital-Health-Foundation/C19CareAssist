@@ -12,16 +12,14 @@ const registerService = {
       }),
     }),
     services: Joi.array().items({
-        search_id: Joi.string(),
-        type: Joi.string(),
-        expires_at: Joi.string(),
-        mobile: Joi.number(),
-        status: Joi.string(),
+      search_id: Joi.string(),
+      type: Joi.string(),
+      expires_at: Joi.string(),
+      mobile: Joi.number(),
+      status: Joi.string(),
     }),
-}),
+  }),
 };
-
-
 
 module.exports = {
   registerService,
