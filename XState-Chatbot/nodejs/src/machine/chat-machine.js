@@ -27,7 +27,7 @@ const chatStateMachine = Machine({
     menuFetchPersons: {
       id: 'menuFetchPersons',
       invoke: {
-        src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
+        src: (context) => personService.getPeople(context.user.mobileNumber),
         onDone: {
           actions: assign((context, event) => {
             context.persons = event.data;
@@ -137,7 +137,18 @@ const chatStateMachine = Machine({
         prompt: {
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.selfCareMenu.prompt.preamble, context.user.locale);
-            let { prompt, grammer } = dialog.constructListPromptAndGrammer(messages.selfCareMenu.prompt.options.list, messages.selfCareMenu.prompt.options.messageBundle, context.user.locale);
+
+            let options, bundle;
+            if (context.persons && context.persons.length > 0) {
+              options = messages.selfCareMenu.prompt.options.newUser.list;
+              bundle = messages.selfCareMenu.prompt.options.newUser.messageBundle;
+            } else {
+              options = messages.selfCareMenu.prompt.options.enrolledUser.list;
+              bundle = messages.selfCareMenu.prompt.options.enrolledUser.messageBundle;
+            }
+
+
+            let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, bundle, context.user.locale);
             message += prompt;
             context.grammer = grammer;
             dialog.sendMessage(context, message);
@@ -159,10 +170,10 @@ const chatStateMachine = Machine({
               cond: (context) => context.intention == 'recordVitals',
               target: '#recordVitals'
             },
-            // {
-            //   cond: (context) => context.intention == 'downloadReport',
-            //   target: '#downloadReport'
-            // },
+            {
+              cond: (context) => context.intention == 'downloadReport',
+              target: '#downloadReport'
+            },
             {
               cond: (context) => context.intention == 'exitProgram',
               target: '#exitProgram'

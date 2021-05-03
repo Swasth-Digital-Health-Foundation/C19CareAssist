@@ -185,7 +185,7 @@ const triageFlow = {
             },
             {
               cond: (context) => context.intention === false,
-              target: '#symptoms'
+              target: '#triageSpo2'
             }
           ]
         },
@@ -404,17 +404,10 @@ const triageFlow = {
                 context.slots.triage.spo2 = context.intention;
                 dialog.sendMessage(context, dialog.get_message(messages.triageSpo2.normalSpo2, context.user.locale), false);
               }),
-              target: '#subscribe'
+              target: '#symptoms'
             },
             {
-              cond: (context) => context.intention == '90to94',
-              actions: assign((context, event) => {
-                context.slots.triage.spo2 = context.intention;
-              }),
-              target: '#triageSpo2Walk'
-            },
-            {
-              cond: (context) => context.intention == 'below90',
+              cond: (context) => context.intention == 'below94',
               actions: assign((context, event) => {
                 context.slots.triage.spo2 = context.intention;
                 context.slots.triage.conclusion = 'lowSpo2End'

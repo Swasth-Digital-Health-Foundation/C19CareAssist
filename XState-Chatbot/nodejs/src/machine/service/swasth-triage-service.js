@@ -57,6 +57,8 @@ class TriageService {
           created_at
           spo2
           temperature
+          pulse
+          breathing_rate
         }
       }
     }`
@@ -149,7 +151,9 @@ class TriageService {
         query: query,
         variables: {
           "subscribe": false,
-          "person_id": person.uuid
+          "person_id": person.uuid,
+          "exit_reason": exitSlots.exitReason,
+          "exit_feedback": exitSlots.exitFeedback
         },
         operationName: "update_c19_triage"
       }),

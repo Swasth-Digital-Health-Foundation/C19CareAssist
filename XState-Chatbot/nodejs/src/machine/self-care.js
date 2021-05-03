@@ -13,7 +13,7 @@ const selfCareFlow = {
     states: {
       fetchPersons: {
         invoke: {
-          src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
+          src: (context) => personService.getPeople(context.user.mobileNumber),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
@@ -117,22 +117,90 @@ const selfCareFlow = {
                 target: 'error'
               },
               {
-                cond: (context) => context.slots.vitals.spo2 == 'good',
+                target: '#vitalsPulse'
+              },
+            ]
+          },
+          error: {
+            onEntry: assign((context, event) => {
+              dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
+            }),
+            always: 'prompt'
+          }
+        }
+      },
+      vitalsPulse: {
+        id: 'vitalsPulse',
+        initial: 'prompt',
+        states: {
+          prompt: {
+            onEntry: assign((context, event) => {
+              context.grammer = grammer.vitalsPulse;
+              dialog.sendMessage(context, dialog.get_message(messages.vitalsPulse.prompt, context.user.locale));
+            }),
+            on: {
+              USER_MESSAGE: 'process'
+            }
+          },
+          process: {
+            onEntry: assign((context, event) => {
+              if (event.message.type == 'text') {
+                let pulse = parseInt(dialog.get_input(event, false));
+                context.slots.vitals.pulse = pulse;
+                context.validMessage = true;
+                return;
+              }
+              context.validMessage = false;
+            }),
+            always: [
+              {
+                cond: (context) => context.slots.vitals.pulse,
+                target: '#vitalsBreathing'
+              },
+              {
+                target: 'error'
+              }
+            ]
+          },
+          error: {
+            onEntry: assign((context, event) => {
+              dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
+            }),
+            always: 'prompt'
+          }
+        }
+      },
+      vitalsBreathing: {
+        id: 'vitalsBreathing',
+        initial: 'prompt',
+        states: {
+          prompt: {
+            onEntry: assign((context, event) => {
+              context.grammer = grammer.vitalsBreathing;
+              dialog.sendMessage(context, dialog.get_message(messages.vitalsBreathing.prompt, context.user.locale));
+            }),
+            on: {
+              USER_MESSAGE: 'process'
+            }
+          },
+          process: {
+            onEntry: assign((context, event) => {
+              if (event.message.type == 'text') {
+                let breathing_rate = parseInt(dialog.get_input(event, false));
+                context.slots.vitals.breathing_rate = breathing_rate;
+                context.validMessage = true;
+                return;
+              }
+              context.validMessage = false;
+            }),
+            always: [
+              {
+                cond: (context) => context.slots.vitals.breathing_rate,
                 target: '#vitalsTemperature'
               },
               {
-                cond: (context) => context.slots.vitals.spo2 == 'recheck',
-                target: '#vitalsSpo2Walk'
-              },
-              {
-                cond: (context) => context.slots.vitals.spo2 == 'bad',
-                actions: assign((context, event) => {
-                  let message = dialog.get_message(messages.vitalsSpo2WalkBad.prompt, context.user.locale);
-                  message = message.replace('{{name}}', context.slots.vitals.person.first_name);
-                  dialog.sendMessage(context, message);
-                }),
-                target: '#unsubscribePerson'
-              },
+                target: 'error'
+              }
             ]
           },
           error: {

@@ -64,6 +64,8 @@
               <th>Time of recording</th>
               <th>SpO2</th>
               <th>Temperature</th>
+              <th>Pulse</th>
+              <th>Breathing Rate</th>
             </tr>
             {{#each this.c19_vitals}}
             <tr>
@@ -71,6 +73,8 @@
                 <td>{{this.created_time}}</td>
                 <td style="text-transform: capitalize">{{this.spo2}}</td>
                 <td style="text-transform: capitalize">{{this.temperature}}</td>
+                <td style="text-transform: capitalize">{{this.pulse}}</td>
+                <td style="text-transform: capitalize">{{this.breathing_rate}}</td>
             </tr>
             {{/each}}
         </table>
