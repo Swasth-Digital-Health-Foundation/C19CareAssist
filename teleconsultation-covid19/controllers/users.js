@@ -1,5 +1,4 @@
 const async = require('async')
-const usermodel = require('./../models/userModel')
 const userHelper = require('./../models/helper')
  
 /* function to store the user details, 
@@ -14,7 +13,7 @@ const user_acceptance_request = (req, res) => {
                 userHelper.user_acceptance_request(req.params, requestId, callback)
             }
         ], (err, result) => {
-            if (err) {
+            if (err) { console.log("Error ", err);
                 res.send(err.StatusCode, err)
             } else {
                 res.send(result)
@@ -25,7 +24,26 @@ const user_acceptance_request = (req, res) => {
     }    
 }
 
+/* function to store the fullfilment status for the caller */
+const user_fullfilment_request = (req, res) => {
+    try {
+        async.series([
+            (callback) => {
+                userHelper.user_fullfilment_request(req.params, callback)
+            }
+        ], (err, result) => {
+            if (err) {
+                res.send(err.StatusCode, err)
+            } else {
+                res.send(result[0])
+            }
+        })
+    } catch(error) {
+        res.send(500, { Status: false, message: "Something went to wrong", error: error })
+    } 
+}
 
 module.exports = {
-    user_acceptance_request
+    user_acceptance_request,
+    user_fullfilment_request
 }
