@@ -1,10 +1,13 @@
-const { Pool, Client } = require('pg')
-//local postgres db connection
-const dbConn = new Pool({
+const mysql = require('mysql');
+//local mysql db connection
+const dbConn = mysql.createConnection({
   host     : 'localhost',
-  user     : 'postgres',
+  user     : 'root',
   password : '',
   database : 'covid'
 });
-
+dbConn.connect(function(err) {
+  if (err) throw err;
+  console.log("Database Connected!");
+});
 module.exports = dbConn;

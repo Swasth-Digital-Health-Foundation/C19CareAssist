@@ -9,7 +9,7 @@ AWS.config.update({
 
 const ses       = new AWS.SES({apiVersion: config.aws_ses_api_version});
 
-const send_mail = (data, callback) => {
+const sendmail = (data, callback) => {
     const params = {
         Destination: {
             ToAddresses: [data.toMail]
@@ -42,5 +42,5 @@ const send_mail = (data, callback) => {
 
 
 module.exports = {
-    send_mail
+    sendmail
 }
