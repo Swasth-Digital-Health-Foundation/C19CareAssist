@@ -2,6 +2,8 @@ const express = require('express');
 const docsRoute = require('./docs.route');
 const { registerProviderRoute } = require('./provider.route');
 const { registerSearchRoute } = require('./search.route');
+const { registerFeedbackRoute } = require('./feedback.route');
+const { registerServiceRoute } = require('./service.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -14,6 +16,14 @@ const defaultRoutes = [
   {
     path: '/search/service',
     route: registerSearchRoute,
+  },
+  {
+    path: '/register/feedback',
+    route: registerFeedbackRoute,
+  },
+  {
+    path: '/on_search/service',
+    route: registerServiceRoute,
   },
 ];
 
