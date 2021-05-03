@@ -59,7 +59,6 @@ class TriageService {
         const variables = {
                 person: {
                     first_name: person.first_name,
-                    mobile: person.mobile,
                     gender: person.gender,
                     age: person.age
                 },
@@ -72,11 +71,12 @@ class TriageService {
                 c19_vitals: c19_vitals
         };
               
-        const fileName = `${person.first_name}-vitals-${variables.c19_triage.created_date}-id-${person.uuid}.pdf`;
+        const today = new Date().toDateString();
+        const fileName = `${person.first_name}-vitals-report-${today}.pdf`;
         const document = {
                 html: html,
                 data: variables,
-                path: `nodejs/pdf-output/${fileName}`,
+                path: path.resolve(__dirname, `../../pdf-output/${fileName}`),
                 type: "pdf",
               };
         
