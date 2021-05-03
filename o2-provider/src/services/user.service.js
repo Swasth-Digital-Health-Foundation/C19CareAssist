@@ -1,5 +1,9 @@
+const httpStatus = require('http-status');
 const { encryptObject, hashObject } = require('./encryption.service');
 const { callHasura } = require('./util/hasura');
+const logger = require('../config/logger');
+
+const ApiError = require('../utils/ApiError');
 
 const createUser = async (user) => {
   const objectToEncrypt = {
@@ -42,27 +46,36 @@ const persistUser = async (user) => {
     object: user,
   };
   const response = await callHasura(query, variable, 'insert_o2_user');
+  if (response.errors !== undefined) {
+    logger.error(JSON.stringify(response.errors));
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User already exists for this mobile!');
+  }
   user.uuid = response.data.insert_o2_user_one.uuid;
   return user;
 };
 
-const getUserIdByMobile = async (mobile) => {
+const getUserIdByMobile = async (mobile, type) => {
   const hashReq = {
     mobile,
   };
   const hashResponse = await hashObject(hashReq);
   const query = `
-  query getO2user($mobile_hash: String!){
-    o2_user(where: {mobile_hash: {_eq: $mobile_hash}}) {
+  query getO2user($mobile_hash: String!, $type:String){
+    o2_user(where: {mobile_hash: {_eq: $mobile_hash}, type:{_eq:$type}}) {
       uuid
+      o2_providers{
+        uuid
+      }      
     }
   }   
 `;
   const variable = {
-    object: hashResponse.mobile,
+    mobile_hash: hashResponse.mobile,
+    type,
   };
-  const response = await callHasura(query, variable, 'o2_user');
-  return response.data.o2_user;
+  const response = await callHasura(query, variable, 'getO2user');
+  if (response.data && response.data.o2_user) return response.data.o2_user;
+  logger.error(JSON.stringify(response.errors));
 };
 
 const upsertUser = async (user) => {

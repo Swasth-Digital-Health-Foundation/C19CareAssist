@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const onSearchService = require('../services/onSearch.service');
 
@@ -10,8 +9,8 @@ const registerService = catchAsync(async (req, res) => {
   }
   const response = {
     ack: {
-      code: '',
-      message: '',
+      code: httpStatus.CREATED,
+      message: 'OK',
     },
   };
   res.status(httpStatus.CREATED).send(response);

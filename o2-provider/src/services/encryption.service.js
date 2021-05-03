@@ -4,7 +4,6 @@ const { default: axios } = require('axios');
 const tenantId = process.env.ROOT_TENANT_ID;
 const host = process.env.ENCRYPTION_SERVICE_HOST;
 const encryptEndpoint = process.env.ENCRYPTION_SERVICE_ENCRYPT_ENDPOINT;
-const decryptEndpoint = process.env.ENCRYPTION_SERVICE_DECRYPT_ENDPOINT;
 const hashEndpoint = process.env.ENCRYPTION_SERVICE_HASH_ENDPOINT;
 
 const encryptObject = async (object) => {

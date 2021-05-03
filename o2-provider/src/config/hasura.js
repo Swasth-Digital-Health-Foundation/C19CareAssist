@@ -1,5 +1,6 @@
 const axios = require('axios');
 const appConfigs = require('./config');
+const logger = require('./logger');
 
 const instance = axios.create({
   baseURL: appConfigs.hasuraUrl,
@@ -10,7 +11,11 @@ instance.defaults.headers.common['x-hasura-admin-secret'] = appConfigs.hasuraAdm
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-
+    if (appConfigs.env === 'development') {
+      logger.info(`URL: ${config.baseURL} \nRequest Body: ${JSON.stringify(config.data)}`);
+    } else {
+      logger.info(`Calling URL: ${config.baseURL} with operation_name: ${config.data.operationName}`);
+    }
     return config;
   },
   function (error) {
