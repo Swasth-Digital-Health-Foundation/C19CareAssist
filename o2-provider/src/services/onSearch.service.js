@@ -4,6 +4,8 @@ const { callHasura } = require('./util/hasura');
 const { getUserIdByMobile } = require('./user.service');
 const logger = require('../config/logger');
 
+// TODO: This will not be insert but update. Update the status from REQUESTED -> ACCEPTED/REJECTED
+// Make the change after the cron job is functional as the o2_service will be created there.
 const persistService = async (service) => {
   const query = `
       mutation insert_o2_service($objects: [o2_service_insert_input!]!) {
