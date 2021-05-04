@@ -359,6 +359,10 @@ const triageFlow = {
       }),
       always: [
         {
+          cond: (context) => (context.slots.triage.symptoms || context.slots.triage.rtpcr),
+          target: '#subscribe'
+        },
+        {
           cond: (context) => context.slots.triage.conclusion,
           actions: assign((context, event) => {
             let message = dialog.get_message(messages.endFlow[context.slots.triage.conclusion], context.user.locale);
@@ -366,9 +370,6 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           target: '#upsertTriageDetails'
-        },
-        {
-          target: '#triageSpo2'
         }
       ]
     },
