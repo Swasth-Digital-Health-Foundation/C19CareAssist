@@ -63,7 +63,14 @@ class KaleyraWhatsAppProvider {
         form.append("type", 'text');
         form.append("body", message);
       } else if (message.type == 'media') {
-        const buffer = fs.readFileSync(path.resolve(__dirname, `../../pdf-output/${message.output}`));
+        let buffer;
+        if (message.category == 'msg_image') {
+          buffer = fs.readFileSync(path.resolve(__dirname, `../../resources/assets/message-images/${message.output}`));
+          form.append("caption", message.caption || '');
+        } else {
+          buffer = fs.readFileSync(path.resolve(__dirname, `../../pdf-output/${message.output}`));
+        }
+
         form.append("type", 'media');
         form.append("media", buffer, {
           contentType: 'text/plain',
@@ -82,7 +89,7 @@ class KaleyraWhatsAppProvider {
       }
 
       const response = await fetch(this.url, request).then(res => res.json());
-      if (response && message.type === 'media' && message.output) {
+      if (response && message.type === 'media' && message.category == 'vitals') {
         fs.unlinkSync(`nodejs/pdf-output/${message.output}`);
       }
     }
