@@ -73,20 +73,6 @@ function sendMessage(context, message, immediate = true) {
   }
 }
 
-function createMediaMessage(imgName, imgType, category, locale) {
-  if (locale != 'en_IN') {
-    imgName+= '_' + locale + `.${imgType}`;
-  } else {
-    imgName+= `.${imgType}`;
-  }
-  const mediaMessage =  {
-    "type": "media",
-    "output": imgName,
-    "category": category
-  }
-  return mediaMessage;
-}
-
 let global_messages = {
   error: {
     optionsRetry: {
@@ -115,4 +101,4 @@ let global_messages = {
   },
 }
 
-module.exports = { get_input, get_message, get_intention, INTENTION_UNKOWN, INTENTION_MORE, INTENTION_GOBACK, global_messages, constructListPromptAndGrammer, constructLiteralGrammer, validateInputType, sendMessage, createMediaMessage };
+module.exports = { get_input, get_message, get_intention, INTENTION_UNKOWN, INTENTION_MORE, INTENTION_GOBACK, global_messages, constructListPromptAndGrammer, constructLiteralGrammer, validateInputType, sendMessage };

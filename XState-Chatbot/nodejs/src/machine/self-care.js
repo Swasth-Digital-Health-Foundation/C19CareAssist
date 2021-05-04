@@ -1,5 +1,6 @@
 const { assign } = require('xstate');
 const dialog = require('./util/dialog.js');
+const mediaUtil = require('./util/media');
 const { personService, vitalsService, triageService } = require('./service/service-loader');
 const { messages, grammer } = require('./messages/self-care');
 
@@ -137,7 +138,7 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
-              const mediaMessage = dialog.createMediaMessage('pulse_oximeter', 'png', 'msg_image', context.user.locale);
+              const mediaMessage = mediaUtil.createMediaMessage('pulse_oximeter', 'png', 'msg_image', context.user.locale);
               dialog.sendMessage(context, mediaMessage);
 
               context.grammer = grammer.vitalsPulse;

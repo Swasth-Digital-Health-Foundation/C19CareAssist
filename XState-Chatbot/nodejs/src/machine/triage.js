@@ -1,5 +1,6 @@
 const { assign } = require('xstate');
 const dialog = require('./util/dialog.js');
+const mediaUtil = require('./util/media');
 const { personService, triageService } = require('./service/service-loader');
 const { messages, grammers } = require('./messages/triage');
 
@@ -370,7 +371,7 @@ const triageFlow = {
             dialog.sendMessage(context, message);
 
             if (context.slots.triage.conclusion == 'noCovidEnd') {
-              const mediaMessage = dialog.createMediaMessage('home_isolation_todo', 'png', 'msg_image', context.user.locale);
+              const mediaMessage = mediaUtil.createMediaMessage('home_isolation_todo', 'png', 'msg_image', context.user.locale);
               dialog.sendMessage(context, mediaMessage);
             }
           }),
@@ -510,7 +511,7 @@ const triageFlow = {
             context.grammer = grammer;
             dialog.sendMessage(context, message);
 
-            const mediaMessage = dialog.createMediaMessage('ways_to_use_chat_bot', 'png', 'msg_image', context.user.locale);
+            const mediaMessage = mediaUtil.createMediaMessage('ways_to_use_chat_bot', 'png', 'msg_image', context.user.locale);
             dialog.sendMessage(context, mediaMessage);
           }),
           on: {
