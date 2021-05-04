@@ -28,14 +28,64 @@ const chatStateMachine = Machine({
       id: 'menuFetchPersons',
       invoke: {
         src: (context) => personService.getPeople(context.user.mobileNumber),
-        onDone: {
-          actions: assign((context, event) => {
-            context.persons = event.data;
-          }),
-          target: '#menu'
-        }
+        onDone: [
+          // {
+          //   cond: (context, event) => context.user.locale,
+          //   actions: assign((context, event) => {
+          //     context.persons = event.data;
+          //   }),
+          //   target: '#menu'
+          // },
+          {
+            actions: assign((context, event) => {
+              context.persons = event.data;
+            }),
+            target: '#selectLanguage'
+          },
+        ]
       }
     },
+    selectLanguage: {
+      id: 'selectLanguage',
+      initial: 'prompt',
+      states: {
+        prompt: {
+          onEntry: assign((context, event) => {
+            let message = dialog.get_message(messages.selectLanguage.prompt.preamble, context.user.locale);
+            let { prompt, grammer } = dialog.constructListPromptAndGrammer(messages.selectLanguage.prompt.options.list, messages.selectLanguage.prompt.options.messageBundle, context.user.locale);
+            context.grammer = grammer;
+            message += prompt;
+            dialog.sendMessage(context, message);
+          }),
+          on: {
+            USER_MESSAGE: 'process'
+          }
+        },
+        process: {
+          onEntry: assign((context, event) => {
+            context.intention = dialog.get_intention(context.grammer, event);
+          }),
+          always: [
+            {
+              cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
+              target: 'error'
+            },
+            {
+              actions: assign((context, event) => {
+                context.user.locale = context.intention;
+              }),
+              target: '#menu'
+            }
+          ]
+        },
+        error: {
+          onEntry: assign((context, event) => {
+            dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
+          }),
+          always: 'prompt'
+        }
+      }
+    }, // selectLanguage
     menu: {
       id: 'menu',
       initial: 'prompt',

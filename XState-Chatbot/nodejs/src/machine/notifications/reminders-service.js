@@ -5,11 +5,12 @@ const channelProvider = require('../../channel');
 const envVariables = require('../../env-variables');
 const { messages } = require('../messages/reminders');
 const dialog = require('../util/dialog.js');
+const sha256 = require('js-sha256');
+const repoProvider = require('../../session/repo');
 
 class RemindersService {
 
     async triggerReminders(time=null) {
-      console.log('time is: ', time);
       const people = await this.getSubscribedPeople();
 
       if (!time) {
@@ -59,10 +60,14 @@ class RemindersService {
         const extraInfo = {
           whatsAppBusinessNumber: envVariables.whatsAppBusinessNumber
         }
+        
+        people.forEach(async (person) => {
+          const mobile = person.mobile;
+          const userId = sha256.sha256(mobile)
+          const chatState = await repoProvider.getActiveStateForUserId(userId);
 
-        const message = dialog.get_message(messages[time]);
+          const message = dialog.get_message(messages[time], chatState.context.user.locale);
 
-        people.forEach(person => {
           person.mobileNumber = person.mobile;
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
