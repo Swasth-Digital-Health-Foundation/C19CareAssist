@@ -368,6 +368,11 @@ const triageFlow = {
             let message = dialog.get_message(messages.endFlow[context.slots.triage.conclusion], context.user.locale);
             message = message.replace('{{name}}', context.slots.triage.person.first_name);
             dialog.sendMessage(context, message);
+
+            if (context.slots.triage.conclusion == 'noCovidEnd') {
+              const mediaMessage = dialog.createMediaMessage('home_isolation_todo', 'png', 'msg_image', context.user.locale);
+              dialog.sendMessage(context, mediaMessage);
+            }
           }),
           target: '#upsertTriageDetails'
         }
@@ -504,6 +509,9 @@ const triageFlow = {
             message += prompt;
             context.grammer = grammer;
             dialog.sendMessage(context, message);
+
+            const mediaMessage = dialog.createMediaMessage('ways_to_use_chat_bot', 'png', 'msg_image', context.user.locale);
+            dialog.sendMessage(context, mediaMessage);
           }),
           on: {
             USER_MESSAGE: 'process'

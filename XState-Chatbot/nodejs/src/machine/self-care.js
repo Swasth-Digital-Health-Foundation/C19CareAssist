@@ -137,6 +137,9 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
+              const mediaMessage = dialog.createMediaMessage('pulse_oximeter', 'png', 'msg_image', context.user.locale);
+              dialog.sendMessage(context, mediaMessage);
+
               context.grammer = grammer.vitalsPulse;
               dialog.sendMessage(context, dialog.get_message(messages.vitalsPulse.prompt, context.user.locale));
             }),
@@ -417,7 +420,8 @@ const selfCareFlow = {
               const media = event.data;
               const message =  {
                 "type": "media",
-                "output": media
+                "output": media,
+                "category": 'vitals'
               }
               dialog.sendMessage(context, message);
             }),
