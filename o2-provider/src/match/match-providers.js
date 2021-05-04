@@ -1,9 +1,9 @@
+/* eslint-disable camelcase */
 const { callHasura } = require('../services/util/hasura');
 
 const fetchPincodeMatchingProviders = async (location, iteration) => {
   let { pin_code } = location;
   let query;
-  let variables;
   if (iteration === 0) {
     query = `
       query getO2Providers($pin_code: String!) {
@@ -34,11 +34,11 @@ const fetchPincodeMatchingProviders = async (location, iteration) => {
     pin_code += '%';
   }
 
-  variables = {
+  const variables = {
     pin_code,
   };
 
-  const response = callHasura(query, variables, 'getO2Providers');
+  const response = await callHasura(query, variables, 'getO2Providers');
   const data = response.data.o2_provider;
 
   return data;
