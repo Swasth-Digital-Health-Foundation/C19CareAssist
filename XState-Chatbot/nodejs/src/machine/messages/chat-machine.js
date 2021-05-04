@@ -8,8 +8,8 @@ let messages = {
         en_IN: '\n\nYou can always get back to the main menu by sending "Reset".\n\nBy continuing to use our chat facility, you agree to our Terms & Conditions of use https://www.swasth.app/swasth_terms_wb.pdf'
       },
       options: {
-        newUser: [ 'worried', 'info' ],
-        subscribedUser: [ 'worried', 'selfCare', 'info' ],
+        newUser: [ 'worried', 'info', 'teleConsultation' ],
+        subscribedUser: [ 'worried', 'selfCare', 'info', 'teleConsultation' ],
         messageBundle: {
           worried: {
             en_IN: 'I am feeling worried and have COVID related concerns'
@@ -19,6 +19,9 @@ let messages = {
           },
           info: {
             en_IN: 'I want information about COVID facilities'
+          },
+          'teleConsultation': {
+            en_IN: 'I want tele-consultation'
           }
         }
       }
@@ -92,6 +95,9 @@ let messages = {
   },
   informationFlow: {
     en_IN: 'You can find more information regarding COVID-19 and nearby care facilities here https://life.coronasafe.network. Please follow these simple tips to stay healthy and safe!\n\n- Wear a N95 mask covering both mouth and nose\n- Sleep 7-8 hours a day\n- Drink a lot of fluids to stay hydrated\n- Eat a healthy low carbohydrate, high protein diet\n- Avoid alcohol intake and smoking\n- Exercise, practise yoga and meditate\n'
+  },
+  teleConsultation: {
+    en_IN: 'Your tele-consultation request has been registered. You will receive a call from one of medical officers.'
   },
   endstate: {
     en_IN: 'Goodbye. Say hi to start another conversation'

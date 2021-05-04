@@ -4,6 +4,7 @@ const triageFlow = require('./triage');
 const selfCareFlow = require('./self-care');
 const { personService } = require('./service/service-loader');
 const { messages } = require('./messages/chat-machine');
+const fetch = require("node-fetch");
 
 const chatStateMachine = Machine({
   id: 'chatMachine',
@@ -75,6 +76,10 @@ const chatStateMachine = Machine({
             {
               cond: (context) => context.intention == 'info',
               target: '#informationFlow'
+            },
+            {
+              cond: (context) => context.intention == 'teleConsultation',
+              target: '#teleConsultation'
             },
             {
               target: 'error'
@@ -197,6 +202,24 @@ const chatStateMachine = Machine({
         dialog.sendMessage(context, dialog.get_message(messages.informationFlow, context.user.locale));
       }),
       always: '#endstate'
+    },
+    teleConsultation: {
+      id: 'teleConsultation',
+      invoke: {
+        src: async (context) => {
+          let url = 'https://fc70459d514c.ngrok.io/user_acceptance_request/{{mobileNumber}}/2021-05-03 4:33:10';
+          url = url.replace('{{mobileNumber}}', context.user.mobileNumber);
+          let response = await fetch(url);
+          let body = await response.json();
+          console.log(JSON.stringify(body));
+        },
+        onDone: {
+          actions: (context, event) => {
+            dialog.sendMessage(context, dialog.get_message(messages.teleConsultation, context.user.locale));
+          },
+          target: '#endstate'
+        }
+      }
     },
     triageFlow: triageFlow,
     recordVitals: selfCareFlow.recordVitals,
