@@ -361,7 +361,7 @@ const triageFlow = {
       }),
       always: [
         {
-          cond: (context) => (context.slots.triage.symptoms || context.slots.triage.rtpcr != 'positive'),
+          cond: (context) => (context.slots.triage.symptoms || context.slots.triage.rtpcr == 'positive'),
           target: '#subscribe'
         },
         {
