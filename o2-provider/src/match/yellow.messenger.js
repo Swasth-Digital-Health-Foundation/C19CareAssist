@@ -5,7 +5,13 @@ const sendMessage = async (requestBody) => {
   let url = appConfigs.ymUrl;
   url = url.replace('{{botId}}', appConfigs.ymBotId);
 
-  await axios.post(url, requestBody);
+  const config = {
+    headers: {
+      'x-auth-token': appConfigs.ymAuthToken,
+    },
+  };
+
+  await axios.post(url, requestBody, config);
 };
 
 const sendProviderNotificationMessage = async (mobile, message) => {
@@ -73,8 +79,7 @@ const sendProviderNotificationMessage = async (mobile, message) => {
   await sendMessage(requestBody);
 };
 
-const sendNoProviderFoundMessage = async (mobile, message) => {
-};
+const sendNoProviderFoundMessage = async (mobile, message) => {};
 
 const sendAcceptedProviderDetails = async (mobile, message) => {
   const requestBody = {
