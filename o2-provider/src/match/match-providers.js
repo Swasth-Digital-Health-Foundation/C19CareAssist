@@ -6,7 +6,7 @@ const fetchPincodeMatchingProviders = async (location, iteration) => {
   let knownPin = '';
   const query = `
     query getO2Providers($find_pin: String!, $knowm_pin: String) {
-      o2_provider(where: {pin_code: {_like: $find_pin, _nilike: $knowm_pin}}) {
+      o2_provider(where: {pin_code: {_like: $find_pin, _nilike: $knowm_pin}, status: {_eq: "ACTIVE"}}) {
         uuid
         pin_code
         city
@@ -14,7 +14,7 @@ const fetchPincodeMatchingProviders = async (location, iteration) => {
           mobile
         }
       }
-    }  
+    }
   `;
   const findPin = `${pin_code.substr(0, pin_code.length - iteration)}%`;
   if (iteration > 0) {
