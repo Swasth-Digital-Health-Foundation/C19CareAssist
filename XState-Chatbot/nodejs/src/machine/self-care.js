@@ -138,8 +138,8 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
-              const mediaMessage = mediaUtil.createMediaMessage('pulse_oximeter', 'png', 'msg_image', context.user.locale);
-              dialog.sendMessage(context, mediaMessage);
+              const mediaMessage = mediaUtil.createMediaMessage('resources/assets/static-media/pulse_oximeter', 'png', context.user.locale);
+              dialog.sendMessage(context, mediaMessage, false);
 
               context.grammer = grammer.vitalsPulse;
               dialog.sendMessage(context, dialog.get_message(messages.vitalsPulse.prompt, context.user.locale));
@@ -419,10 +419,12 @@ const selfCareFlow = {
           onDone: {
             actions: assign((context, event) => {
               const media = event.data;
+              const split = media.split('/');
+              const fileName = split[split.length - 1];
               const message =  {
                 "type": "media",
                 "output": media,
-                "category": 'vitals'
+                "caption": fileName
               }
               dialog.sendMessage(context, message);
             }),

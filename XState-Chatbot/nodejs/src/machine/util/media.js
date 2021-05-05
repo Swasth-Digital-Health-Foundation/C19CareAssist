@@ -1,13 +1,13 @@
-function createMediaMessage(imgName, imgType, category, locale) {
+function createMediaMessage(imgPath, imgType, locale, caption = '') {
     if (locale != 'en_IN') {
-      imgName+= '_' + locale + `.${imgType}`;
+      imgPath+= '_' + locale + `.${imgType}`;
     } else {
-      imgName+= `.${imgType}`;
+      imgPath+= `.${imgType}`;
     }
     const mediaMessage =  {
       "type": "media",
-      "output": imgName,
-      "category": category
+      "output": imgPath,
+      "caption": caption
     }
     return mediaMessage;
 }

@@ -371,8 +371,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
 
             if (context.slots.triage.conclusion == 'noCovidEnd') {
-              const mediaMessage = mediaUtil.createMediaMessage('home_isolation_todo', 'png', 'msg_image', context.user.locale);
-              dialog.sendMessage(context, mediaMessage);
+              const mediaMessage = mediaUtil.createMediaMessage('resources/assets/static-media/home_isolation_todo', 'png', context.user.locale);
+              dialog.sendMessage(context, mediaMessage, false);
             }
           }),
           target: '#upsertTriageDetails'
@@ -511,7 +511,7 @@ const triageFlow = {
             context.grammer = grammer;
             dialog.sendMessage(context, message);
 
-            const mediaMessage = mediaUtil.createMediaMessage('ways_to_use_chat_bot', 'png', 'msg_image', context.user.locale);
+            const mediaMessage = mediaUtil.createMediaMessage('resources/assets/static-media/ways_to_use_chat_bot', 'png', context.user.locale);
             dialog.sendMessage(context, mediaMessage);
           }),
           on: {
