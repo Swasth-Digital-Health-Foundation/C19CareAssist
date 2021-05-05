@@ -1,4 +1,12 @@
-const sendMessage = async (requestBody) => {};
+const axios = require('axios');
+const appConfigs = require('../config/config');
+
+const sendMessage = async (requestBody) => {
+  let url = appConfigs.ymUrl;
+  url = url.replace('{{botId}}', appConfigs.ymBotId);
+
+  await axios.post(url, requestBody);
+};
 
 const sendProviderNotificationMessage = async (mobile, message) => {
   const requestBody = {
