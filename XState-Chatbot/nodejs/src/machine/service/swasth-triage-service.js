@@ -20,9 +20,9 @@ class TriageService {
         query: query,
         variables: {
           "object": {
-            "symptoms": triage.symptoms.toString(),
+            "symptoms": triage.symptoms ? triage.symptoms.toString() : '',
             "rt_pcr_status": triage.rtpcr,
-            "comorbidities": triage.isComorbid.toString(),
+            "comorbidities": triage.isComorbid ? triage.isComorbid.toString() : '',
             "subscribe": triage.subscribe,
             "spo2": triage.spo2,
             "person_id": person.uuid
@@ -106,6 +106,12 @@ class TriageService {
         vital.created_time = new Date(vital.created_at).toLocaleTimeString()
       });
 
+      let hasComorbities, hasSymptoms;
+      if (userData.c19_triage) {
+        hasComorbities = userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No';
+        hasSymptoms = userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No';
+      }
+
       const variables = {
         person: {
           first_name: person.first_name,
@@ -114,8 +120,8 @@ class TriageService {
         },
         c19_triage: { 
           ...userData.c19_triage,
-          'hasComorbidities': userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No',
-          'hasSymptoms': userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No',
+          'hasComorbidities': hasComorbities,
+          'hasSymptoms': hasSymptoms,
           'created_date': new Date(userData.c19_triage.created_at).toDateString() 
         },
         c19_vitals: c19_vitals
