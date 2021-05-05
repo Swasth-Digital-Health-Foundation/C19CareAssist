@@ -512,7 +512,7 @@ const triageFlow = {
             dialog.sendMessage(context, message);
 
             const mediaMessage = mediaUtil.createMediaMessage('resources/assets/static-media/ways_to_use_chat_bot', 'png', context.user.locale);
-            dialog.sendMessage(context, mediaMessage);
+            dialog.sendMessage(context, mediaMessage, false);
           }),
           on: {
             USER_MESSAGE: 'process'
