@@ -3,6 +3,7 @@ const dialog = require('./util/dialog.js');
 const mediaUtil = require('./util/media');
 const { personService, vitalsService, triageService } = require('./service/service-loader');
 const { messages, grammer } = require('./messages/self-care');
+const config = require('../../src/env-variables');
 
 const selfCareFlow = {
   recordVitals: {
@@ -138,7 +139,7 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
-              const mediaMessage = mediaUtil.createMediaMessage('resources/assets/static-media/pulse_oximeter', 'png', context.user.locale);
+              const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/pulse_oximeter`, 'png', context.user.locale);
               dialog.sendMessage(context, mediaMessage, false);
 
               context.grammer = grammer.vitalsPulse;

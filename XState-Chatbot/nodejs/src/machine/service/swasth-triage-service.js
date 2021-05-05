@@ -122,7 +122,7 @@ class TriageService {
       };
 
       const today = new Date().toDateString();
-      const filePath = `resources/assets/dynamic-media/${person.first_name}-vitals-report-${today}.pdf`;
+      const filePath = `${config.dynamicMediaPath}/${person.first_name}-vitals-report-${today}.pdf`;
       const document = {
         html: html,
         data: variables,

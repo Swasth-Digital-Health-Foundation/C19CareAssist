@@ -1,6 +1,7 @@
 const pdfCreator = require('pdf-creator-node');
 const fs = require('fs');
 const path = require("path");
+const config = require('../../env-variables');
 
 class TriageService {
 
@@ -72,7 +73,7 @@ class TriageService {
         };
               
         const today = new Date().toDateString();
-        const filePath = `resources/assets/dynamic-media/${person.first_name}-vitals-report-${today}.pdf`;
+        const filePath = `${config.dynamicMediaPath}/${person.first_name}-vitals-report-${today}.pdf`;
         const document = {
                 html: html,
                 data: variables,

@@ -1,12 +1,14 @@
-function createMediaMessage(imgPath, imgType, locale, caption = '') {
-    if (locale != 'en_IN') {
-      imgPath+= '_' + locale + `.${imgType}`;
-    } else {
-      imgPath+= `.${imgType}`;
+function createMediaMessage(mediaPath, mediaType, locale, caption = '') {
+    if (mediaType) {
+      if (locale != 'en_IN') {
+        mediaPath+= '_' + locale + `.${mediaType}`;
+      } else {
+        mediaPath+= `.${mediaType}`;
+      }
     }
     const mediaMessage =  {
       "type": "media",
-      "output": imgPath,
+      "output": mediaPath,
       "caption": caption
     }
     return mediaMessage;
