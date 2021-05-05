@@ -67,12 +67,57 @@ const processO2Requirement = async (o2Requirement) => {
   // TODO: update o2Requirement; new parameter o2Requirement.iteration
 };
 
-const processO2RequirementReplies = async (o2Requirement) => {
-  const query = `
+```
+query getO2Requirement {
+  o2_requirement(where: {active:{_eq:true}}) {
+    uuid
+    user_id
+    type
+    pin_code
+    city
+    address_detail
+    created_at
+    active
+    o2_user {
+      uuid
+      name
+      mobile
+    }
+    o2_services(where:{status:{_eq:"ACCEPTED"}}) {        // Only include encrypted fields
+      o2_provider{
+        o2_user{
+          name
+          mobile
+        }
+      }
+    }
+  }
+}
+```
 
-  `;
+const processO2RequirementReplies = async (o2Requirement) => {
+  const replies = o2Requirement.o2_service;
+  if (replies.length === 0) {
+    // send message to user => no providers found
+    // If iteration == maxIteration => closing the request
+  } else {
+    const providers = await decryptObject(replies);
+    let providerDetailsMessage = '';
+    if(providers.length === 1) {
+      const user = providers[i].o2_provider.o2_user;
+      providerDetailsMessage = `${user.name}: ${user.mobile}`;
+    } else {
+      for (let i = 0; i < providers.length; i++) {
+        const user = providers[i].o2_provider.o2_user;
+        providerDetailsMessage += `\n${i + 1}. ${user.name}: ${user.mobile}`;
+      }
+    }
+    logger.info(providerDetailsMessage);
+    // send message with provider details
+  }
 };
 
 module.exports = {
   processO2Requirement,
+  processO2RequirementReplies,
 };
