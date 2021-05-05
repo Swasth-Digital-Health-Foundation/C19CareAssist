@@ -116,4 +116,4 @@ dist
 .pnp.*
 
 # generated resources
-pdf-output
+resources/assets/dynamic-media

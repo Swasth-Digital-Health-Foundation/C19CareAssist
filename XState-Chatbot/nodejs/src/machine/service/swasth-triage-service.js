@@ -122,16 +122,16 @@ class TriageService {
       };
 
       const today = new Date().toDateString();
-      const fileName = `${person.first_name}-vitals-report-${today}.pdf`;
+      const filePath = `${config.dynamicMediaPath}/${person.first_name}-vitals-report-${today}.pdf`;
       const document = {
         html: html,
         data: variables,
-        path: path.resolve(__dirname, `../../pdf-output/${fileName}`),
+        path: path.resolve(__dirname, `../../${filePath}`),
         type: "pdf",
       };
 
       await pdfCreator.create(document, options)
-      return fileName;
+      return filePath;
   }
 
   async exitProgram(person, exitSlots) {

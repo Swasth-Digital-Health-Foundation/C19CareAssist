@@ -64,19 +64,18 @@ class KaleyraWhatsAppProvider {
         form.append("body", message);
       } else if (message.type == 'media') {
         let buffer;
-        if (message.category == 'msg_image') {
-          buffer = fs.readFileSync(path.resolve(__dirname, `../../resources/assets/message-images/${message.output}`));
-          form.append("caption", message.caption || '');
-        } else {
-          buffer = fs.readFileSync(path.resolve(__dirname, `../../pdf-output/${message.output}`));
-        }
-
+        buffer = fs.readFileSync(path.resolve(__dirname, `../../${message.output}`));
+        form.append("caption", message.caption || '');
         form.append("type", 'media');
         form.append("media", buffer, {
           contentType: 'text/plain',
           name: 'file',
           filename: message.output,
         });
+      } else if(message.type == 'template') {
+        //TODO: Handle media template
+        form.append("type", message.type);
+        form.append("body", message.output);
       } else {
         form.append("type", message.type);
         form.append("body", message.output);
@@ -89,8 +88,8 @@ class KaleyraWhatsAppProvider {
       }
 
       const response = await fetch(this.url, request).then(res => res.json());
-      if (response && message.type === 'media' && message.category == 'vitals') {
-        fs.unlinkSync(`nodejs/pdf-output/${message.output}`);
+      if (response && message.type === 'media' && message.output.includes('dynamic-media')) {
+        fs.unlinkSync(path.resolve(__dirname, `../../${message.output}`));
       }
     }
   }
