@@ -1,11 +1,13 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-param-reassign */
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const logger = require('../config/logger');
 
-const { fetchPincodeMatchingProviders } = require('./match-providers');
+const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { callHasura } = require('../services/util/hasura');
+const { sendProviderNotificationMessage } = require('./yellow.messenger');
 
 const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
 
@@ -44,10 +46,10 @@ const processO2Requirement = async (o2Requirement) => {
       city: o2Requirement.city,
       pin_code: o2Requirement.pin_code,
     };
-    let providers = await fetchPincodeMatchingProviders(location, iteration);
+    let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
-      providers = fetchPincodeMatchingProviders(location, iteration);
+      providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
     }
     if (providers.length === 0) {
       o2Requirement.active = false;
@@ -59,6 +61,11 @@ const processO2Requirement = async (o2Requirement) => {
         user = decryptObject(user);
         provider.o2_user.mobile = user.mobile;
         // TODO: send message to the provider
+        await sendProviderNotificationMessage(provider.o2_user.mobile, {
+          id: o2Requirement.id,
+          pin_code: o2Requirement.pin_code,
+          city: o2Requirement.city,
+        });
         persistO2Service(o2Requirement, provider);
       }
     }
@@ -66,6 +73,10 @@ const processO2Requirement = async (o2Requirement) => {
   // TODO: Get user mobile from db and send message to the user. Message could be 1. Requested providers OR 2. No providers found
   // TODO: update o2Requirement; new parameter o2Requirement.iteration
 };
+
+const processO2Service = async (o2Service) => {
+
+}
 
 ```
 query getO2Requirement {
