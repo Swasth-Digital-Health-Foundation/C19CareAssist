@@ -386,6 +386,9 @@ const triageFlow = {
       states: {
         prompt: {
           onEntry: assign((context, event) => {
+            const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/pulse_oximeter`, 'png', context.user.locale);
+            dialog.sendMessage(context, mediaMessage, false);
+
             let message = dialog.get_message(messages.triageSpo2.prompt.preamble, context.user.locale);
             message = message.replace('{{name}}', context.slots.triage.person.first_name);
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(messages.triageSpo2.prompt.options.list, messages.triageSpo2.prompt.options.messageBundle, context.user.locale);
@@ -410,7 +413,7 @@ const triageFlow = {
               cond: (context) => context.intention == 'above95',
               actions: assign((context, event) => {
                 context.slots.triage.spo2 = context.intention;
-                dialog.sendMessage(context, dialog.get_message(messages.triageSpo2.normalSpo2, context.user.locale), false);
+                // dialog.sendMessage(context, dialog.get_message(messages.triageSpo2.normalSpo2, context.user.locale), false);
               }),
               target: '#symptoms'
             },
