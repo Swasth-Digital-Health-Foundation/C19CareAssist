@@ -15,7 +15,7 @@ const persistFeedback = async (feedback) => {
   };
   const response = await callHasura(query, variable, 'insert_o2_provider_feedback');
   if (response.errors !== undefined)
-    throw new ApiError(httpStatus.BAD_REQUEST, 'An active search already exists for this user.');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to register feedback');
   feedback.uuid = response.data.insert_o2_provider_feedback_one.uuid;
   return feedback;
 };

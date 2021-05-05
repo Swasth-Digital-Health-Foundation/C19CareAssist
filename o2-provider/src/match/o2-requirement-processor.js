@@ -9,7 +9,8 @@ const { decryptObject } = require('../services/encryption.service');
 const { callHasura } = require('../services/util/hasura');
 const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require('./yellow.messenger');
 
-const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
+// const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
+const maxIterations = 0;
 
 const persistO2Service = async (o2Requirement, o2Provider) => {
   const o2Service = {
@@ -33,12 +34,13 @@ const persistO2Service = async (o2Requirement, o2Provider) => {
     logger.error(JSON.stringify(response.errors));
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to register event');
   }
-  o2Service.uuid = response.data.insert_o2_service.returning.uuid;
+  o2Service.uuid = response.data.insert_o2_service_one.uuid;
   return o2Service;
 };
 
 const processO2Requirement = async (o2Requirement) => {
-  let { iteration } = o2Requirement;
+  o2Requirement.iteration  = 0;
+  let iteration = o2Requirement.iteration
   if (iteration > maxIterations) {
     o2Requirement.active = false;
   } else {
@@ -59,7 +61,6 @@ const processO2Requirement = async (o2Requirement) => {
       for (const provider of providers) {
         let user = provider.o2_user;
         user = decryptObject(user);
-        provider.o2_user.mobile = user.mobile;
         await sendProviderNotificationMessage(provider.o2_user.mobile, {
           id: o2Requirement.id,
           pin_code: o2Requirement.pin_code,
@@ -106,33 +107,6 @@ const processO2Service = async (o2Service) => {
   await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message);
 };
 
-```
-query getO2Requirement {
-  o2_requirement(where: {active:{_eq:true}}) {
-    uuid
-    user_id
-    type
-    pin_code
-    city
-    address_detail
-    created_at
-    active
-    o2_user {
-      uuid
-      name
-      mobile
-    }
-    o2_services(where:{status:{_eq:"ACCEPTED"}}) {        // Only include encrypted fields
-      o2_provider{
-        o2_user{
-          name
-          mobile
-        }
-      }
-    }
-  }
-}
-```
 
 const processO2RequirementReplies = async (o2Requirement) => {
   const replies = o2Requirement.o2_service;
