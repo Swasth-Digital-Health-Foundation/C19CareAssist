@@ -2,40 +2,28 @@
 const { callHasura } = require('../services/util/hasura');
 
 const fetchPincodeMatchingProviders = async (location, iteration) => {
-  let { pin_code } = location;
-  let query;
-  if (iteration === 0) {
-    query = `
-      query getO2Providers($pin_code: String!) {
-        o2_provider(where: {pin_code: {_eq: $pin_code}}) {
-          uuid
-          pin_code
-          city
-          o2_user{
-            mobile
-          }
+  const { pin_code } = location;
+  let knownPin = '';
+  const query = `
+    query getO2Providers($find_pin: String!, $knowm_pin: String) {
+      o2_provider(where: {pin_code: {_like: $find_pin, _nilike: $knowm_pin}}) {
+        uuid
+        pin_code
+        city
+        o2_user {
+          mobile
         }
       }
-    `;
-  } else {
-    query = `
-      query getO2Providers($pin_code: String!) {
-        o2_provider(where: {pin_code: {_like: $pin_code}}) {
-          uuid
-          pin_code
-          city
-          o2_user{
-            mobile
-          }
-        }
-      }
-    `;
-    pin_code = pin_code.slice(0, -iteration);
-    pin_code += '%';
+    }  
+  `;
+  const findPin = `${pin_code.substr(0, pin_code.length - iteration)}%`;
+  if (iteration > 0) {
+    knownPin = `${pin_code.substr(0, pin_code.length - iteration + 1)}%`;
   }
 
   const variables = {
-    pin_code,
+    find_pin: findPin,
+    knowm_pin: knownPin,
   };
 
   const response = await callHasura(query, variables, 'getO2Providers');
