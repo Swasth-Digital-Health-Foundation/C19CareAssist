@@ -7,7 +7,7 @@ const logger = require('../config/logger');
 const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { callHasura } = require('../services/util/hasura');
-const { sendProviderNotificationMessage } = require('./yellow.messenger');
+const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require('./yellow.messenger');
 
 const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
 
@@ -60,13 +60,12 @@ const processO2Requirement = async (o2Requirement) => {
         let user = provider.o2_user;
         user = decryptObject(user);
         provider.o2_user.mobile = user.mobile;
-        // TODO: send message to the provider
         await sendProviderNotificationMessage(provider.o2_user.mobile, {
           id: o2Requirement.id,
           pin_code: o2Requirement.pin_code,
           city: o2Requirement.city,
         });
-        persistO2Service(o2Requirement, provider);
+        await persistO2Service(o2Requirement, provider);
       }
     }
   }
@@ -75,8 +74,37 @@ const processO2Requirement = async (o2Requirement) => {
 };
 
 const processO2Service = async (o2Service) => {
-
-}
+  if (o2Service.status !== 'ACCEPTED') return;
+  const serviceUuid = o2Service.uuid;
+  const query = `
+    query getO2Service($uuid: uuid!) {
+      o2_service(where: {uuid: {_eq: $uuid}}) {
+        o2_provider {
+          o2_user {
+            name
+            mobile
+          }
+        }
+        o2_requirement {
+          o2_user {
+            mobile
+          }
+        }
+      }
+    }  
+  `;
+  const variable = {
+    uuid: serviceUuid,
+  };
+  const response = await callHasura(query, variable, 'getO2Service');
+  const service = response.data.o2_service[0];
+  const decryptedService = await decryptObject(service);
+  const providerDetails = `Supplier Name: ${decryptedService.o2_provider.o2_user.name}\nMobile: ${decryptedService.o2_provider.o2_user.mobile}`;
+  const message = {
+    providerDetails,
+  };
+  await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message);
+};
 
 ```
 query getO2Requirement {
@@ -114,11 +142,11 @@ const processO2RequirementReplies = async (o2Requirement) => {
   } else {
     const providers = await decryptObject(replies);
     let providerDetailsMessage = '';
-    if(providers.length === 1) {
-      const user = providers[i].o2_provider.o2_user;
+    if (providers.length === 1) {
+      const user = providers[0].o2_provider.o2_user;
       providerDetailsMessage = `${user.name}: ${user.mobile}`;
     } else {
-      for (let i = 0; i < providers.length; i++) {
+      for (let i = 0; i < providers.length; i += 1) {
         const user = providers[i].o2_provider.o2_user;
         providerDetailsMessage += `\n${i + 1}. ${user.name}: ${user.mobile}`;
       }
@@ -131,4 +159,5 @@ const processO2RequirementReplies = async (o2Requirement) => {
 module.exports = {
   processO2Requirement,
   processO2RequirementReplies,
+  processO2Service,
 };
