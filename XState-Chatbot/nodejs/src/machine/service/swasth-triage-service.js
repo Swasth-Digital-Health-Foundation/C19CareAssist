@@ -108,7 +108,10 @@ class TriageService {
         vital.created_time = new Date(vital.created_at).toLocaleTimeString()
       });
 
-      let hasComorbities = hasSymptoms = createdAt = 'NA';
+      let hasComorbities = 'NA';
+      let hasSymptoms = 'NA';
+      let createdAt = 'NA';
+      
       if (userData.c19_triage) {
         hasComorbities = userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No';
         hasSymptoms = userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No';

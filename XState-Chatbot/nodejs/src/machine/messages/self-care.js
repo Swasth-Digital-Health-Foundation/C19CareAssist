@@ -9,6 +9,12 @@ let messages = {
       hi_IN: 'कृपया उस रोगी का चयन करें, जिसके वाइटल्स आप जोड़ना चाहते हैं: \n\n'
     }
   },
+  reportSelectPerson: {
+    prompt: {
+      en_IN: 'Please select the patient whose reports you want to download:\n\n',
+      hi_IN: 'कृपया उस रोगी का चयन करें, जिसके रिनपोर्ट्स आप डाउनलोड करना चाहते हैं: \n\n'
+    }
+  },
   vitalsSpo2: {
     prompt: {
       en_IN: '{{name}}! Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below',
