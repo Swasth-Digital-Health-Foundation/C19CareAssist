@@ -174,8 +174,8 @@ let messages = {
   subscribe: {
     prompt: {
       preamble: {
-        en_IN: '{{name}}, I will be following up with you regularly to ensure you get better right at home by:\n- Making you check your vitals three times a day\n- Maintaining your SpO2 and temperature chart  \n- Sharing scientifically accurate health information\n- Helping you cope up with isolation \n- Supporting your family members if COVID assistance is needed\n',
-        hi_IN: '{{name}}, हम आपके संपर्क में रहेंगे ताकि आप घर पर रहकर ठीक हो सकें। \n- दिन में 3 बार अपने vitals की जाँच करें \n- अपने SpO2 और तापमान चार्ट को बनाए रखिये \n- आपको वैज्ञानिक रूप से सही स्वास्थ्य जानकारी मिले \n- आपको अकेलेपन में मदद करें \n- COVID सहायता की आवश्यकता होने पर अपने परिवार के सदस्यों का समर्थन करना'
+        en_IN: 'Thank you for sharing this information, {{name}}. Please contact a doctor so you can be prescribed medicines as needed. I will also be following up with you regularly to ensure you get better right at home by: \n- Making you check your vitals three times a day\n- Maintaining your SpO2 and temperature chart  \n- Sharing scientifically accurate health information\n- Helping you cope up with isolation \n- Supporting your family members if COVID assistance is needed\n',
+        hi_IN: 'इस जानकारी को भेजने के लिए धन्यवाद, {{name}}। कृपया किसी डॉक्टर से संपर्क करें ताकि आपको आवश्यकतानुसार दवाएं दी जा सकें। राहुल, मैं आपकी स्थिति पर निगरानी रखेंगे ताकि आप घर पर ही ठीक हो सकें \n- दिन में 3 बार अपने vitals की जाँच करें \n- अपने SpO2 और तापमान चार्ट को बनाए रखिये \n- आपको वैज्ञानिक रूप से सही स्वास्थ्य जानकारी मिले \n- आपको अकेलेपन में मदद करें \n- COVID सहायता की आवश्यकता होने पर अपने परिवार के सदस्यों का समर्थन करना'
       },
       options: {
         list: [ true, false ],
@@ -192,7 +192,7 @@ let messages = {
       }
     },
     doSubscribe: {
-      en_IN: 'That\'s awesome, {{name}}! Thank you for choosing me as your aid to recovery. :) If you want any more details about my guided recovery program or want to make any modifications, please use the *Manage program* option in the main menu. I will be in touch with you again in a few hours to check on you.\n To view home isolation guide click here https://www.youtube.com/watch?v=xTvd7oAEyhs (English) https://www.youtube.com/watch?v=VfVwoNzIC1c&t=2s (Hindi) \n Additional health tips are available here https://www.youtube.com/watch?v=ejukjKIClkg and https://www.youtube.com/channel/UCyPfxTI_VTymjcjHX_QRDRA/playlists  \nFor more information regarding COVID-19 and nearby care facilities click here https://life.coronasafe.network',
+      en_IN: 'That\'s awesome, {{name}}! Thank you for choosing me as your aid to recovery. :) If you want any more details about my guided recovery program or want to make any modifications, please use the *Manage program* option in the main menu. I will be in touch with you again in a few hours to check on you.\n To view home isolation guide click here https://www.youtube.com/watch?v=xTvd7oAEyhs (English) https://www.youtube.com/watch?v=VfVwoNzIC1c&t=2s (Hindi) \n Additional health tips are available here https://www.youtube.com/watch?v=ejukjKIClkg and https://youtube.com/playlist?list=PLM6YFXQ-ei4bMKT_R4GSLVnrsHodCdhmX \nFor more information regarding COVID-19 and nearby care facilities click here https://life.coronasafe.network',
       hi_IN: 'बहुत अच्छा, {{name}}! हमें अपना सहयोगी बनाने के लिए धन्यवाद।. :) यदि आप मेरे निर्देशित पुनर्प्राप्ति कार्यक्रम के बारे में कोई और विवरण चाहते हैं या कोई संशोधन करना चाहते हैं, तो कृपया मुख्य मेनू में *प्रबंधित कार्यक्रम* विकल्प का उपयोग करें। मैं कुछ घंटों में फिर से आपके संपर्क में आऊंगा। कुछ घंटों बाद हम आपसे फिर संपर्क करेंगे। \n घर अलगाव गाइड यहाँ उपलब्ध है: https://www.youtube.com/watch?v=VfVwoNzIC1c&t=2s (Hindi) \n स्वस्थ रहने के लिए, इन बातों का ध्यान रखें: \n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहाँ उपलब्ध है https://life.coronasafe.network'
     },
     dontSubscribe: {

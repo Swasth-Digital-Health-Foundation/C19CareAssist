@@ -70,8 +70,8 @@ let messages = {
     },
     exitFeedback: {
       prompt: {
-        en_IN: 'Please share if you have any other feedback to help improve our services',
-        hi_IN: 'हमारे कार्यक्रम को और बेहतर बनाने के लिए कोई सुझाव हो तो कृपया दें'
+        en_IN: 'Please share if you have any other feedback that can help me serve you better.',
+        hi_IN: 'यदि इस सुविधा को सुधारने में आपके कोई सुझाव हो, तो हमें ज़रूर बताएँ'
       }
     },
     unsubscribedSuccessfully: {

@@ -2,8 +2,8 @@ let messages = {
   selectLanguage: {
     prompt: {
       preamble: {
-        en_IN: 'Hi there! Welcome to the Swasth Alliance COVID-19 Chat! Swasth is a not for profit powered by India’s leading healthcare and technology companies as a public interest initiative. (For more information on Swasth click here https://www.swasth.app/home) The good folks at Swasth set me up to assist you with your COVID-19 questions and concerns. Please select your preferred language.',
-        hi_IN: 'नमस्ते, Swasth Alliance (स्वस्थ संस्था) के COVID-19 चैट सुविधा में आपका स्वागत है। स्वस्थ संस्था को जन हित के लिए भारत की श्रेष्ठ स्वास्थ्य सेवा और टेक्नोलॉजी कंपनियों के लोगों ने मिलकर स्थापित किया है। (स्वस्थ संस्था के बारे में अधिक जानकारी के लिए https://www.swasth.app/home) COVID-19 से जुड़ी समस्याओं को सुलझाने में यह चैट सुविधा आपकी मदद कर सकती है। कृपया अपनी भाषा चुनें'
+        en_IN: 'Hi there! Welcome to the Swasth Alliance COVID-19 Chat! I am  going to be your Swasth Sakhi. Swasth is a not for profit powered by India’s leading healthcare and technology companies as a public interest initiative. (For more information on Swasth click here https://www.swasth.app/home) The good folks at Swasth set me up to assist you with your COVID-19 questions and concerns. Please select your preferred language.',
+        hi_IN: 'नमस्ते, Swasth Alliance (स्वस्थ संस्था) के COVID-19 चैट सुविधा में आपका स्वागत है। मैं हूँ आपकी स्वस्थ सखी । स्वस्थ संस्था को जन हित के लिए भारत की श्रेष्ठ स्वास्थ्य सेवा और टेक्नोलॉजी कंपनियों के लोगों ने मिलकर स्थापित किया है। (स्वस्थ संस्था के बारे में अधिक जानकारी के लिए https://www.swasth.app/home) COVID-19 से जुड़ी समस्याओं को सुलझाने में यह चैट सुविधा आपकी मदद कर सकती है। कृपया अपनी भाषा चुनें'
       },
       options: {
         list: [ 'hi_IN', 'en_IN' ],
@@ -21,7 +21,7 @@ let messages = {
   menu: {
     prompt: {
       preamble: {
-        en_IN: 'Welcome to the Swasth Alliance COVID-19 Chat! I’m here to assist you with your COVID-19 questions and concerns. What do you need help with right now?',
+        en_IN: 'What do you need help with right now?',
         hi_IN: 'बताइये, आज हम आपकी क्या सहायता कर सकते हैं?'
       },
       postscript: {
@@ -126,8 +126,8 @@ let messages = {
     }
   },
   informationFlow: {
-    en_IN: 'You can find more information regarding COVID-19 and nearby care facilities here https://life.coronasafe.network. Please follow these simple tips to stay healthy and safe!\n\n- Wear a N95 mask covering both mouth and nose\n- Sleep 7-8 hours a day\n- Drink a lot of fluids to stay hydrated\n- Eat a healthy low carbohydrate, high protein diet\n- Avoid alcohol intake and smoking\n- Exercise, practise yoga and meditate\n',
-    hi_IN: 'COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं https://life.coronasafe.network. कृपया स्वस्थ और सुरक्षित रहने के लिए निम्न का पालन करें - अपने मुँह और नाक के ऊपर N95 मास्क पहनें \n- 7-8 घंटों की नींद अवश्य लें \n- अधिक से अधिक तरल पदार्थों का सेवन करें \n- कम कार्बोहाइड्रेट और अधिक प्रोटीन युक्त खाना खाएं \n- धूम्रपान और नशीले पदार्थों का सेवन न करें \n- व्यायाम, योग और ध्यान करें'
+    en_IN: 'You can find more information regarding COVID-19 and nearby care facilities here https://life.coronasafe.network. Please follow these simple tips to stay healthy and safe!\n\n- Wear a N95 mask covering both mouth and nose\n- Sleep 7-8 hours a day\n- Drink a lot of fluids to stay hydrated\n- Avoid alcohol intake and smoking\n- Exercise, practise yoga and meditate\n',
+    hi_IN: 'COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं https://life.coronasafe.network. कृपया स्वस्थ और सुरक्षित रहने के लिए निम्न का पालन करें - अपने मुँह और नाक के ऊपर N95 मास्क पहनें \n- 7-8 घंटों की नींद अवश्य लें \n- अधिक से अधिक तरल पदार्थों का सेवन करें \n- धूम्रपान और नशीले पदार्थों का सेवन न करें \n- व्यायाम, योग और ध्यान करें'
   },
   endstate: {
     en_IN: 'Goodbye. Say hi to start another conversation',
