@@ -50,7 +50,7 @@ let messages = {
   vitalsTemperature: {
     prompt: {
       en_IN: '*Now let\'s check your temperature with your thermometer.* \n\n1. 99 and above \n2. 98 and below',
-      hi_IN: 'अब अपने थर्मामीटर से अपने तापमान की जांच करते हैं।'
+      hi_IN: 'अब अपने थर्मामीटर से अपने तापमान की जांच करते हैं। \n1. 99 और ऊपर \n-2. 98 और नीचे'
     }
   },
   temperatureGood: {
