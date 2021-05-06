@@ -4,7 +4,7 @@ const { registerProviderRoute } = require('./provider.route');
 const { registerSearchRoute } = require('./search.route');
 const { registerFeedbackRoute } = require('./feedback.route');
 const { registerServiceRoute } = require('./service.route');
-const { o2ServiceRoute, o2RequirementRoute } = require('./event.trigger.route');
+const { o2ServiceRoute, o2RequirementRoute, o2RequirementExpireRoute } = require('./event.trigger.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -34,6 +34,10 @@ const defaultRoutes = [
     path: '/triggers/o2-service',
     route: o2ServiceRoute,
   },
+  {
+    path: '/triggers/o2-requirement-expire',
+    route: o2RequirementExpireRoute,
+  },  
 ];
 
 const devRoutes = [

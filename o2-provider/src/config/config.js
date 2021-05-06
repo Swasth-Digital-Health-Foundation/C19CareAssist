@@ -11,6 +11,7 @@ const envVarsSchema = Joi.object()
     HASURA_ADMIN_SECRET: Joi.string().custom(hasuraAdminSecret).required(),
     HASURA_URL: Joi.string().required(),
     API_TOKEN: Joi.string(),
+    REQUIREMENT_EXPIRE_MINUTES: Joi.number().required()
   })
   .unknown();
 
@@ -33,4 +34,5 @@ module.exports = {
   ymBotId: envVars.YM_BOT_ID,
   ymAuthToken: envVars.YM_AUTH_TOKEN,
   apiToken: envVars.API_TOKEN,
+  requirementExpireMinutes: envVars.REQUIREMENT_EXPIRE_MINUTES
 };
