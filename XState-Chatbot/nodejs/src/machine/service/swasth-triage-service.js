@@ -106,10 +106,11 @@ class TriageService {
         vital.created_time = new Date(vital.created_at).toLocaleTimeString()
       });
 
-      let hasComorbities, hasSymptoms;
+      let hasComorbities, hasSymptoms, createdAt;
       if (userData.c19_triage) {
         hasComorbities = userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No';
         hasSymptoms = userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No';
+        createdAt = userData.c19_triage.created_at;
       }
 
       const variables = {
@@ -122,7 +123,7 @@ class TriageService {
           ...userData.c19_triage,
           'hasComorbidities': hasComorbities,
           'hasSymptoms': hasSymptoms,
-          'created_date': new Date(userData.c19_triage.created_at).toDateString() 
+          'created_date': createdAt ? new Date(createdAt).toDateString() : 'NA'
         },
         c19_vitals: c19_vitals
       };
