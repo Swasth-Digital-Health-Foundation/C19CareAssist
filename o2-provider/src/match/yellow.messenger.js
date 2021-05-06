@@ -1,18 +1,4 @@
-const axios = require('axios');
-const appConfigs = require('../config/config');
-
-const sendMessage = async (requestBody) => {
-  let url = appConfigs.ymUrl;
-  url = url.replace('{{botId}}', appConfigs.ymBotId);
-
-  const config = {
-    headers: {
-      'x-auth-token': appConfigs.ymAuthToken,
-    },
-  };
-
-  await axios.post(url, requestBody, config);
-};
+const ymClient = require('../config/yellow.messenger');
 
 const sendProviderNotificationMessage = async (mobile, message) => {
   const requestBody = {
@@ -76,7 +62,7 @@ const sendProviderNotificationMessage = async (mobile, message) => {
   requestBody.body.template.components[0].parameters[1].text = message.pin_code;
   requestBody.body.template.components[0].parameters[2].text = message.city;
 
-  await sendMessage(requestBody);
+  await ymClient('', requestBody);
 };
 
 const sendNoProviderFoundMessage = async (mobile, message) => {};
@@ -105,7 +91,7 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
   requestBody.body.to = `91${mobile}`;
   requestBody.body.hsm.localizable_params[0].default = message.providerDetails;
 
-  await sendMessage(requestBody);
+  await ymClient('', requestBody);
 };
 
 module.exports = {
