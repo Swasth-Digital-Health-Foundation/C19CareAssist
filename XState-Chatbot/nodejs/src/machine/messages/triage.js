@@ -45,7 +45,7 @@ let messages = {
   specialSymptoms: {
     prompt: {
       en_IN: 'Thanks for this information {{name}}! Do you have one or more of these symptoms?: \n- Pain or pressure in the chest\n- Difficulty breathing\n- Bluish discolorations of lips/face\n- Inability to eat / drink / walk \n- Mental confusion or drowsiness\n',
-      hi_IN: 'जानकारी के लिए शुक्रिया राहुल | क्या आपको इनमें से कोई लक्षण हैं ?: \n- छाती में दर्द या दबाव \n- साँस लेने में दिक्कत \n- होठों अथवा चेहरे का रंग नीला होना \n- कुछ खाने / पीने / चल फिरने में मुश्किल \n- मानसिक उलझन या ऊंघ / झपकियाँ आना'
+      hi_IN: 'जानकारी के लिए शुक्रिया {{name}} | क्या आपको इनमें से कोई लक्षण हैं ?: \n- छाती में दर्द या दबाव \n- साँस लेने में दिक्कत \n- होठों अथवा चेहरे का रंग नीला होना \n- कुछ खाने / पीने / चल फिरने में मुश्किल \n- मानसिक उलझन या ऊंघ / झपकियाँ आना'
     }
   },
   symptoms: {
@@ -114,7 +114,7 @@ let messages = {
     prompt: {
       preamble: {
         en_IN: 'I hope you have a pulse oximeter at home, {{name}}. Please check your SpO2 and select an option from below',
-        hi_IN: 'मुझे उम्मीद है कि आपके पास घर पर एक पल्स ऑक्सीमीटर है, राहुल। कृपया अपना SpO2 जांचें और नीचे से एक विकल्प चुनें'
+        hi_IN: 'मुझे उम्मीद है कि आपके पास घर पर एक पल्स ऑक्सीमीटर है, {{name}}। कृपया अपना SpO2 जांचें और नीचे से एक विकल्प चुनें'
       },
       options: {
         list: [ 'above95', 'below94', 'noOximeter' ],
@@ -175,7 +175,7 @@ let messages = {
     prompt: {
       preamble: {
         en_IN: 'Thank you for sharing this information, {{name}}. Please contact a doctor so you can be prescribed medicines as needed. I will also be following up with you regularly to ensure you get better right at home by: \n- Making you check your vitals three times a day\n- Maintaining your SpO2 and temperature chart  \n- Sharing scientifically accurate health information\n- Helping you cope up with isolation \n- Supporting your family members if COVID assistance is needed\n',
-        hi_IN: 'इस जानकारी को भेजने के लिए धन्यवाद, {{name}}। कृपया किसी डॉक्टर से संपर्क करें ताकि आपको आवश्यकतानुसार दवाएं दी जा सकें। राहुल, मैं आपकी स्थिति पर निगरानी रखेंगे ताकि आप घर पर ही ठीक हो सकें \n- दिन में 3 बार अपने vitals की जाँच करें \n- अपने SpO2 और तापमान चार्ट को बनाए रखिये \n- आपको वैज्ञानिक रूप से सही स्वास्थ्य जानकारी मिले \n- आपको अकेलेपन में मदद करें \n- COVID सहायता की आवश्यकता होने पर अपने परिवार के सदस्यों का समर्थन करना'
+        hi_IN: 'इस जानकारी को भेजने के लिए धन्यवाद, {{name}}। कृपया किसी डॉक्टर से संपर्क करें ताकि आपको आवश्यकतानुसार दवाएं दी जा सकें। {{name}}, मैं आपकी स्थिति पर निगरानी रखेंगे ताकि आप घर पर ही ठीक हो सकें \n- दिन में 3 बार अपने vitals की जाँच करें \n- अपने SpO2 और तापमान चार्ट को बनाए रखिये \n- आपको वैज्ञानिक रूप से सही स्वास्थ्य जानकारी मिले \n- आपको अकेलेपन में मदद करें \n- COVID सहायता की आवश्यकता होने पर अपने परिवार के सदस्यों का समर्थन करना'
       },
       options: {
         list: [ true, false ],
