@@ -12,11 +12,11 @@ const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require
 // const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
 const maxIterations = 0;
 
-const persistO2Service = async (o2Requirement, o2Provider) => {
+const persistO2Service = async (o2Requirement, o2Provider, status) => {
   const o2Service = {
     search_id: o2Requirement.uuid,
     type: o2Requirement.type,
-    status: 'REQUESTED',
+    status,
     provider_id: o2Provider.uuid,
   };
   const query = `
@@ -40,7 +40,7 @@ const persistO2Service = async (o2Requirement, o2Provider) => {
 
 const processO2Requirement = async (o2Requirement) => {
   o2Requirement.iteration = 0;
-  let iteration = o2Requirement.iteration
+  let { iteration } = o2Requirement;
   if (iteration > maxIterations) {
     o2Requirement.active = false;
   } else {
@@ -61,12 +61,18 @@ const processO2Requirement = async (o2Requirement) => {
       for (const provider of providers) {
         let user = provider.o2_user;
         user = decryptObject(user);
-        await sendProviderNotificationMessage(provider.o2_user.mobile, {
+        const ymResponse = await sendProviderNotificationMessage(provider.o2_user.mobile, {
           id: o2Requirement.id,
           pin_code: o2Requirement.pin_code,
           city: o2Requirement.city,
         });
-        await persistO2Service(o2Requirement, provider);
+        let status = '';
+        if (ymResponse.status === 200) {
+          status = 'REQUESTED';
+        } else {
+          status = 'SEND_FAILED';
+        }
+        await persistO2Service(o2Requirement, provider, status);
       }
     }
   }

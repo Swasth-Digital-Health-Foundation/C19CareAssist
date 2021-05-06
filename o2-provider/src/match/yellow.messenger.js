@@ -62,7 +62,8 @@ const sendProviderNotificationMessage = async (mobile, message) => {
   requestBody.body.template.components[0].parameters[1].text = message.pin_code;
   requestBody.body.template.components[0].parameters[2].text = message.city;
 
-  await ymClient('', requestBody);
+  const response = await ymClient.post('', requestBody);
+  return response;
 };
 
 const sendNoProviderFoundMessage = async (mobile, message) => {};
@@ -91,7 +92,8 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
   requestBody.body.to = `91${mobile}`;
   requestBody.body.hsm.localizable_params[0].default = message.providerDetails;
 
-  await ymClient('', requestBody);
+  const response = await ymClient.post('', requestBody);
+  return response;
 };
 
 module.exports = {
