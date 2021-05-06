@@ -70,7 +70,7 @@ const fetchPincodeBasedCityMatchingProviders = async (location, iteration) => {
     }
   `;
   let { pin_code } = location;
-  pin_code = `${pin_code.substr(0, 2)}%`;
+  pin_code = `${pin_code.substr(0, 3)}%`;
   const variable = {
     find_pin: pin_code,
   };
