@@ -39,7 +39,7 @@ const persistO2Service = async (o2Requirement, o2Provider) => {
 };
 
 const processO2Requirement = async (o2Requirement) => {
-  o2Requirement.iteration  = 0;
+  o2Requirement.iteration = 0;
   let iteration = o2Requirement.iteration
   if (iteration > maxIterations) {
     o2Requirement.active = false;
@@ -87,6 +87,7 @@ const processO2Service = async (o2Service) => {
           }
         }
         o2_requirement {
+          active
           o2_user {
             mobile
           }
@@ -99,14 +100,19 @@ const processO2Service = async (o2Service) => {
   };
   const response = await callHasura(query, variable, 'getO2Service');
   const service = response.data.o2_service[0];
-  const decryptedService = await decryptObject(service);
-  const providerDetails = `Supplier Name: ${decryptedService.o2_provider.o2_user.name}\nMobile: ${decryptedService.o2_provider.o2_user.mobile}`;
-  const message = {
-    providerDetails,
-  };
-  await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message);
+  const requirementStatus = service.o2_requirement.status;
+  if (requirementStatus) {
+    service.o2_requirement.status = undefined;
+    const decryptedService = await decryptObject(service);
+    const providerDetails = `Supplier Name: ${decryptedService.o2_provider.o2_user.name}\nMobile: ${decryptedService.o2_provider.o2_user.mobile}`;
+    const message = {
+      providerDetails,
+    };
+    await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message);
+  } else {
+    logger.info('Requirement has expired');
+  }
 };
-
 
 const processO2RequirementReplies = async (o2Requirement) => {
   const replies = o2Requirement.o2_service;
