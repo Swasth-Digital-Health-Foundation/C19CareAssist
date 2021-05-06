@@ -94,19 +94,21 @@ class TriageService {
         }
       };
 
-      const userData = await this.getTriageDetailsForPerson(person);
+      let userData = await this.getTriageDetailsForPerson(person);
 
       if (!userData || !userData.length) {
         return;
       }
 
-      const c19_vitals = JSON.parse(JSON.stringify(userData[0].c19_vitals));
+      userData = userData[0];
+
+      const c19_vitals = JSON.parse(JSON.stringify(userData.c19_vitals));
       c19_vitals.forEach(vital => {
         vital.created_date = new Date(vital.created_at).toDateString();
         vital.created_time = new Date(vital.created_at).toLocaleTimeString()
       });
 
-      let hasComorbities, hasSymptoms, createdAt;
+      let hasComorbities = hasSymptoms = createdAt = 'NA';
       if (userData.c19_triage) {
         hasComorbities = userData.c19_triage.comorbidities == 'true' ? 'Yes' : 'No';
         hasSymptoms = userData.c19_triage.symptoms == 'true' ? 'Yes' : 'No';
