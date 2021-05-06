@@ -23,7 +23,7 @@ let messages = {
   },
   vitalsBreathing: {
     prompt: {
-      en_IN: 'What is your breating rate?',
+      en_IN: 'What is your breathing rate?',
       hi_IN: 'आपकी सांस लेने की दर क्या है?'
     }
   },
