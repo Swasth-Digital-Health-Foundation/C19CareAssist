@@ -121,6 +121,15 @@ const selfCareFlow = {
                 target: 'error'
               },
               {
+                cond: (context) => context.intention == 'bad',
+                actions: assign((context, event) => {
+                  let message = dialog.get_message(messages.vitalsSpo2Bad, context.user.locale);
+                  message = message.replace('{{name}}', context.slots.vitals.person.first_name);
+                  dialog.sendMessage(context, message);
+                }),
+                target: '#addVitals'
+              },
+              {
                 target: '#vitalsPulse'
               },
             ]
