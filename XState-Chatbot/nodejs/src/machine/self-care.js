@@ -69,7 +69,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
             }),
             always: [
               {
@@ -112,7 +112,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
               context.slots.vitals.spo2 = context.intention
             }),
             always: [
@@ -232,7 +232,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
               context.slots.vitals.spo2 = context.intention
             }),
             always: [
@@ -278,7 +278,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
               context.slots.vitals.temperature = context.intention
             }),
             always: [
@@ -384,7 +384,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
             }),
             always: [
               {
@@ -495,7 +495,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
             }),
             always: [
               {
@@ -536,7 +536,7 @@ const selfCareFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.intention = dialog.get_intention(context.grammer, event);
+              context.intention = dialog.get_intention(context.grammer, event, true);
             }),
             always: [
               {
