@@ -76,28 +76,34 @@ function sendMessage(context, message, immediate = true) {
 let global_messages = {
   error: {
     optionsRetry: {
-      en_IN: 'I am sorry, I didn\'t understand. Please select from the options given again.'
+      en_IN: 'I am sorry, I didn\'t understand. Please select from the options given again.',
+      hi_IN: 'मुझे क्षमा करें, मुझे समझ नहीं आया। कृपया फिर से दिए गए विकल्पों में से चयन करें।',
+      ta_IN: 'மன்னிக்கவும், எனக்கு புரியவில்லை. மீண்டும் கொடுக்கப்பட்ட விருப்பங்களிலிருந்து தேர்ந்தெடுக்கவும்.'
     },
     retry: {
       en_IN: 'I am sorry, I didn\'t understand. Let\'s try again.',
-      hi_IN: 'मुझे क्षमा करें, मुझे समझ नहीं आया। फिर से कोशिश करें।'
+      hi_IN: 'मुझे क्षमा करें, मुझे समझ नहीं आया। फिर से कोशिश करें।',
+      ta_IN: 'மன்னிக்கவும், எனக்கு புரியவில்லை. மீண்டும் முயற்சிப்போம்.'
     },
     proceeding: {
       en_IN: 'I am sorry, I didn\'t understand. But proceeding nonetheless',
-      hi_IN: 'मुझे क्षमा करें, मुझे समझ नहीं आया। फिर भी आगे बढ़ें।'
+      hi_IN: 'मुझे क्षमा करें, मुझे समझ नहीं आया। फिर भी आगे बढ़ें।',
+      ta_IN: 'மன்னிக்கவும், எனக்கு புரியவில்லை. ஆனாலும் தொடர்கிறது'
     }
   },
   system_error: {
     en_IN: 'I am sorry, our system has a problem and I cannot fulfill your request right now. Could you try again in a few minutes please?',
-    hi_IN: 'हमारे सिस्टम में एक समस्या है। मैं अभी तुम्हारी मदद नहीं कर सकता, क्या आप कुछ मिनटों में फिर से कोशिश कर सकते हैं?'
+    hi_IN: 'हमारे सिस्टम में एक समस्या है। मैं अभी तुम्हारी मदद नहीं कर सकता, क्या आप कुछ मिनटों में फिर से कोशिश कर सकते हैं?',
+    ta_IN: 'மன்னிக்கவும், எங்கள் கணினிக்கு ஒரு சிக்கல் உள்ளது, இப்போது உங்கள் கோரிக்கையை என்னால் நிறைவேற்ற முடியாது. தயவுசெய்து சில நிமிடங்களில் மீண்டும் முயற்சிக்க முடியுமா?'
   },
   [INTENTION_MORE]: {
     en_IN : "See more ...",
-    hi_IN : "और देखें ..."
+    hi_IN : "और देखें ...",
+    ta_IN: 'மேலும் பார்க்க...'
   },
   [INTENTION_GOBACK]: {
     en_IN : 'To go back ...',
-    hi_IN : 'पीछे जाना ...'
+    hi_IN : 'திரும்பிச்செல்ல ...'
   },
 }
 

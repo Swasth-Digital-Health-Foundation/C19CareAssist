@@ -8,7 +8,7 @@ let messages = {
     error: {
       en_IN: 'I am sorry, I didn\'t understand. Please enter a valid name which is less than 100 characters.',
       hi_IN: 'माफ करें, मुझे समझ में नहीं आया।   नीचे दिए गए विकल्पों में से चुनें।',
-      ta_IN: 'என்னை மன்னித்து விடுங்கள். எனக்கு புரியவில்லை. தயவுசெய்து சரியான பெயரை கொடுங்கள்'
+      ta_IN: 'மன்னிக்கவும், எனக்குப் புரியவில்லை. தயவு செய்து 100 கேரக்டர்களுக்குள் பயரை பதிவிடவும்.'
     }
   },
   personAge: {

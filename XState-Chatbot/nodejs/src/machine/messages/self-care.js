@@ -1,7 +1,8 @@
 let messages = {
   noUserFound: {
     en_IN: 'No patients found against your mobile number.',
-    hi_IN: 'इस मोबाइल नंबर से जुड़ा कोई मरीज नहीं मिला।'
+    hi_IN: 'इस मोबाइल नंबर से जुड़ा कोई मरीज नहीं मिला।',
+    ta_IN: 'உங்களது மொபைல் எண்ணுக்கு நோயாளிகள் இல்லை'
   },
   selectPerson: {
     prompt: {

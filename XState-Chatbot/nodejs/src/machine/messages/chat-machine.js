@@ -32,8 +32,7 @@ let messages = {
       postscript: {
         en_IN: '\n\nYou can always get back to the main menu by sending "Reset".\n\nBy continuing to use our chat facility, you agree to our Terms & Conditions of use https://www.swasth.app/swasth_terms_wb.pdf',
         hi_IN: '\n\n "Reset " टाइप करके भेजने पर आप मेन मेनू पर वापस आ सकते हैं \n\nहमारे चैट सुविधा का उपयोग करके आप हमारे नियमों और उपयोग के शर्तों का पालन करने के लिए सहमति दे रहे हैं https://www.swasth.app/swasth_terms_wb.pdf',
-        //TODO: Reset message missing in here
-        ta_IN: '\n\nஎங்கள் சாட் பாக்ஸ் வசதியைத் தொடர்ந்து பயன்படுத்துவதன் மூலம், எங்கள் பயன்பாட்டு விதிமுறைகள் மற்றும் நிபந்தனைகளை நீங்கள் ஒப்புக்கொள்கிறீர்கள் https://www.swasth.app/swasth_terms_wb.pdf'
+        ta_IN: '\n\n"Reset" செய்து எந்த நேரத்திலும் நீங்கள் மெயின் மெனுவுக்குப் போகலாம் \n\nஎங்கள் சாட் பாக்ஸ் வசதியைத் தொடர்ந்து பயன்படுத்துவதன் மூலம், எங்கள் பயன்பாட்டு விதிமுறைகள் மற்றும் நிபந்தனைகளை நீங்கள் ஒப்புக்கொள்கிறீர்கள் https://www.swasth.app/swasth_terms_wb.pdf'
       },
       options: {
         newUser: [ 'worried', 'info' ],
@@ -153,7 +152,8 @@ let messages = {
   },
   endstate: {
     en_IN: 'Goodbye. Say hi to start another conversation',
-    hi_IN: 'अलविदा!  बातचीत फिर शुरू करने के लिए "hi" टाइप करके भेजें'
+    hi_IN: 'अलविदा!  बातचीत फिर शुरू करने के लिए "hi" टाइप करके भेजें',
+    ta_IN: 'குட்பை.. மற்றொரு உரையாடலை தொடங்க ஹாய் சொல்லவும்'
   }
 }
 
