@@ -63,7 +63,7 @@ const chatStateMachine = Machine({
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -111,7 +111,7 @@ const chatStateMachine = Machine({
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -157,7 +157,7 @@ const chatStateMachine = Machine({
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -209,7 +209,7 @@ const chatStateMachine = Machine({
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {

@@ -114,7 +114,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -168,7 +168,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -217,7 +217,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -255,7 +255,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -322,7 +322,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -402,7 +402,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -468,7 +468,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
@@ -524,7 +524,7 @@ const triageFlow = {
         },
         process: {
           onEntry: assign((context, event) => {
-            context.intention = dialog.get_intention(context.grammer, event);
+            context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
             {
