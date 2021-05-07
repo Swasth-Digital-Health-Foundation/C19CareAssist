@@ -361,7 +361,13 @@ const triageFlow = {
       }),
       always: [
         {
-          cond: (context) => (context.slots.triage.symptoms || context.slots.triage.rtpcr == 'positive'),
+          cond: (context) => {
+            const conclusion = context.slots.triage.conclusion;
+            if (conclusion == 'symptomComorbidConsultDoctorEnd' || conclusion == 'testComorbidConsultDoctorEnd' || conclusion == 'precautionEnd' || conclusion == 'precautionEnd' || conclusion == 'noCovidEnd') {
+              return false;
+            }
+            return true;
+          },
           target: '#subscribe'
         },
         {
