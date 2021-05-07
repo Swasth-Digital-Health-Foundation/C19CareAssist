@@ -138,7 +138,7 @@ class TriageService {
       const document = {
         html: html,
         data: variables,
-        path: path.resolve(__dirname, `../../${filePath}`),
+        path: path.resolve(__dirname, `../../../${filePath}`),
         type: "pdf",
       };
 
