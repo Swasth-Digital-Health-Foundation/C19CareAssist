@@ -371,7 +371,7 @@ const triageFlow = {
             message = message.replace('{{name}}', context.slots.triage.person.first_name);
             dialog.sendMessage(context, message);
 
-            if (context.slots.triage.conclusion == 'noCovidEnd' && context.user.locale != 'ta_IN') {
+            if (context.slots.triage.conclusion == 'noCovidEnd' && (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN')) {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/home_isolation_todo`, 'jpeg', context.user.locale);
               dialog.sendMessage(context, mediaMessage, false);
             }
@@ -386,7 +386,7 @@ const triageFlow = {
       states: {
         prompt: {
           onEntry: assign((context, event) => {
-            if (context.user.locale != 'ta_IN') {
+            if (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN') {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/pulse_oximeter`, 'jpeg', context.user.locale);
               dialog.sendMessage(context, mediaMessage, false);
             }
@@ -517,7 +517,7 @@ const triageFlow = {
             context.grammer = grammer;
             dialog.sendMessage(context, message);
 
-            if (context.user.locale != 'ta_IN') {
+            if (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN') {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/ways_to_use_chat_bot`, 'jpeg', context.user.locale);
               dialog.sendMessage(context, mediaMessage, false);
             }
