@@ -46,10 +46,10 @@ let messages = {
     },
   },
   vitalsSpo2Bad: {
-    en_IN: '*{{name}}, your current oxygen level  is  well  below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here https://life.coronasafe.network',
-    hi_IN: '*{{name}}, आपका वर्तमान ऑक्सीजन स्तर सामान्य मूल्य से नीचे है। कृपया तुरंत डॉक्टर से सलाह लें!* \nCOVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहां उपलब्ध है https://life.coronasafe.network',
-    ta_IN: '*{{name}}.. உங்கள் தற்போதைய ஆக்ஸிஜன் அளவு சாதாரண மதிப்பை விட குறைவாக உள்ளது. தயவுசெய்து உடனே மருத்துவரை அணுகவும்.*\n கொரோனா தொடர்பான தகவல் மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் https://life.coronasafe.network என்ற இந்த லிங்கில் காணலாம்',
-    ma_IN: '&{{name}}, तुमची सध्याची ऑक्सिजन पातळी सामान्य मूल्यापेक्षा खाली आहे. कृपया त्वरित डॉक्टरांचा सल्ला घ्या!*\nकोविड -१९  आणि जवळील काळजी-सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. https://life.coronasafe.network',
+    en_IN: '*{{name}}, your current oxygen level  is  well  below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
+    hi_IN: '*{{name}}, आपका वर्तमान ऑक्सीजन स्तर सामान्य मूल्य से नीचे है। कृपया तुरंत डॉक्टर से सलाह लें!* \nCOVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहां उपलब्ध है www.liferesources.in',
+    ta_IN: '*{{name}}.. உங்கள் தற்போதைய ஆக்ஸிஜன் அளவு சாதாரண மதிப்பை விட குறைவாக உள்ளது. தயவுசெய்து உடனே மருத்துவரை அணுகவும்.*\n கொரோனா தொடர்பான தகவல் மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் www.liferesources.in என்ற இந்த லிங்கில் காணலாம்',
+    ma_IN: '&{{name}}, तुमची सध्याची ऑक्सिजन पातळी सामान्य मूल्यापेक्षा खाली आहे. कृपया त्वरित डॉक्टरांचा सल्ला घ्या!*\nकोविड -१९  आणि जवळील काळजी-सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. www.liferesources.in',
   },
   vitalsSpo2Walk: {
     prompt: {
@@ -78,9 +78,9 @@ let messages = {
     ma_IN: 'आपल्या तब्यतीची  नोंद केली गेली आहे. ताप नाही! आपले एसपीओ२  आणि आपले तापमान दोन्ही सामान्य आहेत! चला तसाच ठेवा. आपण कसे अनुभवत आहात हे पहाण्यासाठी मी काही तासांत पुन्हा पुन्हा आपल्याकडे भेट घेईन!',
   },
   temperatureBad: {
-    en_IN: 'Your vitals have been recorded. *Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling.\n\n More information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network',
-    hi_IN: 'आपके वाइटल्स रिकॉर्ड किए गए हैं। लगता है, आपको बुखार है। तापमान को वापस लाने के लिए आपको दवा लेने की आवश्यकता होगी। कृपया अपने डॉक्टर से संपर्क करें और हम आपको कुछ घंटों में फिर से देखेंगे कि आप कैसा महसूस कर रहे हैं। \n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहाँ उपलब्ध है https://life.coronasafe.network',
-    ta_IN: 'உங்கள் உயிரணுக்கள் பதிவு செய்யப்பட்டுள்ளன. உங்களுக்கு காய்ச்சல் இருப்பது போல் தெரிகிறது. வெப்பநிலையை மீண்டும் குறைக்க நீங்கள் மருந்து எடுக்க வேண்டும். உங்கள் மருத்துவரை தொடர்பு கொள்ளவும் \nநீங்கள் எப்படி உணருகிறீர்கள்? என்பதை அறிய சில மணிநேரங்கள் கழித்து உங்களை மீண்டும் சரிபார்க்கிறேன். \nகொரோனா தொடர்பான மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் இதில் கிடைக்கின்றன https://life.coronasafe.network',
+    en_IN: 'Your vitals have been recorded. *Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling.\n\n More information regarding COVID-19 and nearby care facilities is available here www.liferesources.in',
+    hi_IN: 'आपके वाइटल्स रिकॉर्ड किए गए हैं। लगता है, आपको बुखार है। तापमान को वापस लाने के लिए आपको दवा लेने की आवश्यकता होगी। कृपया अपने डॉक्टर से संपर्क करें और हम आपको कुछ घंटों में फिर से देखेंगे कि आप कैसा महसूस कर रहे हैं। \n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहाँ उपलब्ध है www.liferesources.in',
+    ta_IN: 'உங்கள் உயிரணுக்கள் பதிவு செய்யப்பட்டுள்ளன. உங்களுக்கு காய்ச்சல் இருப்பது போல் தெரிகிறது. வெப்பநிலையை மீண்டும் குறைக்க நீங்கள் மருந்து எடுக்க வேண்டும். உங்கள் மருத்துவரை தொடர்பு கொள்ளவும் \nநீங்கள் எப்படி உணருகிறீர்கள்? என்பதை அறிய சில மணிநேரங்கள் கழித்து உங்களை மீண்டும் சரிபார்க்கிறேன். \nகொரோனா தொடர்பான மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் இதில் கிடைக்கின்றன www.liferesources.in',
     ma_IN: 'आपल्या तब्यतीची नोंद केली गेली आहे. आपल्याला ताप आहे असे दिसते. तापमान खाली आणण्यासाठी आपल्याला औषधे घेणे आवश्यक आहे. कृपया आपल्या डॉक्टरांशी संपर्क साधा आणि\nआपण कसे अनुभवत आहात हे पहाण्यासाठी मी काही तासांत पुन्हा पुन्हा आपल्याकडे भेट घेईन.',
   },
   exitProgram: {
@@ -109,10 +109,10 @@ let messages = {
       },
     },
     unsubscribedSuccessfully: {
-      en_IN: 'I have removed you from the program now. You can always come and join the program again and please do remember to contact me for any concerns.\n\nMore information regarding COVID-19 and nearby care facilities is available here https://life.coronasafe.network/',
-      hi_IN: 'मैंने आपकी सदस्यता अब समाप्त कर दी है। आप कभी भी दोबारा आकर फिर से इस कार्यक्रम से जुड़ सकते हैं और किसी भी जानकारी के लिए मुझसे संपर्क अवश्य करें । COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं  https://life.coronasafe.network',
-      ta_IN: ' உங்களை நான் இந்த நிகழ்விலிருந்து தற்போது நீக்கவிட்டேன். நீங்கள் எப்போது வேண்டுமானாலும் வந்து இந்த நிகழ்வில் மீண்டும் இணையலாம். மேலும் விவரங்களுக்கு என்னை தொடர்பு கொள்ள தயவு செய்து மறந்துவிடாதீர்கள். கொரோனா குறித்த மேலும் விவரங்களை அறிய அருகில் உள்ள கொரோனா சிகிச்சை மையங்களின் பட்டியல் இங்கே கொடுக்கப்பட்டுள்ளன. https://life.coronasafe.network',
-      ma_IN: 'मी तुम्हाला आता कार्यक्रमातून काढून टाकले आहे. आपण नेहमीच परत येऊ शकता आणि प्रोग्राममध्ये पुन्हा सामील होऊ शकता आणि कृपया काळजीपूर्वक माझ्याशी संपर्क साधावा.\nकोविड -१९  आणि जवळील सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. https://life.coronasafe.network',
+      en_IN: 'I have removed you from the program now. You can always come and join the program again and please do remember to contact me for any concerns.\n\nMore information regarding COVID-19 and nearby care facilities is available here www.liferesources.in/',
+      hi_IN: 'मैंने आपकी सदस्यता अब समाप्त कर दी है। आप कभी भी दोबारा आकर फिर से इस कार्यक्रम से जुड़ सकते हैं और किसी भी जानकारी के लिए मुझसे संपर्क अवश्य करें । COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं  www.liferesources.in',
+      ta_IN: ' உங்களை நான் இந்த நிகழ்விலிருந்து தற்போது நீக்கவிட்டேன். நீங்கள் எப்போது வேண்டுமானாலும் வந்து இந்த நிகழ்வில் மீண்டும் இணையலாம். மேலும் விவரங்களுக்கு என்னை தொடர்பு கொள்ள தயவு செய்து மறந்துவிடாதீர்கள். கொரோனா குறித்த மேலும் விவரங்களை அறிய அருகில் உள்ள கொரோனா சிகிச்சை மையங்களின் பட்டியல் இங்கே கொடுக்கப்பட்டுள்ளன. www.liferesources.in',
+      ma_IN: 'मी तुम्हाला आता कार्यक्रमातून काढून टाकले आहे. आपण नेहमीच परत येऊ शकता आणि प्रोग्राममध्ये पुन्हा सामील होऊ शकता आणि कृपया काळजीपूर्वक माझ्याशी संपर्क साधावा.\nकोविड -१९  आणि जवळील सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. www.liferesources.in',
     },
   },
 };
