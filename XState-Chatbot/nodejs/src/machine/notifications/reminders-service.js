@@ -75,6 +75,7 @@ class RemindersService {
           console.log('Reminder sent');
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
+        console.log('Message sent to ' + people.length + ' mobile numbers');
     }
 
     getTime() {
