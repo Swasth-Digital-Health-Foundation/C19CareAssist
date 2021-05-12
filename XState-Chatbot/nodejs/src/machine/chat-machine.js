@@ -94,10 +94,11 @@ const chatStateMachine = Machine({
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.menu.prompt.preamble, context.user.locale);
             let options;
-            if(context.persons.length == 0) {
-              options = messages.menu.prompt.options.newUser;
-            } else {
+            const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+            if(subscribedPatients && subscribedPatients.length) {
               options = messages.menu.prompt.options.subscribedUser;
+            } else {
+              options = messages.menu.prompt.options.newUser;
             }
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, messages.menu.prompt.options.messageBundle, context.user.locale);
             context.grammer = grammer;
