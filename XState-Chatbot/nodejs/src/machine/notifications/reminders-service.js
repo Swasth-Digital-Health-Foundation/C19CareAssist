@@ -20,6 +20,7 @@ class RemindersService {
 
       console.log('Sending reminders to people');
       this.sendMessages(people, time);
+      console.log('Reminders execution end');
     }
 
     async getSubscribedPeople() {
@@ -71,7 +72,7 @@ class RemindersService {
           const message = dialog.get_message(messages[time], chatState.context.user.locale);
 
           person.mobileNumber = person.mobile;
-          console.log('Reminder sent to: ', person.mobileNumber);
+          console.log('Reminder sent');
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
     }
