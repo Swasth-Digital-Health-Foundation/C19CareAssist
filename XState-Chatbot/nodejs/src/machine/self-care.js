@@ -19,6 +19,9 @@ const selfCareFlow = {
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
+              actions: assign((context, event) => {
+                context.persons = event.data;
+              }),
               target: '#noUserFound'
             },
             {
@@ -340,6 +343,8 @@ const selfCareFlow = {
       reportFetchPersons: {
         invoke: {
           src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
+          // TODO: Need to update this: do no include people who have not completed traige flow
+          // src: (context) => personService.getPeople(context.user.mobileNumber),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
@@ -592,9 +597,7 @@ const selfCareFlow = {
         id: 'unsubscribePerson',
         invoke: {
           src: (context) => {
-            let person = {};
-            if (context.slots.exitProgram.person === undefined)
-              person = context.slots.vitals.person
+            let person = context.slots.exitProgram.person;
             return triageService.exitProgram(person, context.slots.exitProgram)
           },
           onDone: {

@@ -26,30 +26,38 @@ const triageFlow = {
           }
         },
         process: {
-          onEntry: assign((context, event) => {
-            let message = dialog.get_input(event, false);
-            if (event.message.type == 'text' && message.length < 100 && /^[ A-Za-z]+$/.test(message.trim())) {
-              context.slots.triage.person.first_name = message
-              context.validMessage = true;
-            } else {
-              context.validMessage = false;
-            }
-          }),
-          always: [
-            {
-              cond: (context) => context.validMessage,
-              target: '#personAge'
-            },
-            {
-              target: 'error'
-            }
-          ]
+          invoke: {
+            src: (context, event) => personService.validateName(context, event),
+            onDone: [
+              {
+                cond: (context, event) => event.data == 'invalid',
+                actions: assign((context, event) => {
+                  dialog.sendMessage(context, dialog.get_message(messages.personName.error, context.user.locale));
+                }),
+                target: 'waitForUserInput'
+              },
+              {
+                cond: (context, event) => event.data == 'duplicate',
+                actions: assign((context, event) => {
+                  dialog.sendMessage(context, dialog.get_message(messages.personName.duplicateError, context.user.locale));
+                }),
+                target: 'waitForUserInput'
+              },
+              {
+                cond: (context, event) => event.data,
+                actions: assign((context, event) => {
+                  context.slots.triage.person.first_name = event.data;
+                }),
+                target: '#personAge'
+              },
+            ]
+          },
+          // 2
         },
-        error: {
-          onEntry: assign((context, event) => {
-            dialog.sendMessage(context, dialog.get_message(messages.personName.error, context.user.locale), false);
-          }),
-          always: 'prompt'
+        waitForUserInput: {
+          on: {
+            USER_MESSAGE: 'process'
+          }
         }
       }
     }, // personName
@@ -373,7 +381,7 @@ const triageFlow = {
 
             if (context.slots.triage.conclusion == 'noCovidEnd' && (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN')) {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/home_isolation_todo`, 'jpeg', context.user.locale);
-              dialog.sendMessage(context, mediaMessage, false);
+              dialog.sendMessage(context, mediaMessage);
             }
           }),
           target: '#upsertTriageDetails'
@@ -388,7 +396,7 @@ const triageFlow = {
           onEntry: assign((context, event) => {
             if (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN') {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/pulse_oximeter`, 'jpeg', context.user.locale);
-              dialog.sendMessage(context, mediaMessage, false);
+              dialog.sendMessage(context, mediaMessage);
             }
 
             let message = dialog.get_message(messages.triageSpo2.prompt.preamble, context.user.locale);
@@ -519,7 +527,7 @@ const triageFlow = {
 
             if (context.user.locale == 'en_IN' || context.user.locale == 'hi_IN') {
               const mediaMessage = mediaUtil.createMediaMessage(`${config.staticMediaPath}/ways_to_use_chat_bot`, 'jpeg', context.user.locale);
-              dialog.sendMessage(context, mediaMessage, false);
+              dialog.sendMessage(context, mediaMessage);
             }
           }),
           on: {
