@@ -11,12 +11,14 @@ const repoProvider = require('../../session/repo');
 class RemindersService {
 
     async triggerReminders(time=null) {
+      console.log('Cron job initiated at time: ', time);
       const people = await this.getSubscribedPeople();
 
       if (!time) {
         time = this.getTime();
       }
 
+      console.log('Sending reminders to people');
       this.sendMessages(people, time);
     }
 
@@ -69,6 +71,7 @@ class RemindersService {
           const message = dialog.get_message(messages[time], chatState.context.user.locale);
 
           person.mobileNumber = person.mobile;
+          console.log('Reminder sent to: ', person.mobileNumber);
           channelProvider.sendMessageToUser(person,[message],extraInfo)
         });
     }
