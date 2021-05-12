@@ -16,6 +16,15 @@ let messages = {
       kn_IN: 'ಕ್ಷಮಿಸಿ, ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ, 100 ಅಕ್ಷರದೊಳಗಿನ ಮಾನ್ಯತೆಯುಳ್ಳ ಹೆಸರನ್ನು ನಮೂದಿಸಿ',
       te_IN: 'క్షమించండి. అర్థంకాలేదు. 100 అక్షరాలలోపు చెల్లుబాటులో ఉండే పేరు ఎంటర్ చేయండి',
     },
+    duplicateError: {
+      en_IN: "Patient already subscribed, please add a different name",
+      // TODO: Translated by google, get original
+      hi_IN: 'रोगी पहले से ही सदस्यता ले चुका है, कृपया कोई दूसरा नाम जोड़ें',
+      ta_IN: 'நோயாளி ஏற்கனவே சந்தா செலுத்தியுள்ளார், தயவுசெய்து வேறு பெயரைச் சேர்க்கவும்',
+      ma_IN: 'रूग्ण आधीच सदस्यता घेतलेले आहे, कृपया एक वेगळे नाव जोडा',
+      kn_IN: 'ಕರೋಗಿಯು ಈಗಾಗಲೇ ಚಂದಾದಾರರಾಗಿದ್ದಾರೆ, ದಯವಿಟ್ಟು ಬೇರೆ ಹೆಸರನ್ನು ಸೇರಿಸಿ',
+      te_IN: 'రోగి ఇప్పటికే సభ్యత్వాన్ని పొందారు, దయచేసి వేరే పేరును జోడించండి',
+    }
   },
   personAge: {
     prompt: {
@@ -158,7 +167,7 @@ let messages = {
       te_IN: '*{{name}} ఎక్కువగా కనిపిస్తున్నాయి. పై లక్షణాలు ఒకటి లేదా అంతకంటే ఎక్కువగా కనిపించినట్లయితే వెంటనే వైద్యుడిని సంప్రదించి చికిత్సను ప్రారంభించండి* \nకింది లక్షణాలు మీరు గమనించినట్లయితే.. వెంటనే హాస్పిటల్‌లోని ఎమర్జెన్సీ వార్డుకు వెళ్లండి\n- శ్వాస తీసుకోవడంలో ఇబ్బందులు\n- గుండెపై నొప్పి కానీ ఒత్తిడి కానీ ఉందా\n- పెదవులు, ముఖము నీలం రంగులోకి మారుతోందా\n- గందరగోళం/ మత్తుగా ఉందా\n- తినడం/ ద్రవ పదార్థాలు తీసుకోలేకపోవడం/ నడవం వంటి ఇబ్బందులున్నాయా \n\nమంచి ఆరోగ్యం కోసం ఈ కింది టిప్స్ పాటించండి\n- నోరు  ముక్కు కప్పి ఉంచేలా N95 మాస్కు ధరించండి\n- సబ్బుతో తరుచూ చేతులు శుభ్రం చేసుకోండి\n- రోజుకు 7 నుంచి 8 గంటల పాటు నిద్రకు ఉపక్రమించిండి\n- ద్రవ పదార్థాలు ఎక్కువగా తీసుకోండి\n- మద్యం/స్మోకింగ్ చేయరాదు\n- వ్యాయామం. యోగా, ధ్యానం చేయండి \nకోవిడ్-19 సమాచారం ఇతర ఫెసిలిటీ కేంద్రాల కోసం ఇక్కడ క్లిక్ చేయండి https://life.coronasafe.network',
     },
     noCovidEnd: {
-      en_IN: '*{{name}}, based on your responses, it is less likely that you are suffering from COVID-19.* I suggest following these simple tips to stay healthy!\n- Wear an N95 mask covering both mouth and nose\n- Sleep for 7-8 hrs a day\n- Drink fluids to stay hydrated.\n- Avoid alcohol and smoking.\n5. Practise yoga and meditate.\n\nMore information regarding COVID-19 and nearby care facilities is available here  www.liferesources.in',
+      en_IN: '*{{name}}, based on your responses, it is less likely that you are suffering from COVID-19.* I suggest following these simple tips to stay healthy!\n- Wear an N95 mask covering both mouth and nose\n- Sleep for 7-8 hrs a day\n- Drink fluids to stay hydrated.\n- Avoid alcohol and smoking.\n- Practise yoga and meditate.\n\nMore information regarding COVID-19 and nearby care facilities is available here  www.liferesources.in',
       hi_IN: '*{{name}}, आपके जवाबों से लगता नहीं है की आपको COVID-19 है स्वस्थ रहने के लिए इन सुझावों का पालन करें!* \n- N95 मास्क पहनें जो मुंह और नाक दोनों को कवर करे \n- दिन में 7-8 घंटे की नींद लें \n- तरल पदार्थों का सेवन करें \n- शराब और धूम्रपान छोड़ दें \n- योग और ध्यान करें \n\n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहां उपलब्ध है www.liferesources.in',
       ta_IN: '*{{name}}, உங்கள் பதில்களின் அடிப்படையில், நீங்கள் கோவிட் -19 நோயால் பாதிக்கப்படுவது குறைவு.* ஆரோக்கியமாக இருக்க இந்த எளிய உதவிக்குறிப்புகளைப் பின்பற்ற பரிந்துரைக்கிறேன்! \n வாய் மற்றும் மூக்கு இரண்டையும் உள்ளடக்கிய N95 முகக் கவசத்தை அணியுங்கள் ஒரு நாளைக்கு 7-8 மணி நேரம் தூங்குங்கள் வறட்சியை தடுக்க திரவங்களாக குடிக்கவும் மது மற்றும் புகைப்பதைத் தவிர்க்கவும் யோகா பயிற்சி மற்றும் தியானம் மேற்கொள்ளவும் \n\nCOVID-19 மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் இங்கே கிடைக்கின்றன www.liferesources.in',
       ma_IN: '*{{name}}, तुमच्या प्रतिसादावर आधारित, तुम्ही कोविड -१९   पासून पीडित असण्याची शक्यता कमी आहे.* \n- मी निरोगी राहण्यासाठी या सोप्या सूचनांचे अनुसरण करण्यास सुचवितो!\n- तोंड आणि नाक दोन्ही झाकून एन 95 चा मुखवटा घाला\n- ७  दिवसा ७ - ८  तास झोप\n- हायड्रेटेड राहण्यासाठी द्रव प्या\n- दारू आणि धूम्रपान टाळा\n- योगाचा सराव करा आणि ध्यान करा\nयोगाचा सराव करा आणि ध्यान करा (अधिक जाणून घेण्यासाठी येथे क्लिक करा: https://www.youtube.com/watch?v=TRxmzpg8Xfg\nhttps://www.youtube.com/watch?v=fXpnPYuswtI ',

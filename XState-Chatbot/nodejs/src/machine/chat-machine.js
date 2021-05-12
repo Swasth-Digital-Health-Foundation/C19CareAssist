@@ -94,10 +94,11 @@ const chatStateMachine = Machine({
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.menu.prompt.preamble, context.user.locale);
             let options;
-            if(context.persons.length == 0) {
-              options = messages.menu.prompt.options.newUser;
-            } else {
+            const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+            if(subscribedPatients && subscribedPatients.length) {
               options = messages.menu.prompt.options.subscribedUser;
+            } else {
+              options = messages.menu.prompt.options.newUser;
             }
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, messages.menu.prompt.options.messageBundle, context.user.locale);
             context.grammer = grammer;
@@ -189,12 +190,13 @@ const chatStateMachine = Machine({
             let message = dialog.get_message(messages.selfCareMenu.prompt.preamble, context.user.locale);
 
             let options, bundle;
-            if (context.persons && context.persons.length > 0) {
-              options = messages.selfCareMenu.prompt.options.newUser.list;
-              bundle = messages.selfCareMenu.prompt.options.newUser.messageBundle;
+            const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+            if (subscribedPatients && subscribedPatients.length) {
+              options = messages.selfCareMenu.prompt.options.hasLivePatients.list;
+              bundle = messages.selfCareMenu.prompt.options.hasLivePatients.messageBundle;
             } else {
-              options = messages.selfCareMenu.prompt.options.enrolledUser.list;
-              bundle = messages.selfCareMenu.prompt.options.enrolledUser.messageBundle;
+              options = messages.selfCareMenu.prompt.options.noLivePatients.list;
+              bundle = messages.selfCareMenu.prompt.options.noLivePatients.messageBundle;
             }
 
 

@@ -136,7 +136,7 @@ let messages = {
         te_IN: 'మీరెలా ముందుకెళ్లాలనుకుంటున్నారు',
       },
       options: {
-        newUser: {
+        hasLivePatients: {
           list: ['addPatient', 'recordVitals', 'downloadReport', 'exitProgram'],
           messageBundle: {
             addPatient: {
@@ -173,7 +173,7 @@ let messages = {
             },
           },
         },
-        enrolledUser: {
+        noLivePatients: {
           list: ['addPatient', 'downloadReport'],
           messageBundle: {
             addPatient: {
