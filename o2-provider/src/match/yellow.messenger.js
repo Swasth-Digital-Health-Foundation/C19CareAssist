@@ -76,7 +76,8 @@ const sendExpiryNotificationToYmBot = async (mobile, message) => {
     sender: '121',
     bot: `${appConfigs.ymBotId}`,
   };
-  await ymClient.post(sendExpiryNotificationEndpoint, expiryNotifyBody);
+  const response = await ymClient.post(sendExpiryNotificationEndpoint, expiryNotifyBody);
+  return response;
 };
 
 const sendRequestExpiredMessage = async (mobile, message) => {
@@ -98,7 +99,7 @@ const sendRequestExpiredMessage = async (mobile, message) => {
 
   const response = await ymClient.post(sendMessageEndpoint, requestBody);
 
-  // await sendExpiryNotificationToYmBot(mobile, message);
+  await sendExpiryNotificationToYmBot(mobile, message);
 
   return response;
 };
@@ -128,8 +129,6 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
   const response = await ymClient.post(sendMessageEndpoint, requestBody);
   return response;
 };
-
-const 
 
 module.exports = {
   sendProviderNotificationMessage,

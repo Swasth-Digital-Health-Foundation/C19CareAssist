@@ -30,6 +30,7 @@ const o2RequirementExpire = catchAsync(async (req, res) => {
     mutation update_o2_requirement($createdAt: timestamptz!) {
       update_o2_requirement(where: {created_at: {_lt: $createdAt}, active: {_eq: true}}, _set: {active: false}) {
         returning{
+          uuid
           o2_user{
             mobile
           }
@@ -47,11 +48,12 @@ const o2RequirementExpire = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to register event');
   }
 
-  const users = response.data.update_o2_requirement.returning;
+  const data = response.data.update_o2_requirement.returning;
+  const users = data.map((x) => x.o2_user);
   const decryptedUsers = await decryptObject(users);
 
-  for(const user of decryptedUsers) {
-    await sendRequestExpiredMessage(user.o2_user.mobile);
+  for (let i = 0; i < data.length; i += 1) {
+    await sendRequestExpiredMessage(decryptedUsers[i].mobile, { search_id: data[i].uuid });
   }
 
   logger.info(`${response.data.update_o2_requirement.returning.length} entries expired`)
