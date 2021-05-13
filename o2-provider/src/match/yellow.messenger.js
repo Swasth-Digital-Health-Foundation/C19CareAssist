@@ -130,8 +130,30 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
   return response;
 };
 
+const sendContinuingSearchMessage = async (mobile) => {
+  const requestBody = {
+    body: {
+      to: `91${mobile}`,
+      ttl: 'P1D',
+      type: 'hsm',
+      hsm: {
+        namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
+        element_name: 'supplier_not_found',
+        language: {
+          policy: 'deterministic',
+          code: 'en',
+        },
+      },
+    },
+  };
+
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
+  return response;
+};
+
 module.exports = {
   sendProviderNotificationMessage,
   sendRequestExpiredMessage,
   sendAcceptedProviderDetails,
+  sendContinuingSearchMessage,
 };

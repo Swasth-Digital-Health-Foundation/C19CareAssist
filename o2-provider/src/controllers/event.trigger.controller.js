@@ -7,7 +7,7 @@ const ApiError = require('../utils/ApiError');
 const { callHasura } = require('../services/util/hasura');
 const logger = require('../config/logger');
 const { decryptObject } = require('../services/encryption.service');
-const { sendRequestExpiredMessage } = require('../match/yellow.messenger');
+const { sendRequestExpiredMessage, sendContinuingSearchMessage } = require('../match/yellow.messenger');
 
 const o2RequirementTrigger = catchAsync(async (req, res) => {
   await processO2Requirement(req.body.event.data.new)
@@ -63,8 +63,24 @@ const o2RequirementExpire = catchAsync(async (req, res) => {
 
 const o2ContinuingSearch = catchAsync(async (req, res) => {
   const query = `
-    
+    query getActiveRequirements {
+      o2_requirement(where: {active: {_eq: true}}) {
+        o2_user {
+          mobile
+        }
+      }
+    }  
   `;
+  const response = await callHasura(query, {}, 'getActiveRequirements');
+  const users = response.data.o2_requirement;
+  const decryptedUsers = await decryptObject(users);
+
+  for (let i = 0; i < decryptedUsers.length; i += 1) {
+    await sendContinuingSearchMessage(decryptedUsers[i].o2_user.mobile);
+  }
+
+  logger.info(`Continuing Search messages send for ${decryptedUsers.length} active requirements`)
+
   res.status(httpStatus.OK).send();
 });
 
