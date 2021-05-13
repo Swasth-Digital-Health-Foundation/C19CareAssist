@@ -59,8 +59,16 @@ const o2RequirementExpire = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send();
 });
 
+const o2ContinuingSearch = catchAsync(async (req, res) => {
+  const query = `
+    
+  `;
+  res.status(httpStatus.OK).send();
+});
+
 module.exports = {
   o2RequirementTrigger,
   o2ServiceTrigger,
-  o2RequirementExpire
+  o2RequirementExpire,
+  o2ContinuingSearch,
 };

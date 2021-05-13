@@ -1,4 +1,8 @@
 const ymClient = require('../config/yellow.messenger');
+const appConfigs = require('../config/config');
+
+const sendMessageEndpoint = appConfigs.ymSendMessageEndpoint.replace('{{botId}}', appConfigs.ymBotId);
+const sendExpiryNotificationEndpoint = appConfigs.ymExpiryNotificationEndpoint.replace('{{botId}}', appConfigs.ymBotId);
 
 const sendProviderNotificationMessage = async (mobile, message) => {
   const requestBody = {
@@ -58,11 +62,24 @@ const sendProviderNotificationMessage = async (mobile, message) => {
     },
   };
 
-  const response = await ymClient.post('', requestBody);
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
   return response;
 };
 
-const sendRequestExpiredMessage = async (mobile) => {
+const sendExpiryNotificationToYmBot = async (mobile, message) => {
+  const expiryNotifyBody = {
+    data: {
+      rid: `${message.search_id}`,
+      event: 'request_expired',
+      Message: 'Request Expired',
+    },
+    sender: '121',
+    bot: `${appConfigs.ymBotId}`,
+  };
+  await ymClient.post(sendExpiryNotificationEndpoint, expiryNotifyBody);
+};
+
+const sendRequestExpiredMessage = async (mobile, message) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -79,14 +96,17 @@ const sendRequestExpiredMessage = async (mobile) => {
     },
   };
 
-  const response = await ymClient.post('', requestBody);
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
+
+  // await sendExpiryNotificationToYmBot(mobile, message);
+
   return response;
 };
 
 const sendAcceptedProviderDetails = async (mobile, message) => {
   const requestBody = {
     body: {
-      to: '',
+      to: `${mobile}`,
       ttl: 'P1D',
       type: 'hsm',
       hsm: {
@@ -98,18 +118,18 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
         },
         localizable_params: [
           {
-            default: '${DEALER DETAILS}',
+            default: `${message.providerDetails}`,
           },
         ],
       },
     },
   };
-  requestBody.body.to = `91${mobile}`;
-  requestBody.body.hsm.localizable_params[0].default = message.providerDetails;
 
-  const response = await ymClient.post('', requestBody);
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
   return response;
 };
+
+const 
 
 module.exports = {
   sendProviderNotificationMessage,
