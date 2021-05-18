@@ -10,9 +10,9 @@ const envVariables = {
     staticMediaPath: process.env.STATIC_MEDIA_PATH || 'resources/assets/static-media',
     dynamicMediaPath: process.env.DYNAMIC_MEDIA_PATH || 'resources/assets/dynamic-media',
 
-    whatsAppProvider: process.env.WHATSAPP_PROVIDER || 'console',
+    whatsAppProvider: process.env.WHATSAPP_PROVIDER || 'Kaleyra',
 
-    serviceProvider: process.env.SERVICE_PROVIDER || 'swasth',
+    serviceProvider: process.env.SERVICE_PROVIDER || 'Dummy',
 
     repoProvider: process.env.REPO_PROVIDER || 'InMemory',
 
@@ -50,8 +50,8 @@ const envVariables = {
 
     kaleyra: {
         sendMessageUrl: process.env.KALEYRA_SEND_MESSAGE_URL || 'https://api.kaleyra.io/v1/{{sid}}/messages',
-        sid: process.env.KALEYRA_SID || '',
-        apikey: process.env.KALEYRA_API_KEY || '',
+        sid: process.env.KALEYRA_SID || 'HXIN1697718278IN',
+        apikey: process.env.KALEYRA_API_KEY || 'A95687e20ad93de1f9996c255b65f55f9',
     },
 
     kafka: {
