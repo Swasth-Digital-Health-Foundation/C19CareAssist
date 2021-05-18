@@ -58,7 +58,7 @@ const selfCareFlow = {
                 let person = persons[i];
                 let grammerItem = { intention: person.uuid, recognize: [(i + 1).toString()] };
                 grammer.push(grammerItem);
-                message += '\n' + (i + 1) + '. ' + person.first_name;
+                message += '\n' + (i + 1) + '. ' + person.first_name + ', ' + person.age;
               }
               context.grammer = grammer;
               dialog.sendMessage(context, message);
