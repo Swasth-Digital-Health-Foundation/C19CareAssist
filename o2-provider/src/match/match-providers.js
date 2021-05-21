@@ -56,7 +56,27 @@ const fetchPincodeBasedCityMatchingProviders = async (location, iteration) => {
   return data;
 };
 
+const fetchGroupPincodeBasedCityMatchingProviders = async (location) => {
+  const GROUP_PINCODE = ['122', '110', '121', '201'];
+  const { pin_code } = location;
+  let data;
+  if (GROUP_PINCODE.includes(pin_code.substr(0, 3))) {
+    const fetchData = async () => {
+      const promiseArr = GROUP_PINCODE.map(async (item) => {
+        const res = await fetchPincodeBasedCityMatchingProviders({ pin_code: item });
+        return res;
+      });
+      return Promise.all(promiseArr);
+    };
+    data = await fetchData();
+  } else {
+    data = await fetchPincodeBasedCityMatchingProviders({ pin_code });
+  }
+  return data;
+};
+
 module.exports = {
   fetchPincodeMatchingProviders,
   fetchPincodeBasedCityMatchingProviders,
+  fetchGroupPincodeBasedCityMatchingProviders,
 };
