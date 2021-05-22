@@ -10,7 +10,8 @@ In this project, the `nodejs` directory contains the primary project. It contain
 
 To support remote debugging, we recommend using [VSCode](https://code.visualstudio.com). The VSCode [launch](./.vscode/launch.json) script file is written which will be used to start the remote debugging session. 
 
-Steps to start a remote debugging session:
+
+## Steps to start a remote debugging session:
 
 1. Port forward to the the remote server (9229:9229)
 2. In VSCode Run options, select "Attach to remote" 
