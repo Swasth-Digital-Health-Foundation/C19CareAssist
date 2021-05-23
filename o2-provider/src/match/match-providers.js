@@ -83,7 +83,5 @@ const fetchGroupPincodeBasedCityMatchingProviders = async (location) => {
 };
 
 module.exports = {
-  fetchPincodeMatchingProviders,
-  fetchPincodeBasedCityMatchingProviders,
   fetchGroupPincodeBasedCityMatchingProviders,
 };
