@@ -12,7 +12,7 @@ const envVariables = {
 
     whatsAppProvider: process.env.WHATSAPP_PROVIDER || 'console',
 
-    serviceProvider: process.env.SERVICE_PROVIDER || 'swasth',
+    serviceProvider: process.env.SERVICE_PROVIDER || 'Dummy',
 
     repoProvider: process.env.REPO_PROVIDER || 'InMemory',
 
@@ -20,7 +20,7 @@ const envVariables = {
 
     rootTenantId: process.env.ROOT_TENANTID || 'in',
 
-    supportedLocales: process.env.SUPPORTED_LOCALES || 'en_IN,hi_IN',
+    supportedLocales: process.env.SUPPORTED_LOCALES || 'en_IN,hi_IN',       // Unused
 
     dateFormat: process.env.DATEFORMAT || 'DD/MM/YYYY',
     timeZone: process.env.TIMEZONE || 'Asia/Kolkata',
@@ -54,7 +54,7 @@ const envVariables = {
         apikey: process.env.KALEYRA_API_KEY || '',
     },
 
-    kafka: {
+    kafka: {                                                                // Unused
         kafkaBootstrapServer: process.env.KAFKA_BOOTSTRAP_SERVER || 'localhost:9092',
         chatbotTelemetryTopic: process.env.CHATBOT_TELEMETRY_TOPIC || 'chatbot-telemetry-v2',
 
