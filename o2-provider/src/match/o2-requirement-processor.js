@@ -48,10 +48,10 @@ const processO2Requirement = async (o2Requirement) => {
       city: o2Requirement.city,
       pin_code: o2Requirement.pin_code,
     };
-    let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
+    let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
-      providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
+      providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
     }
     if (providers.length === 0) {
       o2Requirement.active = false;
