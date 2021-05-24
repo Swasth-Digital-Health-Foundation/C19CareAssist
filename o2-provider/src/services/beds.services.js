@@ -14,23 +14,28 @@ const FEILDS_TO_QUERY = [
   'hospital_available_ventilator_beds',
 ];
 
-// Headers name should not be duplicate
-async function fetchBeds(pincode, options) {
-  const data = await axios
-    .get(`https://docs.google.com/spreadsheets/d/1QAIcPgNxnDtOT_fXf2p6bOEkcdU2EXv4hiOlztORJrI/gviz/tq?tqx=out:csv`)
-    .then((res) => res.data)
-    .catch(console.log);
-  const filterData = await csv({
+const filterData = async (data, pincode, options) => {
+  const res = await csv({
     noheader: false,
     includeColumns: new RegExp(`(${options.fields.join('|')})`),
     output: 'csv',
   })
-    .on('header', (res) => console.log(res))
     .fromString(data)
     .then((csvRow) => {
       return csvRow.filter((item) => item[4].includes(pincode));
     });
-  return filterData;
+  return res;
+};
+
+// Headers name should not be duplicate
+async function fetchBeds(pincode, options) {
+  const data = await axios
+    .get(process.env.GOOGLE_SHEET_URL)
+    .then((res) => res.data)
+    .catch(console.log);
+
+  const filteredData = await filterData(data, pincode, options);
+  return filteredData;
 }
 
 fetchBeds('110002', {
