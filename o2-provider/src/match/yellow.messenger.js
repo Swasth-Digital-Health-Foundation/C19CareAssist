@@ -4,7 +4,7 @@ const appConfigs = require('../config/config');
 const sendMessageEndpoint = appConfigs.ymSendMessageEndpoint.replace('{{botId}}', appConfigs.ymBotId);
 const sendExpiryNotificationEndpoint = appConfigs.ymExpiryNotificationEndpoint.replace('{{botId}}', appConfigs.ymBotId);
 
-const sendProviderNotificationMessage = async (mobile, message) => {
+const sendProviderNotificationMessage = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -12,7 +12,7 @@ const sendProviderNotificationMessage = async (mobile, message) => {
       type: 'template',
       template: {
         namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
-        name: 'sender_notification',
+        name: type === 'BED' ? 'bed_notification_1' : 'sender_notification',
         language: {
           policy: 'deterministic',
           code: 'en',
@@ -104,7 +104,7 @@ const sendRequestExpiredMessage = async (mobile, message) => {
   return response;
 };
 
-const sendAcceptedProviderDetails = async (mobile, message) => {
+const sendAcceptedProviderDetails = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -112,7 +112,7 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
       type: 'hsm',
       hsm: {
         namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
-        element_name: 'supplier_found',
+        element_name: type === 'BED' ? 'bed_patient_1' : 'supplier_found',
         language: {
           policy: 'deterministic',
           code: 'en',

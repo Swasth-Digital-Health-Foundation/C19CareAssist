@@ -1,9 +1,11 @@
 const csv = require('csvtojson');
 const axios = require('axios');
+const moment = require('moment');
 
 // Fields name should be in the same order as they are in the sheet.
 const FEILDS_TO_QUERY = [
   'title',
+  'phone_1',
   'address',
   'comment',
   'last_verified_on',
@@ -22,7 +24,17 @@ const filterData = async (data, pincode, options) => {
   })
     .fromString(data)
     .then((csvRow) => {
-      return csvRow.filter((item) => item[4].includes(pincode));
+      const map = {};
+      csvRow
+        .filter((item) => item[5].includes(pincode))
+        .forEach((item) => {
+          if (map[item[0]] && moment(map[item[0]]).isBefore(item[5])) {
+            map[item[0]] = item;
+          } else {
+            map[item[0]] = item;
+          }
+        });
+      return Object.values(map);
     });
   return res;
 };
@@ -35,9 +47,10 @@ async function fetchBeds(pincode, options) {
     .catch(console.log);
 
   const filteredData = await filterData(data, pincode, options);
+
   return filteredData;
 }
 
-fetchBeds('110002', {
-  fields: FEILDS_TO_QUERY,
-}).then(console.log);
+//fetchBeds('110002', {
+//  fields: FEILDS_TO_QUERY,
+//}).then(console.log);

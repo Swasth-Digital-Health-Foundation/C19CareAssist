@@ -6,6 +6,7 @@ const logger = require('../config/logger');
 
 const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
+const { fetchBeds } = require('../services/beds.services');
 const { callHasura } = require('../services/util/hasura');
 const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require('./yellow.messenger');
 
@@ -48,10 +49,19 @@ const processO2Requirement = async (o2Requirement) => {
       city: o2Requirement.city,
       pin_code: o2Requirement.pin_code,
     };
+    let sheetProvider;
     let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
+    if (o2Requirement.type === 'BED') {
+      sheetProvider = await fetchBeds(location.pin_code, iteration);
+      providers = [...providers, ...sheetProvider];
+    }
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
       providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
+      if (o2Requirement.type === 'BED') {
+        sheetProvider = await fetchBeds(location.pin_code, iteration);
+      }
+      providers = [...providers, ...sheetProvider];
     }
     if (providers.length === 0) {
       o2Requirement.active = false;
@@ -61,12 +71,16 @@ const processO2Requirement = async (o2Requirement) => {
       for (const provider of providers) {
         let user = provider.o2_user;
         user = await decryptObject(user);
-        const ymResponse = await sendProviderNotificationMessage(user.mobile, {
-          id: o2Requirement.id.toString(),
-          pin_code: o2Requirement.pin_code,
-          city: o2Requirement.city,
-          uuid: o2Requirement.uuid,
-        });
+        const ymResponse = await sendProviderNotificationMessage(
+          user.mobile,
+          {
+            id: o2Requirement.id.toString(),
+            pin_code: o2Requirement.pin_code,
+            city: o2Requirement.city,
+            uuid: o2Requirement.uuid,
+          },
+          o2Requirement.type
+        );
         let status = '';
         if (ymResponse.status === 200) {
           status = 'REQUESTED';
@@ -118,7 +132,7 @@ const processO2Service = async (o2Service) => {
     const message = {
       providerDetails,
     };
-    await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message);
+    await sendAcceptedProviderDetails(decryptedService.o2_requirement.o2_user.mobile, message, o2Service.type);
   } else {
     logger.info('Requirement has expired');
   }
