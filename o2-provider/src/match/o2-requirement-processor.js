@@ -4,7 +4,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const logger = require('../config/logger');
 
-const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
+const { fetchGroupPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { callHasura } = require('../services/util/hasura');
 const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require('./yellow.messenger');
@@ -48,10 +48,10 @@ const processO2Requirement = async (o2Requirement) => {
       city: o2Requirement.city,
       pin_code: o2Requirement.pin_code,
     };
-    let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
+    let providers = await fetchGroupPincodeBasedCityMatchingProviders(location, iteration);
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
-      providers = await fetchPincodeBasedCityMatchingProviders(location, iteration);
+      providers = await fetchGroupPincodeBasedCityMatchingProviders(location, iteration);
     }
     if (providers.length === 0) {
       o2Requirement.active = false;
