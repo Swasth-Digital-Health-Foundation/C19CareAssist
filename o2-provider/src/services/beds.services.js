@@ -66,7 +66,11 @@ async function downloadSheet() {
   try {
     console.log('calling download sheets');
     const request = https.get(process.env.GOOGLE_SHEET_URL, (response) => {
-      const file = fs.createWriteStream(path.resolve(__dirname, "../../resources/BedsAvailability.csv"));
+      const fileDirectory = path.resolve(__dirname, "../../resources");
+      if (!fs.existsSync(fileDirectory)){
+          fs.mkdirSync(fileDirectory);
+      }
+      const file = fs.createWriteStream(`${fileDirectory}/BedsAvailability.csv`);
       response.pipe(file);
       console.log('sheets file created');
     });
@@ -80,7 +84,7 @@ module.exports = {
   downloadSheet,
 };
 
-// downloadSheet();
+downloadSheet();
 
 // fetchBeds('110002', {
 //  fields: FEILDS_TO_QUERY,
