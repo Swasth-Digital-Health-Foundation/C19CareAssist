@@ -4,7 +4,7 @@ const logger = require('./config/logger');
 const { downloadSheet } = require('./services/beds.services');
 
 //Fetch the DYU sheet to store data on local
-// downloadSheet();
+downloadSheet();
 
 const server = app.listen(config.port, () => {
   logger.info(`Listening to port ${config.port}`);
