@@ -1,6 +1,9 @@
 const csv = require('csvtojson');
 const axios = require('axios');
 const moment = require('moment');
+const https = require('https');
+const fs = require('fs');
+const path = require("path");
 
 // Fields name should be in the same order as they are in the sheet.
 const FEILDS_TO_QUERY = [
@@ -41,16 +44,40 @@ const filterData = async (data, pincode, options) => {
 
 // Headers name should not be duplicate
 async function fetchBeds(pincode, options) {
-  const data = await axios
-    .get(process.env.GOOGLE_SHEET_URL)
-    .then((res) => res.data)
-    .catch(console.log);
+  
+  let data;
+  try {
+    data = fs.readFileSync(path.resolve(__dirname, "../../resources/BedsAvailability.csv")).toString();
+  } catch (e) {
+    //Fallback to source file if error in fetching from local
+    data = await axios
+      .get(process.env.GOOGLE_SHEET_URL)
+      .then((res) => res.data)
+      .catch(console.log);
+  }
 
   const filteredData = await filterData(data, pincode, options);
 
   return filteredData;
 }
 
-//fetchBeds('110002', {
+
+async function downloadSheet() {
+  console.log('calling download sheets');
+  const request = https.get(process.env.GOOGLE_SHEET_URL, (response) => {
+    const file = fs.createWriteStream(path.resolve(__dirname, "../../resources/BedsAvailability.csv"));
+    response.pipe(file);
+    console.log('sheets file created');
+  });
+}
+
+module.exports = {
+  fetchBeds,
+  downloadSheet,
+};
+
+// downloadSheet();
+
+// fetchBeds('110002', {
 //  fields: FEILDS_TO_QUERY,
-//}).then(console.log);
+// }).then(console.log);

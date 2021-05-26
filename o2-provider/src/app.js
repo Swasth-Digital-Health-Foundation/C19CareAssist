@@ -10,6 +10,7 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const { authHandler } = require('./middlewares/auth');
 const ApiError = require('./utils/ApiError');
+const { downloadSheet } = require('./services/beds.services');
 
 const app = express();
 
@@ -55,5 +56,8 @@ app.use(errorConverter);
 
 // handle error
 app.use(errorHandler);
+
+//TODO: Remove this after cron job is ready
+downloadSheet();
 
 module.exports = app;
