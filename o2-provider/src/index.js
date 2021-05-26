@@ -3,7 +3,7 @@ const config = require('./config/config');
 const logger = require('./config/logger');
 const { downloadSheet } = require('./services/beds.services');
 
-//TODO: Remove this after cron job is ready
+//Fetch the DYU sheet to store data on local
 downloadSheet();
 
 const server = app.listen(config.port, () => {
