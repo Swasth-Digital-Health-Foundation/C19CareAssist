@@ -1,6 +1,10 @@
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
+const { downloadSheet } = require('./services/beds.services');
+
+//TODO: Remove this after cron job is ready
+downloadSheet();
 
 const server = app.listen(config.port, () => {
   logger.info(`Listening to port ${config.port}`);
