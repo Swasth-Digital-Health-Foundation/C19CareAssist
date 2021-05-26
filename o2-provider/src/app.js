@@ -58,6 +58,6 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 //TODO: Remove this after cron job is ready
-downloadSheet();
+// downloadSheet();
 
 module.exports = app;
