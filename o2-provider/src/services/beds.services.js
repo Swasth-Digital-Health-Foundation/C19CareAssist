@@ -64,11 +64,15 @@ async function fetchBeds(pincode, options) {
 
 async function downloadSheet() {
   console.log('calling download sheets');
-  const request = https.get(process.env.GOOGLE_SHEET_URL, (response) => {
-    const file = fs.createWriteStream(path.resolve(__dirname, "../../resources/BedsAvailability.csv"));
-    response.pipe(file);
-    console.log('sheets file created');
-  });
+  try {
+    const request = https.get(process.env.GOOGLE_SHEET_URL, (response) => {
+      const file = fs.createWriteStream(path.resolve(__dirname, "../../resources/BedsAvailability.csv"));
+      response.pipe(file);
+      console.log('sheets file created');
+    });
+  } catch(e) {
+    console.log('error downloading sheets: ', e);
+  }
 }
 
 module.exports = {
