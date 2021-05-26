@@ -84,7 +84,7 @@ module.exports = {
   downloadSheet,
 };
 
-downloadSheet();
+// downloadSheet();
 
 // fetchBeds('110002', {
 //  fields: FEILDS_TO_QUERY,
