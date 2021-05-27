@@ -215,7 +215,7 @@ const createBedsMessage = (sheetProviders) => {
       if (ventilatorBeds) {
         message = `${message}, Ventilator Beds - ${sheetProvider[7]}`;
       }
-      message = `${message}, verified at ${sheetProvider[2]}.\n`;
+      message = `${message}, verified at ${sheetProvider[2]}. `;
     }
   });
 
