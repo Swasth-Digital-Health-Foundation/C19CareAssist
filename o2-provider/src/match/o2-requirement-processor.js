@@ -4,7 +4,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const logger = require('../config/logger');
 
-const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
+const { fetchGroupPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { fetchBeds } = require('../services/beds.services');
 const { callHasura } = require('../services/util/hasura');
@@ -73,13 +73,13 @@ const processO2Requirement = async (o2Requirement) => {
       pin_code: o2Requirement.pin_code,
     };
     let sheetProvider;
-    let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
+    let providers = await fetchGroupPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
     if (o2Requirement.type === 'BED') {
       sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
     }
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
-      providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
+      providers = await fetchGroupPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
       if (o2Requirement.type === 'BED') {
         sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
       }

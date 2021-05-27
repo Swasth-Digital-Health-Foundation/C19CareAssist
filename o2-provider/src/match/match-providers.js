@@ -1,3 +1,6 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable camelcase */
 const { callHasura } = require('../services/util/hasura');
 
@@ -57,7 +60,29 @@ const fetchPincodeBasedCityMatchingProviders = async (location, iteration, type)
   return data;
 };
 
+const fetchGroupPincodeBasedCityMatchingProviders = async (location, iteration, type) => {
+  const { pin_code } = location;
+  const str = process.env.PINCODE_GROUPS;
+  const pincodeGroups = JSON.parse(str);
+
+  let data;
+  for (const group in pincodeGroups) {
+    const pincodes = pincodeGroups[group];
+    if (pincodes.includes(pin_code.substr(0, 3))) {
+      data = [];
+      for (const pincode of pincodes) {
+        const providers = await fetchPincodeBasedCityMatchingProviders({ pin_code: pincode }, iteration, type);
+        data.push(...providers);
+      }
+      break;
+    }
+  }
+  if (!data) {
+    data = await fetchPincodeBasedCityMatchingProviders({ pin_code });
+  }
+  return data;
+};
+
 module.exports = {
-  fetchPincodeMatchingProviders,
-  fetchPincodeBasedCityMatchingProviders,
+  fetchGroupPincodeBasedCityMatchingProviders,
 };
