@@ -88,7 +88,7 @@ const processO2Requirement = async (o2Requirement) => {
     try {
       if (sheetProvider.length) {
         const bedsMessage = createBedsMessage(sheetProvider);
-        const userMobile = getUserMobileFromRequirement(o2Requirement);
+        const userMobile = await getUserMobileFromRequirement(o2Requirement);
         const ymResponse = await sendDFYInfoToRequestor(userMobile, {
           bedsMessage,
         });
