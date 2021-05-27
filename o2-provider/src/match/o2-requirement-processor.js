@@ -52,14 +52,14 @@ const processO2Requirement = async (o2Requirement) => {
     let sheetProvider;
     let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
     if (o2Requirement.type === 'BED') {
-      sheetProvider = await fetchBeds(location.pin_code, iteration);
+      sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
       providers = [...providers, ...sheetProvider];
     }
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
       providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
       if (o2Requirement.type === 'BED') {
-        sheetProvider = await fetchBeds(location.pin_code, iteration);
+        sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
       }
       providers = [...providers, ...sheetProvider];
     }
@@ -74,7 +74,7 @@ const processO2Requirement = async (o2Requirement) => {
         const ymResponse = await sendProviderNotificationMessage(
           user.mobile,
           {
-            id: o2Requirement.id.toString(),
+            id: o2Requirement.uuid.toString(),
             pin_code: o2Requirement.pin_code,
             city: o2Requirement.city,
             uuid: o2Requirement.uuid,

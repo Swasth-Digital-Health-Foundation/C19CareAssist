@@ -20,9 +20,10 @@ const FEILDS_TO_QUERY = [
 ];
 
 const filterData = async (data, pincode, options) => {
+  const fields = options.sheetFields || FEILDS_TO_QUERY;
   const res = await csv({
     noheader: false,
-    includeColumns: new RegExp(`(${options.fields.join('|')})`),
+    includeColumns: new RegExp(`(${fields.join('|')})`),
     output: 'csv',
   })
     .fromString(data)
