@@ -9,8 +9,6 @@ const path = require("path");
 const FEILDS_TO_QUERY = [
   'title',
   'phone_1',
-  'address',
-  'comment',
   'last_verified_on',
   'pin_code',
   'hospital_available_icu_beds',
@@ -21,6 +19,7 @@ const FEILDS_TO_QUERY = [
 
 const filterData = async (data, pincode, options) => {
   const fields = options.sheetFields || FEILDS_TO_QUERY;
+  const pincodeIndex = fields.findIndex(field => field === 'pin_code');
   const res = await csv({
     noheader: false,
     includeColumns: new RegExp(`(${fields.join('|')})`),
@@ -30,9 +29,9 @@ const filterData = async (data, pincode, options) => {
     .then((csvRow) => {
       const map = {};
       csvRow
-        .filter((item) => item[5].includes(pincode))
+        .filter((item) => item[pincodeIndex].includes(pincode))
         .forEach((item) => {
-          if (map[item[0]] && moment(map[item[0]]).isBefore(item[5])) {
+          if (map[item[0]] && moment(map[item[0]]).isBefore(item[pincodeIndex])) {
             map[item[0]] = item;
           } else {
             map[item[0]] = item;
@@ -87,6 +86,6 @@ module.exports = {
 
 // downloadSheet();
 
-// fetchBeds('110002', {
+// fetchBeds('731224', {
 //  fields: FEILDS_TO_QUERY,
 // }).then(console.log);

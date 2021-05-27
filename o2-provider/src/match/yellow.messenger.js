@@ -151,9 +151,42 @@ const sendContinuingSearchMessage = async (mobile) => {
   return response;
 };
 
+const sendDFYInfoToRequestor = async (mobile, message) => {
+  const requestBody = {
+    body: {
+      to: `91${mobile}`,
+      ttl: 86400,
+      type: 'template',
+      template: {
+        namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
+        name: 'dfy_updated_multiple_hospitals',
+        language: {
+          policy: 'deterministic',
+          code: 'en',
+        },
+        components: [
+          {
+            type: 'body',
+            parameters: [
+              {
+                type: 'text',
+                text: `${message.bedsMessage}`,
+              }
+            ],
+          },
+        ],
+      },
+    },
+  };
+
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
+  return response;
+};
+
 module.exports = {
   sendProviderNotificationMessage,
   sendRequestExpiredMessage,
   sendAcceptedProviderDetails,
   sendContinuingSearchMessage,
+  sendDFYInfoToRequestor,
 };

@@ -8,7 +8,7 @@ const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { fetchBeds } = require('../services/beds.services');
 const { callHasura } = require('../services/util/hasura');
-const { sendProviderNotificationMessage, sendAcceptedProviderDetails } = require('./yellow.messenger');
+const { sendProviderNotificationMessage, sendAcceptedProviderDetails, sendDFYInfoToRequestor } = require('./yellow.messenger');
 
 // const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
 const maxIterations = 0;
@@ -53,7 +53,6 @@ const processO2Requirement = async (o2Requirement) => {
     let providers = await fetchPincodeBasedCityMatchingProviders(location, iteration, o2Requirement.type);
     if (o2Requirement.type === 'BED') {
       sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
-      providers = [...providers, ...sheetProvider];
     }
     while (providers.length === 0 && iteration < maxIterations) {
       iteration += 1;
@@ -61,8 +60,22 @@ const processO2Requirement = async (o2Requirement) => {
       if (o2Requirement.type === 'BED') {
         sheetProvider = await fetchBeds(location.pin_code, o2Requirement);
       }
-      providers = [...providers, ...sheetProvider];
     }
+
+    try {
+      if (sheetProvider.length) {
+        const bedsMessage = createBedsMessage(sheetProvider);
+        const ymResponse = await sendDFYInfoToRequestor(
+          o2Requirement.mobile,
+          {
+            bedsMessage,
+          }
+        );
+      }
+    } catch(e) {
+      logger.error(`Error sending DFY info: ${e}`);
+    }
+
     if (providers.length === 0) {
       o2Requirement.active = false;
     } else {
@@ -74,7 +87,7 @@ const processO2Requirement = async (o2Requirement) => {
         const ymResponse = await sendProviderNotificationMessage(
           user.mobile,
           {
-            id: o2Requirement.uuid.toString(),
+            id: o2Requirement.id.toString(),
             pin_code: o2Requirement.pin_code,
             city: o2Requirement.city,
             uuid: o2Requirement.uuid,
@@ -159,6 +172,34 @@ const processO2RequirementReplies = async (o2Requirement) => {
     // send message with provider details
   }
 };
+
+const createBedsMessage = (sheetProviders) => {
+  let message = '';
+  sheetProviders.forEach(sheetProvider => {
+    const icuBeds = +sheetProvider[4];
+    const normalBeds = +sheetProvider[5];
+    const oxygenBeds = +sheetProvider[6];
+    const ventilatorBeds = +sheetProvider[7];
+    if (icuBeds || normalBeds || oxygenBeds || ventilatorBeds) {
+      message = `${message}${sheetProvider[0]} - ${sheetProvider[1]}`;
+      if (icuBeds) {
+        message = `${message}, ICU Beds - ${sheetProvider[4]}`;
+      }
+      if (normalBeds) {
+        message = `${message}, Normal Beds - ${sheetProvider[5]}`;
+      }
+      if (oxygenBeds) {
+        message = `${message}, Oxygen Beds - ${sheetProvider[6]}`;
+      }
+      if (ventilatorBeds) {
+        message = `${message}, Ventilator Beds - ${sheetProvider[7]}`;
+      }
+      message = `${message}, verified at ${sheetProvider[2]}.\n`;
+    }
+  });
+
+  return message;
+} 
 
 module.exports = {
   processO2Requirement,
