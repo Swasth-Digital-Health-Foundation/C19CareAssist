@@ -171,7 +171,7 @@ const sendDFYInfoToRequestor = async (mobile, message) => {
               {
                 type: 'text',
                 text: `${message.bedsMessage}`,
-              }
+              },
             ],
           },
         ],

@@ -8,7 +8,11 @@ const { fetchPincodeBasedCityMatchingProviders } = require('./match-providers');
 const { decryptObject } = require('../services/encryption.service');
 const { fetchBeds } = require('../services/beds.services');
 const { callHasura } = require('../services/util/hasura');
-const { sendProviderNotificationMessage, sendAcceptedProviderDetails, sendDFYInfoToRequestor } = require('./yellow.messenger');
+const {
+  sendProviderNotificationMessage,
+  sendAcceptedProviderDetails,
+  sendDFYInfoToRequestor,
+} = require('./yellow.messenger');
 
 // const maxIterations = process.env.O2_REQUIREMENT_MAX_ITERATIONS;
 const maxIterations = 0;
@@ -39,6 +43,25 @@ const persistO2Service = async (o2Requirement, o2Provider, status) => {
   return o2Service;
 };
 
+const getUserMobileFromRequirement = async (o2Requirement) => {
+  const query = `
+    query getO2Requirements($uuid: uuid!) {
+      o2_requirement(where: {uuid: {_eq: $uuid}}) {
+        o2_user {
+          mobile
+        }
+      }
+    }  
+  `;
+  const variables = {
+    uuid: o2Requirement.uuid,
+  };
+  const response = await callHasura(query, variables, 'getO2Requirements');
+  const user = response.data.o2_requirement[0].o2_user;
+  const decryptedUser = await decryptObject(user);
+  return decryptedUser.mobile;
+};
+
 const processO2Requirement = async (o2Requirement) => {
   o2Requirement.iteration = 0;
   let { iteration } = o2Requirement;
@@ -65,14 +88,12 @@ const processO2Requirement = async (o2Requirement) => {
     try {
       if (sheetProvider.length) {
         const bedsMessage = createBedsMessage(sheetProvider);
-        const ymResponse = await sendDFYInfoToRequestor(
-          o2Requirement.mobile,
-          {
-            bedsMessage,
-          }
-        );
+        const userMobile = getUserMobileFromRequirement(o2Requirement);
+        const ymResponse = await sendDFYInfoToRequestor(userMobile, {
+          bedsMessage,
+        });
       }
-    } catch(e) {
+    } catch (e) {
       logger.error(`Error sending DFY info: ${e}`);
     }
 
@@ -175,7 +196,7 @@ const processO2RequirementReplies = async (o2Requirement) => {
 
 const createBedsMessage = (sheetProviders) => {
   let message = '';
-  sheetProviders.forEach(sheetProvider => {
+  sheetProviders.forEach((sheetProvider) => {
     const icuBeds = +sheetProvider[4];
     const normalBeds = +sheetProvider[5];
     const oxygenBeds = +sheetProvider[6];
@@ -199,7 +220,7 @@ const createBedsMessage = (sheetProviders) => {
   });
 
   return message;
-} 
+};
 
 module.exports = {
   processO2Requirement,
