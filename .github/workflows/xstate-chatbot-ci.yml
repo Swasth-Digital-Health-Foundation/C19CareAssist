@@ -40,4 +40,4 @@ jobs:
         with:
           context: XState-Chatbot/nodejs
           push: true
-          tags: swasthapp/swasthappchatbot:${{ github.event.inputs.docker_tag }}
+          tags: swasthapp/chatbot:${{ github.event.inputs.docker_tag }}
