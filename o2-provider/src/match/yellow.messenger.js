@@ -66,11 +66,11 @@ const sendProviderNotificationMessage = async (mobile, message, type) => {
   return response;
 };
 
-const sendExpiryNotificationToYmBot = async (mobile, message) => {
+const sendExpiryNotificationToYmBot = async (mobile, message, type) => {
   const expiryNotifyBody = {
     data: {
       rid: `${message.search_id}`,
-      event: 'request_expired',
+      event: type === 'BED' ? 'request_expired_bed' : 'request_expired',
       Message: 'Request Expired',
     },
     sender: '121',
@@ -80,7 +80,7 @@ const sendExpiryNotificationToYmBot = async (mobile, message) => {
   return response;
 };
 
-const sendRequestExpiredMessage = async (mobile, message) => {
+const sendRequestExpiredMessage = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -99,7 +99,7 @@ const sendRequestExpiredMessage = async (mobile, message) => {
 
   const response = await ymClient.post(sendMessageEndpoint, requestBody);
 
-  await sendExpiryNotificationToYmBot(mobile, message);
+  await sendExpiryNotificationToYmBot(mobile, message, type);
 
   return response;
 };
