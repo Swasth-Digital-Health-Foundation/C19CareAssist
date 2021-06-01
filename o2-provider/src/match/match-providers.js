@@ -35,10 +35,10 @@ const fetchPincodeMatchingProviders = async (location, iteration) => {
   return data;
 };
 
-const fetchPincodeBasedCityMatchingProviders = async (location, iteration) => {
+const fetchPincodeBasedCityMatchingProviders = async (location, iteration, type) => {
   const query = `
-    query getO2Providers($find_pin: String!) {
-      o2_provider(where: {pin_code: {_like: $find_pin}, status: {_eq: "ACTIVE"}}) {
+    query getO2Providers($find_pin: String!, $type: String) {
+      o2_provider(where: {pin_code: {_like: $find_pin}, status: {_eq: "ACTIVE"}, type: {_eq: $type}}) {
         uuid
         pin_code
         city
@@ -52,6 +52,7 @@ const fetchPincodeBasedCityMatchingProviders = async (location, iteration) => {
   pin_code = `${pin_code.substr(0, 3)}%`;
   const variable = {
     find_pin: pin_code,
+    type,
   };
   const response = await callHasura(query, variable, 'getO2Providers');
   const data = response.data.o2_provider;
@@ -59,7 +60,7 @@ const fetchPincodeBasedCityMatchingProviders = async (location, iteration) => {
   return data;
 };
 
-const fetchGroupPincodeBasedCityMatchingProviders = async (location) => {
+const fetchGroupPincodeBasedCityMatchingProviders = async (location, iteration, type) => {
   const { pin_code } = location;
   const str = process.env.PINCODE_GROUPS;
   const pincodeGroups = JSON.parse(str);
@@ -70,7 +71,7 @@ const fetchGroupPincodeBasedCityMatchingProviders = async (location) => {
     if (pincodes.includes(pin_code.substr(0, 3))) {
       data = [];
       for (const pincode of pincodes) {
-        const providers = await fetchPincodeBasedCityMatchingProviders({ pin_code: pincode });
+        const providers = await fetchPincodeBasedCityMatchingProviders({ pin_code: pincode }, iteration, type);
         data.push(...providers);
       }
       break;

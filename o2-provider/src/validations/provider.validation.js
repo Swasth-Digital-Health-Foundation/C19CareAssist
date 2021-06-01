@@ -16,6 +16,7 @@ const registerProvider = {
       provider: Joi.object().keys({
         status: Joi.string(),
         name: Joi.string(),
+        type: Joi.array().items(Joi.string()),
         homePage: Joi.string(),
         contact: Joi.object().keys({
           email: Joi.string(),
