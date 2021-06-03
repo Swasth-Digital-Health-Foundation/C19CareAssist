@@ -23,7 +23,7 @@
     retry_interval_seconds: 30
 - name: o2_requirement_continue
   webhook: http://o2-provider:3000/v1/triggers/o2-continuing-search
-  schedule: '*/15 * * * *'
+  schedule: '*/30 * * * *'
   include_in_metadata: true
   payload: {}
   retry_conf:
