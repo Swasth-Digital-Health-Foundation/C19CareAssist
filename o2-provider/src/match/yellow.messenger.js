@@ -112,7 +112,7 @@ const sendAcceptedProviderDetails = async (mobile, message, type) => {
       type: 'hsm',
       hsm: {
         namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
-        element_name: type === 'BED' ? 'bed_patient_1' : 'supplier_found',
+        element_name: type === 'BED' ? 'bed_patient_1_new' : 'supplier_found',
         language: {
           policy: 'deterministic',
           code: 'en',
