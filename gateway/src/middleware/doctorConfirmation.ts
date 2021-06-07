@@ -3,6 +3,12 @@ import { DOCTORS_API_KEY } from '../utils/secrets';
 import APIResolver from '../utils/api-resolver';
 import logger from '../utils/logger';
 
+/**
+ * Sanitise the request body so it can be used to hit the confirm service endpoint and set an
+ * appointment
+ * @param searchData Request body
+ * @returns sanitised request body to be used to hit the /confirm service
+ */
 const transformData = (searchData: any) => {
   return {
     context: searchData.context,
@@ -30,7 +36,7 @@ export const doctorConfirmation = async (
 ): Promise<void> => {
   try {
     if (!response.locals.doctorSearchUrl) {
-      throw new Error('Unable to confirm a doctor');
+      throw new Error('Unable to confirm a doctor - doctor search did not return the API URL.');
     }
     const apiResponse = await APIResolver.request({
       method: 'POST',

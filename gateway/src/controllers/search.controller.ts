@@ -15,14 +15,13 @@ class SearchController implements ControllerBase {
   }
 
   public initRoutes() {
-    this.router.post(`${this.path}/service`, isAuthenticated, this.search, doctorConfirmation);
+    this.router.post(`${this.path}/service`, this.search, doctorConfirmation);
   }
 
   private search = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data: any = await new Search().getResults(req.body);
-      res.locals.doctorSearchUrl = 'https://stagapi.1mgdoctors.com/api/v1/bhs'
-        || data.services[0].provider.api.url; // TODO change this after applying validation!
+      res.locals.doctorSearchUrl = data.services?.[0]?.provider?.api?.url;
       next();
     } catch (e) {
       logger.error('Error in SearchController.search ', e);
