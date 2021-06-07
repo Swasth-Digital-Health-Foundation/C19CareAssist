@@ -10,7 +10,7 @@ const persistProvider = async (provider) => {
     mutation upsert_o2_provider($object: o2_provider_insert_input!) {
       insert_o2_provider_one(object:$object, on_conflict: {constraint: o2_provider_pkey, update_columns:[address, status, pin_code]}) {
         uuid,
-        user_id
+        user_id,
       }
     }
   `;
@@ -42,6 +42,7 @@ const registerProvider = async (providerBody) => {
   let providerDbObject = {
     user_id: user.uuid,
     status: provider.status,
+    type: provider.type[0] || 'O2',
     pin_code: provider.located_at.pin_code,
     address: provider.located_at.address,
     city: provider.located_at.city.name,

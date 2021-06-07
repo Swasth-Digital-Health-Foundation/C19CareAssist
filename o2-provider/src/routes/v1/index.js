@@ -10,6 +10,7 @@ const {
   o2RequirementExpireRoute,
   o2ContinuingSearchRoute,
 } = require('./event.trigger.route');
+const { bedsRoute } = require('./beds.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -46,6 +47,10 @@ const defaultRoutes = [
   {
     path: '/triggers/o2-continuing-search',
     route: o2ContinuingSearchRoute,
+  },
+  {
+    path: '/triggers/beds',
+    route: bedsRoute,
   },
 ];
 

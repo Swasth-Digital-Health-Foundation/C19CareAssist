@@ -4,7 +4,7 @@ const appConfigs = require('../config/config');
 const sendMessageEndpoint = appConfigs.ymSendMessageEndpoint.replace('{{botId}}', appConfigs.ymBotId);
 const sendExpiryNotificationEndpoint = appConfigs.ymExpiryNotificationEndpoint.replace('{{botId}}', appConfigs.ymBotId);
 
-const sendProviderNotificationMessage = async (mobile, message) => {
+const sendProviderNotificationMessage = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -12,7 +12,7 @@ const sendProviderNotificationMessage = async (mobile, message) => {
       type: 'template',
       template: {
         namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
-        name: 'sender_notification',
+        name: type === 'BED' ? 'bed_notification_1' : 'sender_notification',
         language: {
           policy: 'deterministic',
           code: 'en',
@@ -66,11 +66,11 @@ const sendProviderNotificationMessage = async (mobile, message) => {
   return response;
 };
 
-const sendExpiryNotificationToYmBot = async (mobile, message) => {
+const sendExpiryNotificationToYmBot = async (mobile, message, type) => {
   const expiryNotifyBody = {
     data: {
       rid: `${message.search_id}`,
-      event: 'request_expired',
+      event: type === 'BED' ? 'request_expired_bed' : 'request_expired',
       Message: 'Request Expired',
     },
     sender: '121',
@@ -80,7 +80,7 @@ const sendExpiryNotificationToYmBot = async (mobile, message) => {
   return response;
 };
 
-const sendRequestExpiredMessage = async (mobile, message) => {
+const sendRequestExpiredMessage = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -99,12 +99,12 @@ const sendRequestExpiredMessage = async (mobile, message) => {
 
   const response = await ymClient.post(sendMessageEndpoint, requestBody);
 
-  await sendExpiryNotificationToYmBot(mobile, message);
+  await sendExpiryNotificationToYmBot(mobile, message, type);
 
   return response;
 };
 
-const sendAcceptedProviderDetails = async (mobile, message) => {
+const sendAcceptedProviderDetails = async (mobile, message, type) => {
   const requestBody = {
     body: {
       to: `91${mobile}`,
@@ -112,7 +112,7 @@ const sendAcceptedProviderDetails = async (mobile, message) => {
       type: 'hsm',
       hsm: {
         namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
-        element_name: 'supplier_found',
+        element_name: type === 'BED' ? 'bed_patient_1_new' : 'supplier_found',
         language: {
           policy: 'deterministic',
           code: 'en',
@@ -151,9 +151,42 @@ const sendContinuingSearchMessage = async (mobile) => {
   return response;
 };
 
+const sendDFYInfoToRequestor = async (mobile, message) => {
+  const requestBody = {
+    body: {
+      to: `91${mobile}`,
+      ttl: 86400,
+      type: 'template',
+      template: {
+        namespace: '7d08a43e_5c20_45e3_a26e_aa9e0e4ab729',
+        name: 'dfy_updated_multiple_hospitals',
+        language: {
+          policy: 'deterministic',
+          code: 'en',
+        },
+        components: [
+          {
+            type: 'body',
+            parameters: [
+              {
+                type: 'text',
+                text: `${message.bedsMessage}`,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+
+  const response = await ymClient.post(sendMessageEndpoint, requestBody);
+  return response;
+};
+
 module.exports = {
   sendProviderNotificationMessage,
   sendRequestExpiredMessage,
   sendAcceptedProviderDetails,
   sendContinuingSearchMessage,
+  sendDFYInfoToRequestor,
 };
