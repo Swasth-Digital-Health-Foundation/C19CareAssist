@@ -15,7 +15,7 @@ class SearchController implements ControllerBase {
   }
 
   public initRoutes() {
-    this.router.post(`${this.path}/service`, this.search, doctorConfirmation);
+    this.router.post(`${this.path}/service`, isAuthenticated, this.search, doctorConfirmation);
   }
 
   private search = async (req: Request, res: Response, next: NextFunction) => {
