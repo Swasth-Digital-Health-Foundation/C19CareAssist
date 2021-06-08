@@ -2,6 +2,7 @@ const { Machine, assign, actions } = require('xstate');
 const dialog = require('./util/dialog.js');
 const triageFlow = require('./triage');
 const selfCareFlow = require('./self-care');
+const taskforceFlow = require('./taskforce');
 const { personService } = require('./service/service-loader');
 const { messages } = require('./messages/chat-machine');
 
@@ -94,11 +95,19 @@ const chatStateMachine = Machine({
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.menu.prompt.preamble, context.user.locale);
             let options;
-            const subscribedPatients = personService.filterSubscribedPeople(context.persons);
-            if(subscribedPatients && subscribedPatients.length) {
-              options = messages.menu.prompt.options.subscribedUser;
+            //TODO: Decrypt mobile number first
+            const userType = personService.getUserType(context.user.mobileNumber);
+            if (userType == 'taskforce') {
+              options = messages.menu.prompt.options.taskforceUser;
+            } else if(userType == 'admin') {
+              //TODO: Add code for admin
             } else {
-              options = messages.menu.prompt.options.newUser;
+              const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+              if(subscribedPatients && subscribedPatients.length) {
+                options = messages.menu.prompt.options.subscribedUser;
+              } else {
+                options = messages.menu.prompt.options.newUser;
+              }
             }
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, messages.menu.prompt.options.messageBundle, context.user.locale);
             context.grammer = grammer;
@@ -117,7 +126,7 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == 'worried',
-              target: '#triageMenu'
+              target: '#registerForIsolationFlow'
             },
             {
               cond: (context) => context.intention == 'selfCare',
@@ -126,6 +135,18 @@ const chatStateMachine = Machine({
             {
               cond: (context) => context.intention == 'info',
               target: '#informationFlow'
+            },
+            {
+              cond: (context) => context.intention == 'infoTesting',
+              target: '#informationTestingFlow'
+            },
+            {
+              cond: (context) => context.intention == 'infoVaccination',
+              target: '#informationVaccinationFlow'
+            },
+            {
+              cond: (context) => context.intention == 'registerForIsolation',
+              target: '#registerForIsolationFlow'
             },
             {
               target: 'error'
@@ -250,6 +271,21 @@ const chatStateMachine = Machine({
       }),
       always: '#endstate'
     },
+    informationTestingFlow: {
+      id: 'informationTestingFlow',
+      onEntry: assign((context, event) => {
+        dialog.sendMessage(context, dialog.get_message(messages.informationTestingFlow, context.user.locale));
+      }),
+      always: '#endstate'
+    },
+    informationVaccinationFlow: {
+      id: 'informationVaccinationFlow',
+      onEntry: assign((context, event) => {
+        dialog.sendMessage(context, dialog.get_message(messages.informationVaccinationFlow, context.user.locale));
+      }),
+      always: '#endstate'
+    },
+    registerForIsolationFlow: taskforceFlow.registerForIsolationFlow,
     triageFlow: triageFlow,
     recordVitals: selfCareFlow.recordVitals,
     downloadReport: selfCareFlow.downloadReport,

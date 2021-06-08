@@ -1,4 +1,5 @@
 const dialog = require('../util/dialog.js');
+const roles = require('../../../resources/roles.json');
 
 class PersonService {
 
@@ -62,6 +63,13 @@ class PersonService {
       }
     }
     return subscribedPeople;
+  }
+
+  getUserType(mobileNumber) {
+    if (roles[mobileNumber]) {
+      return roles[mobileNumber];
+    }
+    return 'citizen';
   }
 
 }

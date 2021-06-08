@@ -2,15 +2,11 @@ let messages = {
   selectLanguage: {
     prompt: {
       preamble: {
-        en_IN: 'Hi there! Welcome to the Swasth Alliance COVID-19 Chat! I am  going to be your Swasth Sakhi. Swasth is a not for profit powered by India’s leading healthcare and technology companies as a public interest initiative. (For more information on Swasth click here https://www.swasth.app/home) The good folks at Swasth set me up to assist you with your COVID-19 questions and concerns. Please select your preferred language.',
-        hi_IN: 'नमस्ते, Swasth Alliance (स्वस्थ संस्था) के COVID-19 चैट सुविधा में आपका स्वागत है। मैं हूँ आपकी स्वस्थ सखी । स्वस्थ संस्था को जन हित के लिए भारत की श्रेष्ठ स्वास्थ्य सेवा और टेक्नोलॉजी कंपनियों के लोगों ने मिलकर स्थापित किया है। (स्वस्थ संस्था के बारे में अधिक जानकारी के लिए https://www.swasth.app/home) COVID-19 से जुड़ी समस्याओं को सुलझाने में यह चैट सुविधा आपकी मदद कर सकती है। कृपया अपनी भाषा चुनें',
-        ta_IN: 'வணக்கம்! ஸ்வத்ஸ் அலியன்ஸ் கோவிட் 19 சாட் பாக்சிற்கு வரவேற்கிறோம்! ஸ்வஸ்த் என்பது ஒரு லாப நோக்கமற்ற பொது நல முயற்சியாக இந்தியாவின் முன்னணி சுகாதார மற்றும் தொழில்நுட்ப நிறுவனங்களால் இயக்கப்படும்., (ஸ்வஸ்த் குறித்து மேலும் தெரிந்து கொள்ள இந்த லிங்கை கிளிக் செய்யவும் https://www.swasth.app/home)கொரோனா தொடர்பான உங்களின் சந்தேகங்கள், கேள்விகளுக்கு பதில் அளிக்க ஸ்வத்ஸ் மூலம் நான் உருவாக்கப்பட்டு உள்ளேன். உங்களுக்கு விரும்பமான மொழியை தேர்வு செய்யவும்',
-        ma_IN: 'स्वास्थ अलायन्स कॉव्हिड-19  चॅटवर आपले स्वागत आहे! स्वास्थ ही जनहित योजना म्हणून भारताच्या आघाडीच्या आरोग्य सेवा आणि तंत्रज्ञान कंपन्यांनी चालवलेल्या नफ्यासाठी नाही. (स्वास्थवरील अधिक माहितीसाठी येथे क्लिक करा. Https://www.swasth.app/home)स्वास्थ येथील चांगल्या लोकांनी मला आपल्या COVID-19 प्रश्न आणि समस्यांसाठी मदत करण्यासाठी सेट अप केले. कृपया आपली पसंतीची भाषा निवडा',
-        kn_IN: 'ನಮಸ್ತೆ, ಸ್ವಸ್ಥ್ ಅಲಾಯನ್ಸ್ ಕೋವಿಡ್ 19 ಚಾಟ್‌ಗೆ ಸ್ವಾಗತ, ನಿಮ್ಮ ಕೋವಿಡ್ 19 ಸಂಬಂಧಿತ ಪ್ರಶ್ನೆಗಳು ಹಾಗೂ ಆತಂಕವನ್ನು ದೂಡ ಮಾಡಿ ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ನಾವಿಲ್ಲಿದ್ದೇವೆ, ನಿಮಗೆ ಸಹಾಯ ಬೇಕೇ? ಸ್ವಸ್ಥ್ ಲಾಭಕ್ಕಾಗಿ ಭಾರತದಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತಿರುವ ಕಂಪನಿಯಲ್ಲ, ಜನರಿಗಾಗಿ ಕೆಲಸ ಮಾಡುತ್ತಿರುವ ಸಂಸ್ಥೆ.\n ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ',
-        te_IN: 'నమస్కారం.. స్వస్త్ అలయన్స్ కోవిడ్-19 చాట్‌కు స్వాగతం. ప్రజాప్రయోజనాల కోసమే స్వస్త్ అలయన్స్ ఏర్పాటు చేయడం జరిగింది తప్పా.. ఎలాంటి లాభం కోసం ఏర్పాటు చేయలేదు. (మరింత సమాచారం కోసం ఇక్కడ క్లిక్ చేయండి https://www.swasth.app/home)కోవిడ్ -19కు సంబంధించి మీకు సహాయం చేసేందుకు నన్ను ఇక్కడ ఉంచింది స్వస్త్ సిబ్బంది. ముందుగా మీ భాషను ఎంపిక చేసుకోండి'
+        en_IN: 'Welcome to the COVID-19 Chatbot for Mon District_Nagaland. I am set up to assist you with your COVID-19 questions and concerns. Please select your preferred language.',
+        // TODO: Get translations for this text
       },
       options: {
-        list: ['hi_IN', 'en_IN', 'ta_IN', 'ma_IN', 'kn_IN', 'te_IN'],
+        list: ['en_IN', 'hi_IN', 'nbe_IN'],
         messageBundle: {
           en_IN: {
             en_IN: 'English',
@@ -18,18 +14,10 @@ let messages = {
           hi_IN: {
             en_IN: 'हिंदी',
           },
-          ta_IN: {
-            en_IN: 'தமிழ்',
+          nbe_IN: {
+            //TODO: Update in Konyak text
+            en_IN: 'Konyak',
           },
-          ma_IN: {
-            en_IN: 'मराठी',
-          },
-          kn_IN: {
-            en_IN: 'ಕನ್ನಡ',
-          },
-          te_IN: {
-            en_IN: 'తెలుగు',
-          }
         },
       },
     },
@@ -37,12 +25,8 @@ let messages = {
   menu: {
     prompt: {
       preamble: {
-        en_IN: 'What do you need help with right now?',
-        hi_IN: 'बताइये, आज हम आपकी क्या सहायता कर सकते हैं?',
-        ta_IN: 'உங்களுக்கு இப்போது என்ன உதவி தேவை?',
-        ma_IN: 'आत्ता आपल्याला कोणत्या मदतीची आवश्यकता आहे?',
-        kn_IN: 'ಇದೀಗ ನಿಮಗೆ ಏನು ನೆರವು ಬೇಕಿದೆ?',
-        te_IN: 'ఎలాంటి పహాయం కోసం  మీరు ఎదురు చూస్తున్నారు',
+        en_IN: 'You can get information about Covid 19 and Register in the Self care program in Home Isolation. You can also record your vitals here and get alarms and notifications. Our team from health shall reach out to you in case you need to be home isolated. \nWhat would you like to do?',
+        // TODO: Get translations for this text
       },
       postscript: {
         en_IN: '\n\nYou can always get back to the main menu by sending "Reset".\n\nBy continuing to use our chat facility, you agree to our Terms & Conditions of use https://www.swasth.app/swasth_terms_wb.pdf',
@@ -53,8 +37,10 @@ let messages = {
         te_IN: '\n\nప్రధాన మెనూకు చేరేందుకు రీసెట్(Reset) అని పంపండి \n\nమా చాట్ ఫెసిలిటీ ద్వారా కొనసాగేందుకు అన్ని నియమనిబంధనలకు మీరు అంగీకారం తెలుపుతున్నారా https://www.swasth.app/swasth_terms_wb.pdf',
       },
       options: {
-        newUser: ['worried', 'info'],
-        subscribedUser: ['worried', 'selfCare', 'info'],
+        newUser: ['info', 'infoTesting', 'infoVaccination', 'worried'],
+        subscribedUser: ['info', 'infoTesting', 'infoVaccination', 'worried', 'selfCare'],
+        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
+        // adminUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
         messageBundle: {
           worried: {
             en_IN: 'I am feeling worried and have COVID related concerns',
@@ -73,12 +59,29 @@ let messages = {
             te_IN: 'స్వీయ పర్యవేక్షణలో నన్ను నేను ఉంచుకోవాలని భావిస్తున్నాను',
           },
           info: {
-            en_IN: 'I want information about COVID facilities',
+            en_IN: 'I need information on C19',
+            // TODO: Update the language text below
             hi_IN: 'मुझे COVID-19 सुविधाओं के बारे में जानकारी चाहिए',
             ta_IN: 'கொரோனா பாதுகாப்பு மையங்கள் பற்றிய தகவல்களை நான் விரும்புகிறேன்',
             ma_IN: 'मला कोविड सुविधांविषयी माहिती हवी आहे',
             kn_IN: 'ನನಗೆ ಕೋವಿಡ್ 19 ಆರೈಕೆ ಸೌಲಭ್ಯದ ಕುರಿತು ಮಾಹಿತಿ ಬೇಕು',
             te_IN: 'కోవిడ్-19 కేర్ ఫెసిలిటీస్ గురించి సమాచారం కావాలి మా చాట్ ఫెసిలిటీ ద్వారా కొనసాగేందుకు అన్ని నియమనిబంధనలకు మీరు అంగీకారం తెలుపుతున్నారా',
+          },
+          infoTesting: {
+            en_IN: 'I need information on Testing',
+            // TODO: Add the language text below
+          },
+          infoVaccination: {
+            en_IN: 'I need information on vaccination',
+            // TODO: Add the language text below
+          },
+          registerForIsolation: {
+            en_IN: 'Register a home isolation person',
+            // TODO: Add the language text below
+          },
+          recordPatientVitals: {
+            en_IN: 'Record patient\'s vitals',
+            // TODO: Add the language text below
           },
         },
       },
@@ -198,12 +201,16 @@ let messages = {
     },
   },
   informationFlow: {
-    en_IN: 'You can find more information regarding COVID-19 and nearby care facilities here www.liferesources.in. Please follow these simple tips to stay healthy and safe!\n\n- Wear a N95 mask covering both mouth and nose\n- Sleep 7-8 hours a day\n- Drink a lot of fluids to stay hydrated\n- Avoid alcohol intake and smoking\n- Exercise, practise yoga and meditate\n',
-    hi_IN: 'COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं www.liferesources.in. कृपया स्वस्थ और सुरक्षित रहने के लिए निम्न का पालन करें - अपने मुँह और नाक के ऊपर N95 मास्क पहनें \n- 7-8 घंटों की नींद अवश्य लें \n- अधिक से अधिक तरल पदार्थों का सेवन करें \n- धूम्रपान और नशीले पदार्थों का सेवन न करें \n- व्यायाम, योग और ध्यान करें',
-    ta_IN: 'கொரோனா குறித்த மேலும் விவரங்களை அறிய அருகில் உள்ள கொரோனா சிகிச்சை மையங்களின் பட்டியல் இங்கே கொடுக்கப்பட்டுள்ளன. www.liferesources.in. உங்கள் உடல் ஆரோக்கியமாக இருக்கவும் பாதுகாப்பாக இருக்கவும் கீழ்க்கண்ட அறிவுரைகளை பின்பற்றுங்கள்!\n-  உங்கள் மூக்கு மற்றும் வாயை நன்றாக மூடும்படியாக என் 95 மாஸ்க்கை அணியவும்.\n- தினமும் 7 முதல் 8 மணி நேரம வரை தூங்கவும்\n- நீர்ச்சத்தை அதிகரிக்க நீராகாரங்களை நிறைய குடிக்கவும்\n- குறைந்த கார்ப்போஹைட்ரேட், அதிக புரத உணவுகளை உண்ணுங்கள்\n- மதுகுடிப்பதையும் புகைப்பிடிப்பதையும் தவிருங்கள்\n- தியானம், யோகா, உடற்பயிற்சி செய்யுங்கள்.',
-    ma_IN: 'आपण कोविड-१९ आणि सुविधांविषयी अधिक माहिती येथे शोधू शकता www.liferesources.in. कृपया निरोगी आणि सुरक्षित राहण्यासाठी या सोप्या सूचनांचे अनुसरण करा!\nतोंड आणि नाक दोन्ही झाकून एन ९५  चा मुखवटा घाला\n७  दिवस ७ - ८  तास झोप घ्या \nहायड्रेटेड राहण्यासाठी बरेच द्रव प्या\nनिरोगी लो कार्बोहायड्रेट, उच्च प्रोटीन आहार घ्या\nमद्यपान आणि धूम्रपान टाळा\nयोगाचा सराव करा आणि ध्यान करा',
-    kn_IN: 'ಕೋವಿಡ್ 19 ಮತ್ತು ಹತ್ತಿರದ ಆರೈಕೆ ಸೌಲಭ್ಯಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿ ಇಲ್ಲಿ ಲಭ್ಯವಿದೆ https://life.coronasafe.network. ಸುರಕ್ಷಿತ ಹಾಗೂ ಆರೋಗ್ಯವಾಗಿರಲು ಈ ಕೆಲವು ಟಿಪ್ಸ್‌ಗಳನ್ನು ಅನುಸರಿಸಿ\n- ಮೂಗು ಹಾಗೂ ಬಾಯಿ ಮುಚ್ಚುವಂತೆ ಎನ್‌95 ಮಾಸ್ಕ್ ಧರಿಸಿ\n- ದಿನದಲ್ಲಿ 7-8 ಗಂಟೆಗಳ ಕಾಲ ನಿದ್ದೆ ಮಾಡಿ\n- ದ್ರವ ಪದಾರ್ಥಗಳನ್ನು ಹೆಚ್ಚಾಗಿ ಸೇವಿಸಿ\n- ಕಡಿಮೆ ಕಾರ್ಬೊಹೈಡ್ರೇಟ್ಸ್ ಇರುವ, ಹೆಚ್ಚು ಪ್ರೋಟಿನ್ ಇರುವ ಆರೋಗ್ಯಕರ ಆಹಾರ ಸೇವಿಸಿ\n- ಮದ್ಯಪಾನ, ಧೂಮಪಾನ ಬೇಡ\n- ವ್ಯಾಯಾಮ, ಯೋಗ, ಧ್ಯಾನವನ್ನು ಮಾಡಿ',
-    te_IN: 'కోవిడ్ 19కు సంబంధించి పూర్తి సమాచారంతో పాటు కోవిడ్ ఫెసిలిటీ కేంద్రం వివరాలు కూడా ఇక్కడ పొందొచ్చు  <https://life.coronasafe.network/>. ఆరోగ్యంగా సురక్షితంగా ఉండేందుకు ఈ చిట్కాలు పాటించండి\n- నోరు  ముక్కు కప్పి ఉంచేలా N95 మాస్కు ధరించండి\n- రోజుకు 7-8 గంటల పాటు నిద్రకు ఉపక్రమించాలి\n- ద్రవ పదార్థాలు ఎక్కువగా తీసుకోండి\n- కార్బోహైడ్రేట్లు తక్కువగా ఉన్న ఆహారం తీసుకోవడంతో పాటు మంచి డైట్ తీసుకోవాలి\n- మద్యం స్మోకింగ్ చేయరాదు\n- యోగా ధ్యానం చేయాలి',
+    en_IN: 'You can find detailed information regarding Self Care in COVID-19 here https://xxxxx \nPlease follow these simple tips to stay healthy and safe.',
+    // TODO: Translations
+  },
+  informationTestingFlow: {
+    en_IN: 'You can find detailed information regarding Self Care in COVID-19 here https://xxxxx \nPlease follow these simple tips to stay healthy and safe.',
+    // TODO: Translations
+  },
+  informationVaccinationFlow: {
+    en_IN: 'You can find detailed information regarding Self Care in COVID-19 here https://xxxxx \nPlease follow these simple tips to stay healthy and safe.',
+    // TODO: Translations
   },
   endstate: {
     en_IN: 'Goodbye. Say hi to start another conversation',
