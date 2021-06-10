@@ -13,17 +13,17 @@ const chatStateMachine = Machine({
     USER_RESET: {
       target: '#menuFetchPersons',
       // actions: assign( (context, event) => dialog.sendMessage(context, dialog.get_message(messages.reset, context.user.locale), false))
-    }
+    },
   },
   states: {
     start: {
       id: 'start',
       onEntry: assign((context, event) => {
-        context.slots = {}
+        context.slots = {};
       }),
       on: {
-        USER_MESSAGE: '#menuFetchPersons'
-      }
+        USER_MESSAGE: '#menuFetchPersons',
+      },
     },
     menuFetchPersons: {
       id: 'menuFetchPersons',
@@ -41,10 +41,10 @@ const chatStateMachine = Machine({
             actions: assign((context, event) => {
               context.persons = event.data;
             }),
-            target: '#selectLanguage'
+            target: '#selectLanguage',
           },
-        ]
-      }
+        ],
+      },
     },
     selectLanguage: {
       id: 'selectLanguage',
@@ -59,8 +59,8 @@ const chatStateMachine = Machine({
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -69,23 +69,23 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
                 context.user.locale = context.intention;
               }),
-              target: '#menu'
-            }
-          ]
+              target: '#menu',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, // selectLanguage
     menu: {
       id: 'menu',
@@ -97,13 +97,14 @@ const chatStateMachine = Machine({
             let options;
             //TODO: Decrypt mobile number first
             const userType = personService.getUserType(context.user.mobileNumber);
+            context.role = userType;
             if (userType == 'taskforce') {
               options = messages.menu.prompt.options.taskforceUser;
-            } else if(userType == 'admin') {
+            } else if (userType == 'admin') {
               //TODO: Add code for admin
             } else {
               const subscribedPatients = personService.filterSubscribedPeople(context.persons);
-              if(subscribedPatients && subscribedPatients.length) {
+              if (subscribedPatients && subscribedPatients.length) {
                 options = messages.menu.prompt.options.subscribedUser;
               } else {
                 options = messages.menu.prompt.options.newUser;
@@ -116,8 +117,8 @@ const chatStateMachine = Machine({
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -126,40 +127,44 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == 'worried',
-              target: '#registerForIsolationFlow'
+              target: '#registerForIsolationFlow',
             },
             {
               cond: (context) => context.intention == 'selfCare',
-              target: '#selfCareMenu'
+              target: '#selfCareMenu',
             },
             {
               cond: (context) => context.intention == 'info',
-              target: '#informationFlow'
+              target: '#informationFlow',
             },
             {
               cond: (context) => context.intention == 'infoTesting',
-              target: '#informationTestingFlow'
+              target: '#informationTestingFlow',
             },
             {
               cond: (context) => context.intention == 'infoVaccination',
-              target: '#informationVaccinationFlow'
+              target: '#informationVaccinationFlow',
             },
             {
               cond: (context) => context.intention == 'registerForIsolation',
-              target: '#registerForIsolationFlow'
+              target: '#registerForIsolationFlow',
             },
             {
-              target: 'error'
-            }
-          ]
+              cond: (context) => context.intention == 'notWell',
+              target: '#triageFlow',
+            },
+            {
+              target: 'error',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, // menu
     triageMenu: {
       id: 'triageMenu',
@@ -174,8 +179,8 @@ const chatStateMachine = Machine({
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -184,23 +189,23 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               target: '#triageFlow',
               actions: assign((context, event) => {
                 context.slots.triageMenu = context.intention;
-              })
-            }
-          ]
+              }),
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, //triageMenu
     selfCareMenu: {
       id: 'selfCareMenu',
@@ -220,15 +225,14 @@ const chatStateMachine = Machine({
               bundle = messages.selfCareMenu.prompt.options.noLivePatients.messageBundle;
             }
 
-
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, bundle, context.user.locale);
             message += prompt;
             context.grammer = grammer;
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -237,53 +241,53 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == 'addPatient',
-              target: '#triageFlow'
+              target: '#triageFlow',
             },
             {
               cond: (context) => context.intention == 'recordVitals',
-              target: '#recordVitals'
+              target: '#recordVitals',
             },
             {
               cond: (context) => context.intention == 'downloadReport',
-              target: '#downloadReport'
+              target: '#downloadReport',
             },
             {
               cond: (context) => context.intention == 'exitProgram',
-              target: '#exitProgram'
+              target: '#exitProgram',
             },
             {
-              target: 'error'
-            }
-          ]
+              target: 'error',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, // selfCareMenu
     informationFlow: {
       id: 'informationFlow',
       onEntry: assign((context, event) => {
         dialog.sendMessage(context, dialog.get_message(messages.informationFlow, context.user.locale));
       }),
-      always: '#endstate'
+      always: '#endstate',
     },
     informationTestingFlow: {
       id: 'informationTestingFlow',
       onEntry: assign((context, event) => {
         dialog.sendMessage(context, dialog.get_message(messages.informationTestingFlow, context.user.locale));
       }),
-      always: '#endstate'
+      always: '#endstate',
     },
     informationVaccinationFlow: {
       id: 'informationVaccinationFlow',
       onEntry: assign((context, event) => {
         dialog.sendMessage(context, dialog.get_message(messages.informationVaccinationFlow, context.user.locale));
       }),
-      always: '#endstate'
+      always: '#endstate',
     },
     registerForIsolationFlow: taskforceFlow.registerForIsolationFlow,
     triageFlow: triageFlow,
@@ -295,9 +299,9 @@ const chatStateMachine = Machine({
       // onEntry: assign((context, event) => {
       //   dialog.sendMessage(context, dialog.get_message(messages.endstate, context.user.locale));
       // }),
-      always: '#start'
-    }
-  }
+      always: '#start',
+    },
+  },
 });
 
 module.exports = chatStateMachine;

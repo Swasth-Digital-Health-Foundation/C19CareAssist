@@ -1,4 +1,14 @@
 {
-    "8424932928": "taskforce",
-    "9901499745": "taskforce"
+    "8424932928": {
+        "name": "Task force User1",
+        "roles": "taskforce"
+    },
+    "9901499745": {
+        "name": "Task force User2",
+        "roles": "taskforce"
+    },
+    "9123123123": {
+        "name": "Task force User3",
+        "roles": "taskforce"
+    }
 }

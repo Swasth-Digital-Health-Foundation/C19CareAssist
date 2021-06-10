@@ -32,14 +32,14 @@ let messages = {
         en_IN: '\n\nYou can always get back to the main menu by sending "Reset".\n\nBy continuing to use our chat facility, you agree to our Terms & Conditions of use https://www.swasth.app/swasth_terms_wb.pdf',
         hi_IN: '\n\n "Reset " टाइप करके भेजने पर आप मेन मेनू पर वापस आ सकते हैं \n\nहमारे चैट सुविधा का उपयोग करके आप हमारे नियमों और उपयोग के शर्तों का पालन करने के लिए सहमति दे रहे हैं https://www.swasth.app/swasth_terms_wb.pdf',
         ta_IN: '\n\n"Reset" செய்து எந்த நேரத்திலும் நீங்கள் மெயின் மெனுவுக்குப் போகலாம் \n\nஎங்கள் சாட் பாக்ஸ் வசதியைத் தொடர்ந்து பயன்படுத்துவதன் மூலம், எங்கள் பயன்பாட்டு விதிமுறைகள் மற்றும் நிபந்தனைகளை நீங்கள் ஒப்புக்கொள்கிறீர்கள் https://www.swasth.app/swasth_terms_wb.pdf',
-        ma_IN: '\n\nतुम्ही  \'रीसेट/Reset\' वापरून  मुख्य मेन्युला जाऊ शकता.\n\n आमची च्याटिंग सुविधा वापरल्यास तुमची सहमती गृहित आहे https://www.swasth.app/swasth_terms_wb.pdf',
+        ma_IN: "\n\nतुम्ही  'रीसेट/Reset' वापरून  मुख्य मेन्युला जाऊ शकता.\n\n आमची च्याटिंग सुविधा वापरल्यास तुमची सहमती गृहित आहे https://www.swasth.app/swasth_terms_wb.pdf",
         kn_IN: '\n\n"Reset" ಎಂದು ಕಳಿಸುವ ಮೂಲಕ ಯಾವಾಗ ಬೇಕಾದರೂ ನೀವು ಮುಖ್ಯ ಮೆನುಗೆ ಹಿಂತಿರುಗಬಹುದು. \n\nನಮ್ಮ ಚಾಟ್ ಸೌಲಭ್ಯವನ್ನು ಮುಂದುವರೆಸುವುದಾದರೆ, ನಮ್ಮ ಷರತ್ತು ಹಾಗೂ ನಿಯಮಗಳನ್ನು ಒಪ್ಪಬೇಕು https://www.swasth.app/swasth_terms_wb.pdf',
         te_IN: '\n\nప్రధాన మెనూకు చేరేందుకు రీసెట్(Reset) అని పంపండి \n\nమా చాట్ ఫెసిలిటీ ద్వారా కొనసాగేందుకు అన్ని నియమనిబంధనలకు మీరు అంగీకారం తెలుపుతున్నారా https://www.swasth.app/swasth_terms_wb.pdf',
       },
       options: {
         newUser: ['info', 'infoTesting', 'infoVaccination', 'worried'],
         subscribedUser: ['info', 'infoTesting', 'infoVaccination', 'worried', 'selfCare'],
-        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
+        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'notWell', 'registerForIsolation', 'recordPatientVitals'],
         // adminUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
         messageBundle: {
           worried: {
@@ -49,6 +49,9 @@ let messages = {
             ma_IN: 'मी चिंताग्रस्त आहे आणि मला कोविडशी संबंधित चिंता आहे',
             kn_IN: 'ನನಗೆ ಚಿಂತೆ ಕಾಡುತ್ತಿದೆ, ಹಾಗೆಯೇ ಕೋವಿಡ್ 19 ಕುರಿತು ಆತಂಕಕ್ಕೆ ಒಳಗಾಗಿದ್ದೇನೆ',
             te_IN: 'కోవిడ్-19 సంబంధిత సమాచారంతో నాలో ఆందోళన నెలకొంది',
+          },
+          notWell: {
+            en_IN: 'I am not feeling well.',
           },
           selfCare: {
             en_IN: 'I want to manage my self-monitoring program',
@@ -76,11 +79,11 @@ let messages = {
             // TODO: Add the language text below
           },
           registerForIsolation: {
-            en_IN: 'Register a home isolation person',
+            en_IN: 'Register a person for home isolation',
             // TODO: Add the language text below
           },
           recordPatientVitals: {
-            en_IN: 'Record patient\'s vitals',
+            en_IN: "Record patient's vitals",
             // TODO: Add the language text below
           },
         },
@@ -95,7 +98,7 @@ let messages = {
         ta_IN: 'நான் முயற்சி செய்து அவை குறித்து சொல்கிறேன்! உங்கள் கவலைகளைப் பற்றி மேலும் சொல்லுங்கள்...',
         ma_IN: 'मी प्रयत्न करू आणि त्यांना संबोधित करू! मला तुमच्या चिंतांबद्दल अधिक सांगा ...',
         kn_IN: 'ನಿಮಗಿರುವ ಆತಂಕದ ಬಗ್ಗೆ ಹೇಳಿ, ಪರಿಹಾರಕ್ಕೆ ನಾವು ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ',
-        te_IN: 'మీ సందేహాలకు సమాధానం ఇస్తాను. ఇంకా ఏమైనా సమస్యలతో  ఆందోళన చెందుతున్నారా..?'
+        te_IN: 'మీ సందేహాలకు సమాధానం ఇస్తాను. ఇంకా ఏమైనా సమస్యలతో  ఆందోళన చెందుతున్నారా..?',
       },
       options: {
         list: ['symptoms', 'contactCovid', 'doctorAdvise'],
@@ -216,7 +219,7 @@ let messages = {
     en_IN: 'Goodbye. Say hi to start another conversation',
     hi_IN: 'अलविदा!  बातचीत फिर शुरू करने के लिए "hi" टाइप करके भेजें',
     ta_IN: 'குட்பை.. மற்றொரு உரையாடலை தொடங்க ஹாய் சொல்லவும்',
-    ma_IN: 'धन्यवाद . नविन संभाषणाला सुरूवात  करताना \'नमस्कार\' म्हणून सुरूवात  करा.',
+    ma_IN: "धन्यवाद . नविन संभाषणाला सुरूवात  करताना 'नमस्कार' म्हणून सुरूवात  करा.",
     kn_IN: 'ಶುಭ ವಿದಾಯ, ಸಂಭಾಷಣೆಯನ್ನು ಆರಂಭಿಸಲು ಮತ್ತೊಮ್ಮೆ ಹಾಯ್ ಎಂದು ಹೇಳಿ',
     te_IN: 'గుడ్ బై. మళ్లీ చాట్ ద్వారా మాట్లాడాలంటే హాయ్ అని టైప్ చేయండి',
   },

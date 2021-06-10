@@ -4,6 +4,7 @@ const mediaUtil = require('./util/media');
 const { personService, vitalsService, triageService } = require('./service/service-loader');
 const { messages, grammer } = require('./messages/self-care');
 const config = require('../../src/env-variables');
+const { person } = require('./service/dummy-person-service.js');
 
 const selfCareFlow = {
   recordVitals: {
@@ -11,42 +12,45 @@ const selfCareFlow = {
     initial: 'fetchPersons',
     onEntry: assign((context, event) => {
       context.slots.vitals = {};
+      if (context.taskforce && context.taskforce.patients && context.taskforce.patients[+context.option - 1]) {
+        context.slots.vitals.person = context.taskforce.patients[+context.option - 1];
+      }
     }),
     states: {
       fetchPersons: {
         invoke: {
-          src: (context) => personService.getPeople(context.user.mobileNumber),
+          src: (context) => personService.getPeople(context.user.mobileNumber || context.person.mobile),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
               actions: assign((context, event) => {
                 context.persons = event.data;
               }),
-              target: '#noUserFound'
+              target: '#noUserFound',
             },
             {
               cond: (context, event) => event.data.length == 1,
               actions: assign((context, event) => {
                 context.slots.vitals.person = event.data[0];
               }),
-              target: '#vitalsSpo2'
+              target: '#vitalsSpo2',
             },
             {
               cond: (context, event) => event.data.length > 1,
               actions: assign((context, event) => {
                 context.persons = event.data;
               }),
-              target: '#selectPerson'
-            }
-          ]
-        }
+              target: '#selectPerson',
+            },
+          ],
+        },
       },
       noUserFound: {
         id: 'noUserFound',
         onEntry: assign((context, event) => {
           dialog.sendMessage(context, dialog.get_message(messages.noUserFound, context.user.locale), false);
         }),
-        always: '#selfCareMenu'
+        always: '#selfCareMenu',
       },
       selectPerson: {
         id: 'selectPerson',
@@ -67,8 +71,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, message);
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -77,26 +81,26 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 actions: assign((context, event) => {
                   let personUuid = context.intention;
-                  let personIndex = context.persons.findIndex(person => person.uuid.includes(personUuid));
+                  let personIndex = context.persons.findIndex((person) => person.uuid.includes(personUuid));
                   let person = context.persons[personIndex];
                   context.slots.vitals.person = person;
                 }),
-                target: '#vitalsSpo2'
-              }
-            ]
+                target: '#vitalsSpo2',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       vitalsSpo2: {
         id: 'vitalsSpo2',
@@ -105,23 +109,23 @@ const selfCareFlow = {
           prompt: {
             onEntry: assign((context, event) => {
               context.grammer = grammer.vitalsSpo2;
-              let message = dialog.get_message(messages.vitalsSpo2.prompt, context.user.locale);
+              let message = dialog.get_message(messages.vitalsSpo2.taskforce.prompt, context.user.locale, context.role);
               message = message.replace('{{name}}', context.slots.vitals.person.first_name);
               dialog.sendMessage(context, message);
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
               context.intention = dialog.get_intention(context.grammer, event, true);
-              context.slots.vitals.spo2 = context.intention
+              context.slots.vitals.spo2 = context.intention;
             }),
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 cond: (context) => context.intention == 'bad',
@@ -130,20 +134,20 @@ const selfCareFlow = {
                   message = message.replace('{{name}}', context.slots.vitals.person.first_name);
                   dialog.sendMessage(context, message);
                 }),
-                target: '#addVitals'
+                target: '#addVitals',
               },
               {
-                target: '#vitalsPulse'
+                target: '#vitalsPulse',
               },
-            ]
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       vitalsPulse: {
         id: 'vitalsPulse',
@@ -155,8 +159,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, dialog.get_message(messages.vitalsPulse.prompt, context.user.locale));
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -171,20 +175,20 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.slots.vitals.pulse,
-                target: '#vitalsBreathing'
+                target: '#vitalsBreathing',
               },
               {
-                target: 'error'
-              }
-            ]
+                target: 'error',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       vitalsBreathing: {
         id: 'vitalsBreathing',
@@ -196,8 +200,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, dialog.get_message(messages.vitalsBreathing.prompt, context.user.locale));
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -212,20 +216,20 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.slots.vitals.breathing_rate,
-                target: '#vitalsTemperature'
+                target: '#vitalsTemperature',
               },
               {
-                target: 'error'
-              }
-            ]
+                target: 'error',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       vitalsSpo2Walk: {
         id: 'vitalsSpo2Walk',
@@ -239,22 +243,22 @@ const selfCareFlow = {
               dialog.sendMessage(context, message);
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
               context.intention = dialog.get_intention(context.grammer, event, true);
-              context.slots.vitals.spo2 = context.intention
+              context.slots.vitals.spo2 = context.intention;
             }),
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 cond: (context) => context.slots.vitals.spo2 == 'good',
-                target: '#vitalsTemperature'
+                target: '#vitalsTemperature',
               },
               {
                 cond: (context) => context.slots.vitals.spo2 == 'bad',
@@ -263,17 +267,17 @@ const selfCareFlow = {
                   message = message.replace('{{name}}', context.slots.vitals.person.first_name);
                   dialog.sendMessage(context, message);
                 }),
-                target: '#unsubscribePerson'
-              }
-            ]
+                target: '#unsubscribePerson',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       vitalsTemperature: {
         id: 'vitalsTemperature',
@@ -285,53 +289,84 @@ const selfCareFlow = {
               dialog.sendMessage(context, dialog.get_message(messages.vitalsTemperature.prompt, context.user.locale));
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
               context.intention = dialog.get_intention(context.grammer, event, true);
-              context.slots.vitals.temperature = context.intention
+              context.slots.vitals.temperature = context.intention;
             }),
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 cond: (context) => context.slots.vitals.temperature == 'good',
                 actions: assign((context, event) => {
-                  dialog.sendMessage(context, dialog.get_message(messages.temperatureGood, context.user.locale));
+                  dialog.sendMessage(context, dialog.get_message(messages.temperatureGood, context.user.locale, context.role));
                 }),
-                target: '#addVitals'
+                target: '#addVitals',
               },
               {
                 cond: (context) => context.slots.vitals.temperature == 'bad',
                 actions: assign((context, event) => {
-                  dialog.sendMessage(context, dialog.get_message(messages.temperatureBad, context.user.locale));
+                  dialog.sendMessage(context, dialog.get_message(messages.temperatureBad, context.user.locale, context.role));
                 }),
-                target: '#addVitals'
-              }
-            ]
+                target: '#addVitals',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       addVitals: {
         id: 'addVitals',
         invoke: {
           src: (context) => vitalsService.addVitals(context.slots.vitals),
-          onDone: {
-            target: '#endstate'
-          }
-        }
-      }
-    }
+          onDone: [
+            {
+              cond: (context) => {
+                return context.role === 'taskforce';
+              },
+              target: '#addHomeIsolation',
+            },
+            {
+              target: '#endstate',
+            },
+          ],
+        },
+      },
+      addHomeIsolation: {
+        id: 'addHomeIsolation',
+        initial: 'prompt',
+        states: {
+          prompt: {
+            onEntry: assign((context, event) => {
+              dialog.sendMessage(context, `Do you want to add a person in home isolation.\n1. Yes\n2. No`);
+            }),
+            on: {
+              USER_MESSAGE: 'process',
+            },
+          },
+          process: {
+            onEntry: assign((context, event) => {
+              //TODO: Add user to home Isolation.
+              dialog.sendMessage(context, `Person is added to home isolation`);
+            }),
+            always: {
+              target: '#endstate',
+            },
+          },
+        },
+      },
+    },
   },
   downloadReport: {
     id: 'downloadReport',
@@ -348,31 +383,31 @@ const selfCareFlow = {
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
-              target: '#reportNoUserFound'
+              target: '#reportNoUserFound',
             },
             {
               cond: (context, event) => event.data.length == 1,
               actions: assign((context, event) => {
                 context.slots.report.person = event.data[0];
               }),
-              target: '#showReport'
+              target: '#showReport',
             },
             {
               cond: (context, event) => event.data.length > 1,
               actions: assign((context, event) => {
                 context.persons = event.data;
               }),
-              target: '#reportSelectPerson'
-            }
-          ]
-        }
+              target: '#reportSelectPerson',
+            },
+          ],
+        },
       },
       reportNoUserFound: {
         id: 'reportNoUserFound',
         onEntry: assign((context, event) => {
           dialog.sendMessage(context, dialog.get_message(messages.noUserFound, context.user.locale), false);
         }),
-        always: '#selfCareMenu'
+        always: '#selfCareMenu',
       },
       reportSelectPerson: {
         id: 'reportSelectPerson',
@@ -393,8 +428,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, message);
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -403,26 +438,26 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 actions: assign((context, event) => {
                   let personUuid = context.intention;
-                  let personIndex = context.persons.findIndex(person => person.uuid.includes(personUuid));
+                  let personIndex = context.persons.findIndex((person) => person.uuid.includes(personUuid));
                   let person = context.persons[personIndex];
                   context.slots.report.person = person;
                 }),
-                target: '#showReport'
-              }
-            ]
+                target: '#showReport',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       showReport: {
         id: 'showReport',
@@ -433,18 +468,18 @@ const selfCareFlow = {
               const media = event.data;
               const split = media.split('/');
               const fileName = split[split.length - 1];
-              const message =  {
-                "type": "media",
-                "output": media,
-                "caption": fileName
-              }
+              const message = {
+                type: 'media',
+                output: media,
+                caption: fileName,
+              };
               dialog.sendMessage(context, message);
             }),
-            target: '#endstate'
-          }
-        }
-      }
-    }
+            target: '#endstate',
+          },
+        },
+      },
+    },
   },
   exitProgram: {
     id: 'exitProgram',
@@ -459,31 +494,31 @@ const selfCareFlow = {
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
-              target: '#exitProgramNoUserFound'
+              target: '#exitProgramNoUserFound',
             },
             {
               cond: (context, event) => event.data.length == 1,
               actions: assign((context, event) => {
                 context.slots.exitProgram.person = event.data[0];
               }),
-              target: '#exitReason'
+              target: '#exitReason',
             },
             {
               cond: (context, event) => event.data.length > 1,
               actions: assign((context, event) => {
                 context.persons = event.data;
               }),
-              target: '#exitProgramSelectPerson'
-            }
-          ]
-        }
+              target: '#exitProgramSelectPerson',
+            },
+          ],
+        },
       },
       exitProgramNoUserFound: {
         id: 'exitProgramNoUserFound',
         onEntry: assign((context, event) => {
           dialog.sendMessage(context, dialog.get_message(messages.noUserFound, context.user.locale), false);
         }),
-        always: '#selfCareMenu'
+        always: '#selfCareMenu',
       },
       exitProgramSelectPerson: {
         id: 'exitProgramSelectPerson',
@@ -504,8 +539,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, message);
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -514,26 +549,26 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 actions: assign((context, event) => {
                   let personUuid = context.intention;
-                  let personIndex = context.persons.findIndex(person => person.uuid.includes(personUuid));
+                  let personIndex = context.persons.findIndex((person) => person.uuid.includes(personUuid));
                   let person = context.persons[personIndex];
                   context.slots.exitProgram.person = person;
                 }),
-                target: '#exitReason'
-              }
-            ]
+                target: '#exitReason',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       exitReason: {
         id: 'exitReason',
@@ -545,8 +580,8 @@ const selfCareFlow = {
               dialog.sendMessage(context, dialog.get_message(messages.exitProgram.exitReason.prompt, context.user.locale));
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
@@ -555,26 +590,26 @@ const selfCareFlow = {
             always: [
               {
                 cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-                target: 'error'
+                target: 'error',
               },
               {
                 actions: assign((context, event) => {
-                  context.slots.exitProgram.exitReason = context.intention
+                  context.slots.exitProgram.exitReason = context.intention;
                 }),
-                target: '#exitFeedback'
-              }
-            ]
+                target: '#exitFeedback',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
             }),
-            always: 'prompt'
-          }
-        }
+            always: 'prompt',
+          },
+        },
       },
       exitFeedback: {
-        id: 'exitFeedback', 
+        id: 'exitFeedback',
         initial: 'prompt',
         states: {
           prompt: {
@@ -582,34 +617,40 @@ const selfCareFlow = {
               dialog.sendMessage(context, dialog.get_message(messages.exitProgram.exitFeedback.prompt, context.user.locale));
             }),
             on: {
-              USER_MESSAGE: 'process'
-            }
+              USER_MESSAGE: 'process',
+            },
           },
           process: {
             onEntry: assign((context, event) => {
               context.slots.exitProgram.exitFeedback = dialog.get_input(event, false);
             }),
-            always: '#unsubscribePerson'
-          }
-        }
+            always: '#unsubscribePerson',
+          },
+        },
       },
       unsubscribePerson: {
         id: 'unsubscribePerson',
         invoke: {
           src: (context) => {
             let person = context.slots.exitProgram.person;
-            return triageService.exitProgram(person, context.slots.exitProgram)
+            if (!person.isolated) {
+              return triageService.exitProgram(person, context.slots.exitProgram);
+            }
           },
           onDone: {
             actions: assign((context, event) => {
-              dialog.sendMessage(context, dialog.get_message(messages.exitProgram.unsubscribedSuccessfully, context.user.locale));
+              if (person.isolated) {
+                dialog.sendMessage(context, 'This member is marked for Home isolation by the task force. Please reach out to task force member at 99999 for more details');
+              } else {
+                dialog.sendMessage(context, dialog.get_message(messages.exitProgram.unsubscribedSuccessfully, context.user.locale));
+              }
             }),
-            target: '#endstate'
-          }
-        }
-      }
-    }
-  }
-}
+            target: '#endstate',
+          },
+        },
+      },
+    },
+  },
+};
 
 module.exports = selfCareFlow;

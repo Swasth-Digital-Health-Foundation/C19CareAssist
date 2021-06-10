@@ -3,46 +3,49 @@ const INTENTION_MORE = 'more';
 const INTENTION_GOBACK = 'goback';
 
 function get_input(event, scrub = true) {
-  return scrub? event.message.input.trim().toLowerCase() : event.message.input;
+  return scrub ? event.message.input.trim().toLowerCase() : event.message.input;
 }
-function get_message(bundle, locale = 'en_IN') {
-  return (bundle[locale] === undefined)? bundle['en_IN'] : bundle[locale];
+function get_message(bundle, locale = 'en_IN', role) {
+  if (bundle[role]) {
+    bundle = bundle[role];
+  }
+  return bundle[locale] === undefined ? bundle['en_IN'] : bundle[locale];
 }
 function get_intention(g, event, strict = false) {
   let utterance = get_input(event);
   function exact(e) {
-    return e.recognize.includes(utterance)
+    return e.recognize.includes(utterance);
   }
   function contains(e) {
-    return e.recognize.find(r=>utterance.includes(r))
+    return e.recognize.find((r) => utterance.includes(r));
   }
-  let index = strict? g.findIndex(exact) : g.findIndex(e=>contains(e));
-  return (index == -1) ? INTENTION_UNKOWN : g[index].intention;
+  let index = strict ? g.findIndex(exact) : g.findIndex((e) => contains(e));
+  return index == -1 ? INTENTION_UNKOWN : g[index].intention;
 }
 function constructListPromptAndGrammer(keys, message_bundle, locale, more = false, goback = false) {
   var prompt = '';
   var grammer = [];
   if (more) {
-    keys = keys.concat([INTENTION_MORE])
-    message_bundle = Object.assign({}, message_bundle, {[INTENTION_MORE]: global_messages.more})
+    keys = keys.concat([INTENTION_MORE]);
+    message_bundle = Object.assign({}, message_bundle, { [INTENTION_MORE]: global_messages.more });
   }
   if (goback) {
-    keys = keys.concat([INTENTION_GOBACK])
-    message_bundle = Object.assign({}, message_bundle, {[INTENTION_GOBACK]: global_messages.goback})
+    keys = keys.concat([INTENTION_GOBACK]);
+    message_bundle = Object.assign({}, message_bundle, { [INTENTION_GOBACK]: global_messages.goback });
   }
-  
+
   keys.forEach((element, index) => {
     let value = undefined;
-    if(message_bundle[element] !== undefined) {
+    if (message_bundle[element] !== undefined) {
       value = get_message(message_bundle[element], locale);
     }
     if (value === undefined) {
       value = element;
     }
-    prompt+= `\n${index+1}. ` + value;
-    grammer.push({intention: element, recognize: [(index+1).toString()]});
+    prompt += `\n${index + 1}. ` + value;
+    grammer.push({ intention: element, recognize: [(index + 1).toString()] });
   });
-  return {prompt, grammer};
+  return { prompt, grammer };
 }
 function constructLiteralGrammer(keys, message_bundle, locale) {
   var grammer = [];
@@ -50,11 +53,11 @@ function constructLiteralGrammer(keys, message_bundle, locale) {
     let value = undefined;
     if (message_bundle[element] !== undefined) {
       value = get_message(message_bundle[element], locale);
-    } 
-    if(value === undefined) {
+    }
+    if (value === undefined) {
       value = element;
     }
-    grammer.push({intention: element, recognize: [value.toLowerCase()]});
+    grammer.push({ intention: element, recognize: [value.toLowerCase()] });
   });
   return grammer;
 }
@@ -63,11 +66,11 @@ function validateInputType(event, type) {
   return inputType === type;
 }
 function sendMessage(context, message, immediate = true) {
-  if(!context.output) {
+  if (!context.output) {
     context.output = [];
   }
   context.output.push(message);
-  if(immediate) {
+  if (immediate) {
     context.chatInterface.toUser(context.user, context.output, context.extraInfo);
     context.output = [];
   }
@@ -77,7 +80,7 @@ function sendMessage(context, message, immediate = true) {
 let global_messages = {
   error: {
     optionsRetry: {
-      en_IN: 'I am sorry, I didn\'t understand. Please select from the options given again.',
+      en_IN: "I am sorry, I didn't understand. Please select from the options given again.",
       hi_IN: 'सॉरी, मुझे समझ नहीं आया, कृप्या नीचे दिए गए विकल्पों में से फिर से चुनें।',
       ta_IN: 'மன்னிக்கவும், புரியவில்லை. கொடுக்கப்பட்ட ஆப்ஷன்களை மீண்டும் தேர்வு செய்க.',
       ma_IN: 'माफ करा, मला कळले नाही. कृपया पुन्हा दिलेल्या पर्यायांमधून निवडा.',
@@ -85,7 +88,7 @@ let global_messages = {
       te_IN: 'క్షమించండి. మరోసారి ఈ కింద ఆప్షన్స్ నుంచి ఒక ఆప్షన్ సెలెక్ట్ చేయండి',
     },
     retry: {
-      en_IN: 'I am sorry, I didn\'t understand. Let\'s try again.',
+      en_IN: "I am sorry, I didn't understand. Let's try again.",
       hi_IN: 'सॉरी, मुझे समझ नहीं आया, फिर से प्रयास करें।',
       ta_IN: 'மன்னிக்கவும். புரியவில்லை. மீண்டும் முயற்சிக்கவும்.',
       ma_IN: 'माफ करा, मला कळले नाही. चला पुन्हा प्रयत्न करूया.',
@@ -93,13 +96,13 @@ let global_messages = {
       te_IN: 'క్షమించండి. అర్థం కాలేదు. మరోసారి ప్రయత్నం చేయండి',
     },
     proceeding: {
-      en_IN: 'I am sorry, I didn\'t understand. But proceeding nonetheless',
+      en_IN: "I am sorry, I didn't understand. But proceeding nonetheless",
       hi_IN: 'सॉरी, मुझे समझ नहीं आया लेकिन फिर भी आगे बढ़ें।',
       ta_IN: 'மன்னிக்கவும், புரியவில்லை. இருந்தாலும் மீண்டும் முயற்சிக்கவும்.',
       ma_IN: 'माफ करा, मला कळले नाही. पण तरीही पुढे',
       kn_IN: 'ಕ್ಷಮಿಸಿ, ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ. ಆದರೆ ಪ್ರಕ್ರಿಯೆ ಮುಂದುವರೆಯಲಿದೆ',
       te_IN: 'నక్షమించండి. అర్థంకాలేదు. అయినా సరే కొనసాగించాలనుకుంటున్నారా',
-    }
+    },
   },
   system_error: {
     en_IN: 'I am sorry, our system has a problem and I cannot fulfill your request right now. Could you try again in a few minutes please?',
@@ -110,21 +113,21 @@ let global_messages = {
     te_IN: 'క్షమించండి. సిస్టంలో సమస్య తలెత్తినందున మీ అభ్యర్థనను ఇప్పుడు స్వీకరించలేము. మరికొంత సమయం తర్వాత ప్రయత్నించగలరు',
   },
   [INTENTION_MORE]: {
-    en_IN : "See more ...",
-    hi_IN : "और देखें ...",
+    en_IN: 'See more ...',
+    hi_IN: 'और देखें ...',
     ta_IN: 'மேலும் பார்க்க...',
     ma_IN: 'अजून पहा ...',
     kn_IN: 'ಇನ್ನಷ್ಟು ನೋಡಿ ...',
     te_IN: 'మరిన్ని వివరాలు ...',
   },
   [INTENTION_GOBACK]: {
-    en_IN : 'To go back ...',
-    hi_IN : 'पीछे जाएं ...',
+    en_IN: 'To go back ...',
+    hi_IN: 'पीछे जाएं ...',
     ma_IN: 'परत जाण्यासाठी ...',
     ta_IN: 'திரும்பச் செல்ல ...',
     kn_IN: 'ಹಿಂತಿರುಗಿ ...',
     te_IN: 'వెనక్కు వెళ్లేందుకు ...',
   },
-}
+};
 
 module.exports = { get_input, get_message, get_intention, INTENTION_UNKOWN, INTENTION_MORE, INTENTION_GOBACK, global_messages, constructListPromptAndGrammer, constructLiteralGrammer, validateInputType, sendMessage };

@@ -28,6 +28,11 @@ let messages = {
     },
   },
   vitalsSpo2: {
+    taskforce: {
+      prompt: {
+        en_IN: 'You are recording user for the {{name}} user!  \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below',
+      },
+    },
     prompt: {
       en_IN: '{{name}}! Please look for the oximeter, put it on your finger and let the number stabilize. Now tell me what your pulse oximeter says? \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below',
       hi_IN: 'मुझे उम्मीद है कि आपके पास घर पर एक पल्स ऑक्सीमीटर है, {{name}}। कृपया अपना SpO2 जांचें और नीचे से एक विकल्प चुनें \n\n1. SpO2 95% या अधिक है \n2. SpO2 94%या कम है',
@@ -45,7 +50,7 @@ let messages = {
       ma_IN: 'आपली नाडी काय आहे? (जशे ऑक्सिमीटरवर दाखवीत आहे )',
       //TODO: Translated (kn) from google, replace with original
       kn_IN: 'ನಿಮ್ಮ ನಾಡಿಮಿಡಿತ ಏನು? (ನಾಡಿ ಆಕ್ಸಿಮೀಟರ್‌ನಲ್ಲೂ ಕಂಡುಬರುತ್ತದೆ)',
-      te_IN : 'మీ పల్స్ ఎంత ఉంది ? (పల్స్ ఆక్సిమీటర్ మీద కూడా చూడొచ్చు)',
+      te_IN: 'మీ పల్స్ ఎంత ఉంది ? (పల్స్ ఆక్సిమీటర్ మీద కూడా చూడొచ్చు)',
     },
   },
   vitalsBreathing: {
@@ -59,7 +64,8 @@ let messages = {
     },
   },
   vitalsSpo2Bad: {
-    en_IN: '*{{name}}, your current oxygen level  is  well  below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
+    en_IN:
+      '*{{name}}, your current oxygen level  is  well  below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
     hi_IN: '*{{name}}, आपका वर्तमान ऑक्सीजन स्तर सामान्य मूल्य से नीचे है। कृपया तुरंत डॉक्टर से सलाह लें!* \nCOVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहां उपलब्ध है www.liferesources.in',
     ta_IN: '*{{name}}.. உங்கள் தற்போதைய ஆக்ஸிஜன் அளவு சாதாரண மதிப்பை விட குறைவாக உள்ளது. தயவுசெய்து உடனே மருத்துவரை அணுகவும்.*\n கொரோனா தொடர்பான தகவல் மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் www.liferesources.in என்ற இந்த லிங்கில் காணலாம்',
     ma_IN: '*{{name}}, तुमची सध्याची ऑक्सिजन पातळी सामान्य मूल्यापेक्षा खाली आहे. कृपया त्वरित डॉक्टरांचा सल्ला घ्या!*\nकोविड -१९  आणि जवळील काळजी-सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. www.liferesources.in',
@@ -68,8 +74,10 @@ let messages = {
   },
   vitalsSpo2Walk: {
     prompt: {
-      en_IN: '{{name}}, your SpO2 should ideally be between 95 and 99.  I just want to make sure that your lungs are not getting weak. I would suggest doing a simple test right now. All you need to do is walk around inside your room for 6 minutes with the pulse oximeter on your finger. Keep an eye out for the SpO2 all through the 6 minutes. \nLet me know how it goes. \n\n1. SpO2 fell below 93 or reduced by 3 points or more (at any point during the test)\n2.  Felt light headed (at any point during the test)\n3. Difficulty breathing (at any point during the test)\n4. None of the above',
-      ma_IN: '{{name}}, तुमचा एसपीओ२ साधारणपणे  ९५ आणि ९९ च्या मध्ये   असावा. मला खात्री करायची आहे की तुमची फुफ्फुसे अशक्त होत नाहीत. मी आत्ताच एक सोपी चाचणी करण्याचा सल्ला देतो. आपल्याला फक्त आपल्या बोटावर  ऑक्सिमीटरने 6 मिनिटांसाठी मुखवटाशिवाय एकटे फिरणे आवश्यक आहे. 6 मिनिटांत सर्व  एसपीओ२ कडे लक्ष ठेवा. ते कसे होते ते मला कळवा.',
+      en_IN:
+        '{{name}}, your SpO2 should ideally be between 95 and 99.  I just want to make sure that your lungs are not getting weak. I would suggest doing a simple test right now. All you need to do is walk around inside your room for 6 minutes with the pulse oximeter on your finger. Keep an eye out for the SpO2 all through the 6 minutes. \nLet me know how it goes. \n\n1. SpO2 fell below 93 or reduced by 3 points or more (at any point during the test)\n2.  Felt light headed (at any point during the test)\n3. Difficulty breathing (at any point during the test)\n4. None of the above',
+      ma_IN:
+        '{{name}}, तुमचा एसपीओ२ साधारणपणे  ९५ आणि ९९ च्या मध्ये   असावा. मला खात्री करायची आहे की तुमची फुफ्फुसे अशक्त होत नाहीत. मी आत्ताच एक सोपी चाचणी करण्याचा सल्ला देतो. आपल्याला फक्त आपल्या बोटावर  ऑक्सिमीटरने 6 मिनिटांसाठी मुखवटाशिवाय एकटे फिरणे आवश्यक आहे. 6 मिनिटांत सर्व  एसपीओ२ कडे लक्ष ठेवा. ते कसे होते ते मला कळवा.',
     },
   },
   vitalsSpo2WalkBad: {
@@ -79,6 +87,11 @@ let messages = {
     },
   },
   vitalsTemperature: {
+    taskforce: {
+      prompt: {
+        en_IN: 'What is the temprature? \n\n1. 99 and above \n2. 98 and below',
+      },
+    },
     prompt: {
       en_IN: "*Now let's check your temperature with your thermometer.* \n\n1. 99 and above \n2. 98 and below",
       hi_IN: 'अब अपने थर्मामीटर से अपने तापमान की जांच करते हैं। \n1. 99 और ऊपर \n2. 98 और नीचे',
@@ -89,6 +102,9 @@ let messages = {
     },
   },
   temperatureGood: {
+    taskforce: {
+      en_IN: 'Vitals have been recorded.',
+    },
     en_IN: 'Your vitals have been recorded. *No fever! Your SpO2 and your temperature are both normal!* Let’s keep it that way. I will check up on you again in a few hours to see how you are feeling!',
     hi_IN: 'आपके वाइटल्स रिकॉर्ड किए गए हैं। आपको बुखार नहीं है! आपका SpO2 और आपका तापमान दोनों सामान्य हैं! अपना ख्याल रखें। आप कैसा महसूस कर रहे हैं, यह जानने के लिए कुछ घंटों बाद हम आपसे फिर संपर्क करेंगे!',
     ta_IN: 'உங்கள் உயிரணுக்கள் பதிவு செய்யப்பட்டுள்ளன. காய்ச்சல் இல்லை! உங்கள் ஆக்சிஜன் அளவு (SpO2) மற்றும் உங்கள் வெப்பநிலை இரண்டும் இயல்பானவை! அதை அப்படியே வைத்திருப்போம். நீங்கள் எப்படி இருக்கிறீர்கள்? என்பதை அறிய சில மணிநேரங்களில் உங்களை மீண்டும் பரிசோதிக்கிறேன்.',
@@ -97,12 +113,20 @@ let messages = {
     te_IN: 'మీ వైటల్స్ రికార్డు అయ్యాయి. మీకు జ్వరం లేదు. టెంపరేచర్ సాధారణ స్థాయిలో ఉంది.  మళ్లీ కొంత సమయం తర్వాత టచ్‌లోకి వస్తాను \nఇంటి చిట్కాల కోసం వేగవంతంగా కోలుకునేందుకు ఈ వీడియో చూడండి https://www.youtube.com/watch?v=xTvd7oAEyhs',
   },
   temperatureBad: {
-    en_IN: 'Your vitals have been recorded. *Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling.\n\n More information regarding COVID-19 and nearby care facilities is available here www.liferesources.in',
-    hi_IN: 'आपके वाइटल्स रिकॉर्ड किए गए हैं। लगता है, आपको बुखार है। तापमान को वापस लाने के लिए आपको दवा लेने की आवश्यकता होगी। कृपया अपने डॉक्टर से संपर्क करें और हम आपको कुछ घंटों में फिर से देखेंगे कि आप कैसा महसूस कर रहे हैं। \n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहाँ उपलब्ध है www.liferesources.in',
-    ta_IN: 'உங்கள் உயிரணுக்கள் பதிவு செய்யப்பட்டுள்ளன. உங்களுக்கு காய்ச்சல் இருப்பது போல் தெரிகிறது. வெப்பநிலையை மீண்டும் குறைக்க நீங்கள் மருந்து எடுக்க வேண்டும். உங்கள் மருத்துவரை தொடர்பு கொள்ளவும் \nநீங்கள் எப்படி உணருகிறீர்கள்? என்பதை அறிய சில மணிநேரங்கள் கழித்து உங்களை மீண்டும் சரிபார்க்கிறேன். \nகொரோனா தொடர்பான மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் இதில் கிடைக்கின்றன www.liferesources.in',
+    taskforce: {
+      en_IN: 'Vitals have been recorded. *Looks like the person has a fever.* Person will need to take medication to bring the temperature back down.',
+    },
+    en_IN:
+      'Your vitals have been recorded. *Looks like you have a fever.* You will need to take medication to bring the temperature back down. Please contact your doctor and I will check up on you again in a few hours to see how you are feeling.\n\n More information regarding COVID-19 and nearby care facilities is available here www.liferesources.in',
+    hi_IN:
+      'आपके वाइटल्स रिकॉर्ड किए गए हैं। लगता है, आपको बुखार है। तापमान को वापस लाने के लिए आपको दवा लेने की आवश्यकता होगी। कृपया अपने डॉक्टर से संपर्क करें और हम आपको कुछ घंटों में फिर से देखेंगे कि आप कैसा महसूस कर रहे हैं। \n COVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहाँ उपलब्ध है www.liferesources.in',
+    ta_IN:
+      'உங்கள் உயிரணுக்கள் பதிவு செய்யப்பட்டுள்ளன. உங்களுக்கு காய்ச்சல் இருப்பது போல் தெரிகிறது. வெப்பநிலையை மீண்டும் குறைக்க நீங்கள் மருந்து எடுக்க வேண்டும். உங்கள் மருத்துவரை தொடர்பு கொள்ளவும் \nநீங்கள் எப்படி உணருகிறீர்கள்? என்பதை அறிய சில மணிநேரங்கள் கழித்து உங்களை மீண்டும் சரிபார்க்கிறேன். \nகொரோனா தொடர்பான மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் இதில் கிடைக்கின்றன www.liferesources.in',
     ma_IN: 'आपल्या तब्यतीची नोंद केली गेली आहे. आपल्याला ताप आहे असे दिसते. तापमान खाली आणण्यासाठी आपल्याला औषधे घेणे आवश्यक आहे. कृपया आपल्या डॉक्टरांशी संपर्क साधा आणि\nआपण कसे अनुभवत आहात हे पहाण्यासाठी मी काही तासांत पुन्हा पुन्हा आपल्याकडे भेट घेईन.',
-    kn_IN: 'ನಿಮ್ಮ ಮಾಹಿತಿ ದಾಖಲಾಗಿದೆ. ನಿಮಗೆ ಜ್ವರವಿದ್ದಂತೆ ಕಾಣುತ್ತಿದೆ. ನೀವು ನಿಮ್ಮ ದೇಹದ ಉಷ್ಣತೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿಕೊಳ್ಳಬೇಕಿದೆ. ಹೀಗಾಗಿ ನೀವು ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ, ಕೆಲವು ಗಂಟೆಗಳ ಬಳಿಕ ನಾನು ಮತ್ತೆ ನಿಮ್ಮನ್ನು ಪರೀಕ್ಷಿಸುತ್ತೇನೆ. \nಕೊವಿಡ್19 ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಕೊವಿಡ್ ಆರೈಕೆ ಕೇಂದ್ರಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿಗಾಗಿ ಇಲ್ಲಿ ಕ್ಲಿಕ್  https://life.coronasafe.network \n ಮನೆಯಲ್ಲಿ ಕ್ವಾರಂಟೈನ್ ಆಗುವುದು ಹೇಗೆ ಎಂಬುದರ ಕುರಿತು ಮತ್ತಷ್ಟು ಮಾಹಿತಿ ತಿಳಿದುಕೊಳ್ಳಿ https://www.youtube.com/watch?v=xTvd7oAEyhs',
-    te_IN: 'మీ వైటల్స్ రికార్డు అయ్యాయి. మీకు జ్వరం ఉన్నట్లు తెలుస్తోంది. టెంపరేచర్ సాధారణ స్థాయికి తెచ్చేందుకు మెడిసిన్స్ తీసుకోవాలి. వెంటనే మీ డాక్టరును సంప్రదించండి. మళ్లీ కొంత సమయం తర్వాత టచ్‌లోకి వస్తాను. \nకోవిడ్ 19కు సంబంధించి పూర్తి సమాచారంతో పాటు కోవిడ్ ఫెసిలిటీ కేంద్రం వివరాలు కూడా ఇక్కడ పొందొచ్చు https://life.coronasafe.network \nఇంట్లో క్వారంటైన్ గురించి మరిన్ని వివరాల కోసం https://www.youtube.com/watch?v=xTvd7oAEyhs',
+    kn_IN:
+      'ನಿಮ್ಮ ಮಾಹಿತಿ ದಾಖಲಾಗಿದೆ. ನಿಮಗೆ ಜ್ವರವಿದ್ದಂತೆ ಕಾಣುತ್ತಿದೆ. ನೀವು ನಿಮ್ಮ ದೇಹದ ಉಷ್ಣತೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿಕೊಳ್ಳಬೇಕಿದೆ. ಹೀಗಾಗಿ ನೀವು ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ, ಕೆಲವು ಗಂಟೆಗಳ ಬಳಿಕ ನಾನು ಮತ್ತೆ ನಿಮ್ಮನ್ನು ಪರೀಕ್ಷಿಸುತ್ತೇನೆ. \nಕೊವಿಡ್19 ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಕೊವಿಡ್ ಆರೈಕೆ ಕೇಂದ್ರಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿಗಾಗಿ ಇಲ್ಲಿ ಕ್ಲಿಕ್  https://life.coronasafe.network \n ಮನೆಯಲ್ಲಿ ಕ್ವಾರಂಟೈನ್ ಆಗುವುದು ಹೇಗೆ ಎಂಬುದರ ಕುರಿತು ಮತ್ತಷ್ಟು ಮಾಹಿತಿ ತಿಳಿದುಕೊಳ್ಳಿ https://www.youtube.com/watch?v=xTvd7oAEyhs',
+    te_IN:
+      'మీ వైటల్స్ రికార్డు అయ్యాయి. మీకు జ్వరం ఉన్నట్లు తెలుస్తోంది. టెంపరేచర్ సాధారణ స్థాయికి తెచ్చేందుకు మెడిసిన్స్ తీసుకోవాలి. వెంటనే మీ డాక్టరును సంప్రదించండి. మళ్లీ కొంత సమయం తర్వాత టచ్‌లోకి వస్తాను. \nకోవిడ్ 19కు సంబంధించి పూర్తి సమాచారంతో పాటు కోవిడ్ ఫెసిలిటీ కేంద్రం వివరాలు కూడా ఇక్కడ పొందొచ్చు https://life.coronasafe.network \nఇంట్లో క్వారంటైన్ గురించి మరిన్ని వివరాల కోసం https://www.youtube.com/watch?v=xTvd7oAEyhs',
   },
   exitProgram: {
     exitPersonSelection: {
@@ -138,7 +162,8 @@ let messages = {
     unsubscribedSuccessfully: {
       en_IN: 'I have removed you from the program now. You can always come and join the program again and please do remember to contact me for any concerns.\n\nMore information regarding COVID-19 and nearby care facilities is available here www.liferesources.in/',
       hi_IN: 'मैंने आपकी सदस्यता अब समाप्त कर दी है। आप कभी भी दोबारा आकर फिर से इस कार्यक्रम से जुड़ सकते हैं और किसी भी जानकारी के लिए मुझसे संपर्क अवश्य करें । COVID-19 और नजदीकी देखभाल केंद्रों से संबंधित जानकारी यहाँ प्राप्त कर सकते हैं  www.liferesources.in',
-      ta_IN: ' உங்களை நான் இந்த நிகழ்விலிருந்து தற்போது நீக்கவிட்டேன். நீங்கள் எப்போது வேண்டுமானாலும் வந்து இந்த நிகழ்வில் மீண்டும் இணையலாம். மேலும் விவரங்களுக்கு என்னை தொடர்பு கொள்ள தயவு செய்து மறந்துவிடாதீர்கள். கொரோனா குறித்த மேலும் விவரங்களை அறிய அருகில் உள்ள கொரோனா சிகிச்சை மையங்களின் பட்டியல் இங்கே கொடுக்கப்பட்டுள்ளன. www.liferesources.in',
+      ta_IN:
+        ' உங்களை நான் இந்த நிகழ்விலிருந்து தற்போது நீக்கவிட்டேன். நீங்கள் எப்போது வேண்டுமானாலும் வந்து இந்த நிகழ்வில் மீண்டும் இணையலாம். மேலும் விவரங்களுக்கு என்னை தொடர்பு கொள்ள தயவு செய்து மறந்துவிடாதீர்கள். கொரோனா குறித்த மேலும் விவரங்களை அறிய அருகில் உள்ள கொரோனா சிகிச்சை மையங்களின் பட்டியல் இங்கே கொடுக்கப்பட்டுள்ளன. www.liferesources.in',
       ma_IN: 'मी तुम्हाला आता कार्यक्रमातून काढून टाकले आहे. आपण नेहमीच परत येऊ शकता आणि प्रोग्राममध्ये पुन्हा सामील होऊ शकता आणि कृपया काळजीपूर्वक माझ्याशी संपर्क साधावा.\nकोविड -१९  आणि जवळील सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. www.liferesources.in',
       kn_IN: 'ನಾನು ಈಗ ನಿಮ್ಮನ್ನು ಪ್ರೋಗ್ರಾಂನಿಂದ ತೆಗೆದುಹಾಕಿದ್ದೇನೆ, ನೀವು ಯಾವಾಗಲಾದರೂ ಬಂದು ಕಾರ್ಯಕ್ರಮಕ್ಕೆ ಸೇರಬಹುದು, ಯಾವುದೇ ಆತಂಕಗಳಿದ್ದರೂ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ \n ಕೋವಿಡ್ 19 ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಅಥವಾ ಕೋವಿಡ್ ಆರೈಕೆ ಕೇಂದ್ರಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿಗಾಗಿ ಇಲ್ಲಿ ಕ್ಲಿಕ್  https://life.coronasafe.network',
       te_IN: 'ప్రోగ్రాం నుంచి మిమ్మలను తొలగించాను. మళ్లీ మీకు కావాలంటే ఈ ప్రోగ్రాంలో జాయిన్ కావొచ్చు. నన్ను కాంటాక్ట్ అయ్యేందుకు మరిచిపోకండి \nకోవిడ్ 19కు సంబంధించి పూర్తి సమాచారంతో పాటు కోవిడ్ ఫెసిలిటీ కేంద్రం వివరాలు కూడా ఇక్కడ పొందొచ్చు https://life.coronasafe.network',
