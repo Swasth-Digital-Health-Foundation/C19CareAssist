@@ -79,11 +79,11 @@ let messages = {
             // TODO: Add the language text below
           },
           registerForIsolation: {
-            en_IN: 'Register a person for home isolation',
+            en_IN: 'For Task force members Only',
             // TODO: Add the language text below
           },
           recordPatientVitals: {
-            en_IN: "Record patient's vitals",
+            en_IN: 'For AdminOnly',
             // TODO: Add the language text below
           },
         },

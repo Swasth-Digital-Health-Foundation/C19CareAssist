@@ -36,7 +36,7 @@ const taskforceFlow = {
             always: [
               {
                 cond: (context) => context.taskforce.person.mobile,
-                target: '#patientLocation',
+                target: '#patientList',
               },
               {
                 target: 'error',
@@ -224,7 +224,8 @@ const taskforceFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              if (event.message.type === 'location') {
+              console.log(event);
+              if (false && event.message.type === 'location') {
                 const str = event.message.input.toString().substring(1, event.message.input.length - 1);
                 const latlong = str.split(',');
                 const latitude = latlong[0];
@@ -233,7 +234,7 @@ const taskforceFlow = {
                 context.taskforce.person.location = event.message.input;
                 context.isValid = true;
               } else {
-                context.isValid = false;
+                context.isValid = true;
               }
             }),
             always: [

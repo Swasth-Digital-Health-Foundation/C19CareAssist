@@ -72,6 +72,13 @@ const chatStateMachine = Machine({
               target: 'error',
             },
             {
+              cond: (context) => context.intention !== 'en_IN',
+              actions: assign((context, event) => {
+                dialog.sendMessage(context, 'Work in Progress for this lang.');
+              }),
+              target: 'prompt',
+            },
+            {
               actions: assign((context, event) => {
                 context.user.locale = context.intention;
               }),
