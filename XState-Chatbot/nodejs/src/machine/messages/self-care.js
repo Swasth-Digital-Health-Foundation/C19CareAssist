@@ -169,6 +169,14 @@ let messages = {
       te_IN: 'ప్రోగ్రాం నుంచి మిమ్మలను తొలగించాను. మళ్లీ మీకు కావాలంటే ఈ ప్రోగ్రాంలో జాయిన్ కావొచ్చు. నన్ను కాంటాక్ట్ అయ్యేందుకు మరిచిపోకండి \nకోవిడ్ 19కు సంబంధించి పూర్తి సమాచారంతో పాటు కోవిడ్ ఫెసిలిటీ కేంద్రం వివరాలు కూడా ఇక్కడ పొందొచ్చు https://life.coronasafe.network',
     },
   },
+  addHomeIsolation: {
+    prompt: {
+      en_IN: 'Do you want to add a person in home isolation.\n1. Yes\n2. No',
+    },
+    sucessfullyIsolated: {
+      en_IN: 'Person has been isolated.',
+    },
+  },
 };
 
 let grammer = {

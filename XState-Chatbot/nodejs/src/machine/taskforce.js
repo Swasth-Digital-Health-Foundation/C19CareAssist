@@ -76,6 +76,16 @@ const taskforceFlow = {
                   target: 'prompt',
                 },
                 {
+                  cond: (context, event) => {
+                    return event.data && event.data.length === 1;
+                  },
+                  actions: assign((context, event) => {
+                    const patients = event.data[0];
+                    context.taskforce.patients = patients;
+                  }),
+                  target: '#vitalsSpo2',
+                },
+                {
                   target: '#patientName',
                 },
               ],
@@ -99,19 +109,18 @@ const taskforceFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.option = dialog.get_input(event, false);
+              context.option = dialog.get_input(event);
             }),
             always: [
               {
-                cond: (context, event) => context.option === '0',
+                cond: (context, event) => {
+                  return context.option === 'add';
+                },
                 target: '#patientName',
               },
               {
-                cond: (context, event) => context.option !== '0',
-                actions: assign((context, event) => {
-                  context.user.mobileNumber = context.taskforce.patients[+context.option - 1];
-                }),
-                target: '#vitalsSpo2',
+                cond: (context, event) => context.option === 'continue',
+                target: '#selectUserMenu',
               },
               {
                 target: 'error',
@@ -121,6 +130,42 @@ const taskforceFlow = {
           error: {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(messages.patientName.error, context.user.locale), false);
+            }),
+            always: 'prompt',
+          },
+        },
+      },
+      selectUserMenu: {
+        id: 'selectUserMenu',
+        initial: 'prompt',
+        states: {
+          prompt: {
+            onEntry: assign((context, event) => {
+              dialog.sendMessage(context, dialog.get_message(messages.selectUserMenu.prompt, context.user.locale));
+            }),
+            on: {
+              USER_MESSAGE: 'process',
+            },
+          },
+          process: {
+            onEntry: assign((context, event) => {
+              context.option = dialog.get_input(event, false);
+            }),
+            always: [
+              {
+                cond: (context, event) => {
+                  return +context.option <= context.taskforce.patients.length;
+                },
+                target: '#vitalsSpo2',
+              },
+              {
+                target: 'error',
+              },
+            ],
+          },
+          error: {
+            onEntry: assign((context, event) => {
+              dialog.sendMessage(context, dialog.get_message(messages.selectUserMenu.error, context.user.locale), false);
             }),
             always: 'prompt',
           },
@@ -179,11 +224,27 @@ const taskforceFlow = {
           },
           process: {
             onEntry: assign((context, event) => {
-              context.taskforce.person.location = event.message.input;
+              if (event.message.type === 'location') {
+                const str = event.message.input.toString().substring(1, event.message.input.length - 1);
+                const latlong = str.split(',');
+                const latitude = latlong[0];
+                const longitude = latlong[1];
+                input = `(${latitude},${longitude})`;
+                context.taskforce.person.location = event.message.input;
+                context.isValid = true;
+              } else {
+                context.isValid = false;
+              }
             }),
-            always: {
-              target: '#patientList',
-            },
+            always: [
+              {
+                cond: (context) => context.isValid == false,
+                target: 'error',
+              },
+              {
+                target: '#patientList',
+              },
+            ],
           },
           error: {
             onEntry: assign((context, event) => {

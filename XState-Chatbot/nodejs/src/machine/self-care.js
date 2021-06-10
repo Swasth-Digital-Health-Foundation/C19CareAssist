@@ -349,7 +349,7 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
-              dialog.sendMessage(context, `Do you want to add a person in home isolation.\n1. Yes\n2. No`);
+              dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.prompt, context.user.locale, context.role));
             }),
             on: {
               USER_MESSAGE: 'process',
@@ -358,7 +358,7 @@ const selfCareFlow = {
           process: {
             onEntry: assign((context, event) => {
               //TODO: Add user to home Isolation.
-              dialog.sendMessage(context, `Person is added to home isolation`);
+              dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
             }),
             always: {
               target: '#endstate',

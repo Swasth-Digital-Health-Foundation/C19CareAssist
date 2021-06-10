@@ -15,7 +15,17 @@ let messages = {
       // TODO: translations
     },
     postScript: {
-      en_IN: 'Or Press 0 to Add new Member',
+      en_IN: 'Type “Add” to Add new member OR Type “Continue” to record vitals',
+    },
+    error: {
+      en_IN: "I am sorry, I didn't understand. Please enter a valid number (10 characters)",
+      // TODO: translations
+    },
+  },
+  selectUserMenu: {
+    prompt: {
+      en_IN: 'Select the member number.',
+      // TODO: translations
     },
     error: {
       en_IN: "I am sorry, I didn't understand. Please enter a valid number (10 characters)",
