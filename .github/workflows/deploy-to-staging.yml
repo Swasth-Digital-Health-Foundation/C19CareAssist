@@ -1,0 +1,37 @@
+name: Deploy To Staging
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name: 
+        description: 'app_name'
+        required: true 
+      docker_tag:
+        description: 'docker_tag'
+        required: true 
+
+jobs:
+  Deploy-To-EKS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (Default)
+        uses: actions/checkout@v2
+
+      - name: Download override file
+        run: |
+          curl -L -O  https://${{ secrets.OVERRIDE_TOKEN }}@raw.githubusercontent.com/Swasth-Digital-Health-Foundation/DevOps/main/swasth-chatbot-stage.yaml 
+          ls -lrth
+
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: helm deploy
+        uses: koslib/helm-eks-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_STAGING }}
+        with:
+          command: cd ops/helm/${{ github.event.inputs.app_name }} && helm dep update && helm template -f swasth-chatbot-stage.yaml --set image.tag=${{ github.event.inputs.docker_tag }} . | kubectl apply -f-
