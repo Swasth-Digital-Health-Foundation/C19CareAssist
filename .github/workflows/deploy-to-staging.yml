@@ -19,7 +19,7 @@ jobs:
 
       - name: Download override file
         run: |
-          curl -L -O  https://${{ secrets.OVERRIDE_TOKEN }}@raw.githubusercontent.com/saiakhil46/override-repo/main/${{ github.event.inputs.app_name }}-override.yml 
+          curl -L -O  https://${{ secrets.OVERRIDE_TOKEN }}@raw.githubusercontent.com/Swasth-Digital-Health-Foundation/DevOps/main/swasth-chatbot-stage.yaml 
           ls -lrth
 
       - name: AWS Credentials
@@ -34,4 +34,4 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_STAGING }}
         with:
-          command: helm template ${{ github.event.inputs.app_name }} ops/helm/${{ github.event.inputs.app_name }} --set image.repository=saiakhil46/${{ github.event.inputs.app_name }}:${{ github.event.inputs.docker_tag }} | kubectl apply -f-
+          command: cd ops/helm/${{ github.event.inputs.app_name }} && helm dep update && helm template -f swasth-chatbot-stage.yaml --set image.tag=${{ github.event.inputs.docker_tag }} . | kubectl apply -f-
