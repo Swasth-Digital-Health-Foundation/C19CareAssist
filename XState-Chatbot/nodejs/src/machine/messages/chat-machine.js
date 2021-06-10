@@ -39,7 +39,7 @@ let messages = {
       options: {
         newUser: ['info', 'infoTesting', 'infoVaccination', 'worried'],
         subscribedUser: ['info', 'infoTesting', 'infoVaccination', 'worried', 'selfCare'],
-        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'notWell', 'registerForIsolation', 'recordPatientVitals'],
+        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'notWell', 'registerForIsolation'],
         // adminUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
         messageBundle: {
           worried: {

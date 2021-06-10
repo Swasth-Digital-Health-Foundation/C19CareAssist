@@ -1,7 +1,7 @@
 let messages = {
   patientNumber: {
     prompt: {
-      en_IN: 'Enter the mobile number of the patient you want to add as home isolation',
+      en_IN: "Please enter Patient's Mobile Number",
       // TODO: translations
     },
     error: {
