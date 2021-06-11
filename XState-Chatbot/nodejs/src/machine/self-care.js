@@ -349,7 +349,7 @@ const selfCareFlow = {
         states: {
           prompt: {
             onEntry: assign((context, event) => {
-              dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.prompt, context.user.locale, context.role), false);
+              dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.prompt, context.user.locale, context.role));
             }),
             on: {
               USER_MESSAGE: 'process',
