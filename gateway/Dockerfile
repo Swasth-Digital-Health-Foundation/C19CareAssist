@@ -5,7 +5,7 @@ RUN apk --update --no-cache add g++ make python tzdata bash curl
 # Create app directory
 WORKDIR /local/services/healthgateway
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 RUN npm install --silent
 
