@@ -88,7 +88,7 @@ const taskforceFlow = {
                     const patients = event.data[0];
                     context.taskforce.patients = patients;
                   }),
-                  target: '#recordVitals',
+                  target: '#vitalsSpo2',
                 },
                 {
                   target: '#patientName',
@@ -165,7 +165,7 @@ const taskforceFlow = {
                 cond: (context, event) => {
                   return +context.option <= context.taskforce.patients.length;
                 },
-                target: '#recordVitals',
+                target: '#vitalsSpo2',
               },
               {
                 target: 'error',
