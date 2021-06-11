@@ -43,12 +43,7 @@ let messages = {
         // adminUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
         messageBundle: {
           worried: {
-            en_IN: 'I am feeling worried and have COVID related concerns',
-            hi_IN: 'मैं COVID-19 को लेकर बहुत चिंतित हूँ',
-            ta_IN: 'நான் கவலைப்படுகிறேன், கொரோனா தொடர்பான சந்தேகங்கள்உள்ளன',
-            ma_IN: 'मी चिंताग्रस्त आहे आणि मला कोविडशी संबंधित चिंता आहे',
-            kn_IN: 'ನನಗೆ ಚಿಂತೆ ಕಾಡುತ್ತಿದೆ, ಹಾಗೆಯೇ ಕೋವಿಡ್ 19 ಕುರಿತು ಆತಂಕಕ್ಕೆ ಒಳಗಾಗಿದ್ದೇನೆ',
-            te_IN: 'కోవిడ్-19 సంబంధిత సమాచారంతో నాలో ఆందోళన నెలకొంది',
+            en_IN: 'I am not feeling well',
           },
           notWell: {
             en_IN: 'I am not feeling well.',

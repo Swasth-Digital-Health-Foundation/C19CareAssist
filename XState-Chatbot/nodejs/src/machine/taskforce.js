@@ -59,10 +59,10 @@ const taskforceFlow = {
             id: 'fetchUser',
             invoke: {
               src: (context, event) => {
-                if (event.data) {
+                if (event && event.data) {
                   return personService.getPeople(event.data.mobile);
                 }
-                return personService.getPeople(event.message.input);
+                return personService.getPeople(context.taskforce.person.mobile);
               },
               onDone: [
                 {
