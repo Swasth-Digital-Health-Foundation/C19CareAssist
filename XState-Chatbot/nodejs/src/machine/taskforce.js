@@ -88,7 +88,7 @@ const taskforceFlow = {
                     const patients = event.data[0];
                     context.taskforce.patients = patients;
                   }),
-                  target: '#vitalsSpo2',
+                  target: '#recordVitals',
                 },
                 {
                   target: '#patientName',
@@ -102,8 +102,12 @@ const taskforceFlow = {
           },
           prompt: {
             onEntry: assign((context, event) => {
-              dialog.sendMessage(context, dialog.get_message(messages.patientList.prompt, context.user.locale));
-              let message = context.taskforce.patients.reduce((message, person, i) => `${message}\n${i + 1}. ${person.first_name}`, '');
+              let message = dialog.get_message(messages.patientList.prompt, context.user.locale);
+              let patientListText = '';
+              context.taskforce.patients.forEach((person, i) => {
+                patientListText += `\n${i + 1}. ${person.first_name}`;
+              });
+              message += patientListText;
               message += `\n${messages.patientList.postScript[context.user.locale]}`;
               dialog.sendMessage(context, message);
             }),
@@ -161,7 +165,7 @@ const taskforceFlow = {
                 cond: (context, event) => {
                   return +context.option <= context.taskforce.patients.length;
                 },
-                target: '#vitalsSpo2',
+                target: '#recordVitals',
               },
               {
                 target: 'error',
