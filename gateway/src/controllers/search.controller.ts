@@ -1,31 +1,33 @@
-import * as express from 'express'
-import { Request, Response } from 'express'
-import ControllerBase from '../interfaces/ControllerBase.interface'
-import { isAuthenticated } from '../middleware/auth' 
-import Search from '../services/search' 
-import logger from '../utils/logger'
+import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
+import ControllerBase from '../interfaces/ControllerBase.interface';
+import { isAuthenticated } from '../middleware/auth';
+import { doctorConfirmation } from '../middleware/doctorConfirmation';
+import Search from '../services/search';
+import logger from '../utils/logger';
 
 class SearchController implements ControllerBase {
-  public path = '/api/v1/search'
-  public router = express.Router()
+  public path = '/api/v1/search';
+  public router = express.Router();
 
   constructor() {
-    this.initRoutes()
+    this.initRoutes();
   }
 
   public initRoutes() {
-    this.router.post(`${this.path}/service`, isAuthenticated, this.search)
+    this.router.post(`${this.path}/service`, isAuthenticated, this.search, doctorConfirmation);
   }
 
-  search = async (req: Request, res: Response) => {
+  private search = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data: any = await new Search().getResults(req.body);
-      res.send(data).status(200);
+      res.locals.doctorSearchUrl = data.services?.[0]?.provider?.api?.url;
+      next();
     } catch (e) {
-      logger.error('Error in SearchController.search ', e)
-      res.status(500).send({ code: 500, message: e.message })
-    }    
+      logger.error('Error in SearchController.search ', e);
+      res.status(500).send({ code: 500, message: e.message });
+    }
   }
 }
 
-export default SearchController
+export default SearchController;
