@@ -59,8 +59,13 @@ const taskforceFlow = {
             id: 'fetchUser',
             invoke: {
               src: (context, event) => {
-                if (event && event.data) {
-                  return personService.getPeople(event.data.mobile);
+                if (event) {
+                  if (event.data) {
+                    return personService.getPeople(event.data.mobile);
+                  }
+                  else {
+                    return personService.getPeople(event.message.input);
+                  }
                 }
                 return personService.getPeople(context.taskforce.person.mobile);
               },
