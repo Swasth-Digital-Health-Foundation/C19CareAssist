@@ -10,15 +10,18 @@ export const isAuthenticated = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   const headers = req.headers || {};
-  const at = headers['x-access-token'] ? headers['x-access-token'].toString() : '';
+  const at = headers['accesstoken'] ? headers['accesstoken'].toString() : '';
   try {
     const decoded = authHelper.verify('access_token', at);
     if (decoded) {
       req.headers['authenticated-client'] = decoded.data;
       next();
-    } else res.send({ statusCode: 401, message: 'invalid token...' });
+    }
+    else {
+      res.send({ statusCode: 401, message: 'invalid token...' });
+    }
   } catch (error) {
     logger.error('Auth Failed', error);
     res.send({ statusCode: 401, message: 'invalid token...' });
