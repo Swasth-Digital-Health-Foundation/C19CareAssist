@@ -3,8 +3,8 @@ import logger from '../utils/logger';
 import ControllerInterface from './interface';
 
 class SearchController implements ControllerInterface {
-  public readonly path: string = '/api/v1/search';
-  public router: express.Router = express.Router();
+  private readonly path: string = '/api/v1/search/service';
+  readonly router: express.Router = express.Router();
 
   constructor() {
     this.initRoutes();
@@ -14,8 +14,8 @@ class SearchController implements ControllerInterface {
     this.router.post(this.path, this.search);
   }
 
-  private search() {
-    logger.info('hello world!');
+  private search(request: express.Request, response: express.Response) {
+
   }
 }
 
