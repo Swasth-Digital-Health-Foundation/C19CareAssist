@@ -16,7 +16,6 @@ class SearchController implements ControllerInterface {
   }
 
   private search(request: express.Request, response: express.Response) {
-
     logger.debug('Hello world');
   }
 }
