@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { isAuthenticated } from '../middleware/auth';
 import logger from '../utils/logger';
 import ControllerInterface from './interface';
 
@@ -11,7 +12,7 @@ class SearchController implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, this.search);
+    this.router.post(this.path, isAuthenticated, this.search);
   }
 
   private search() {
