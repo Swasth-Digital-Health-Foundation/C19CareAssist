@@ -12,7 +12,7 @@ export const isAuthenticated = (
   next: NextFunction
 ) => {
   const headers = req.headers || {};
-  const at = headers['accesstoken'] ? headers['accesstoken'].toString() : '';
+  const at = headers['x-access-token'] ? headers['x-access-token'].toString() : '';
   try {
     const decoded = authHelper.verify('access_token', at);
     if (decoded) {
