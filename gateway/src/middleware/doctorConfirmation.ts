@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { DOCTORS_API_KEY } from '../utils/secrets';
+import { DOCTORS_API_KEY, CONTEXT_APP_URL } from '../utils/secrets';
 import APIResolver from '../utils/api-resolver';
 import logger from '../utils/logger';
 
@@ -10,6 +10,7 @@ import logger from '../utils/logger';
  * @returns sanitised request body to be used to hit the /confirm service
  */
 const transformData = (searchData: any) => {
+  searchData.context.app.api.url = CONTEXT_APP_URL;
   return {
     context: searchData.context,
     message: {
