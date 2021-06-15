@@ -1,10 +1,10 @@
 import ControllerInterface from './interface';
 import * as express from 'express';
 import logger from '../utils/logger';
-import { isAuthenticated } from 'src/middleware/auth';
+import { isAuthenticated } from '../middleware/auth';
 
 class OnUpdate implements ControllerInterface {
-  private readonly path: string = '/api/v1/on_update/service';
+  private readonly path: string = '/v1/on_update/service';
   readonly router: express.Router = express.Router();
 
   constructor() {
