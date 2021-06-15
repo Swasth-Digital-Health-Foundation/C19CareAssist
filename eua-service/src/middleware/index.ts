@@ -7,5 +7,5 @@ export default [
   cors({ credentials: true, origin: true }),
   express.json(),
   compression(),
-  loggerMiddleware
+  loggerMiddleware,
 ];
