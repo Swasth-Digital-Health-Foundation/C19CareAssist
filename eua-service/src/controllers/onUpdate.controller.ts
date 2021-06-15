@@ -1,6 +1,7 @@
 import ControllerInterface from './interface';
 import * as express from 'express';
 import logger from '../utils/logger';
+import { isAuthenticated } from 'src/middleware/auth';
 
 class OnUpdate implements ControllerInterface {
   private readonly path: string = '/api/v1/on_update/service';
@@ -11,7 +12,7 @@ class OnUpdate implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, this.onUpdate);
+    this.router.post(this.path, isAuthenticated, this.onUpdate);
   }
 
   private onUpdate = (request: express.Request, response: express.Response, next: express.NextFunction) => {
