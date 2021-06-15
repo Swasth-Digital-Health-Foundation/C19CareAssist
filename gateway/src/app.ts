@@ -1,16 +1,19 @@
-import "reflect-metadata";
-import * as express from "express";
-import { Application } from "express";
-import { createConnection, Connection } from "typeorm";
-import logger from "./utils/logger";
+import 'reflect-metadata';
+import * as express from 'express';
+import { Application } from 'express';
+import { Server as WebSocketServer } from 'ws';
+import { createConnection, Connection } from 'typeorm';
+import logger from './utils/logger';
+import KafkaConsumer from './utils/kafka-consumer';
 
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class App {
-  private app: Application
-  private port: number
-  private server: any
-  private connection: Connection
+  private app: Application;
+  private port: number;
+  private server: any;
+  private connection: Connection;
+  private WSS: WebSocketServer;
 
   constructor(appInit: {
     port: number;
@@ -40,34 +43,34 @@ class App {
     name: string;
   }) {
     createConnection({
-      type: "postgres",
+      type: 'postgres',
       host: db.host,
       port: db.port,
       username: db.user,
       password: db.password,
       database: db.name,
       entities: [
-        __dirname + "/entity/*.js",
-        __dirname + "/entity/*.ts"
+        __dirname + '/entity/*.js',
+        __dirname + '/entity/*.ts'
       ],
       synchronize: true,
       logging: false,
     })
       .then(connection => {
         this.connection = connection;
-        logger.debug("Database connection established");
+        logger.debug('Database connection established');
       });
   }
 
   private middlewares(middleWares: { forEach: (arg0: (middleWare: any) => void) => void }) {
-    middleWares.forEach(middleWare => {
+    middleWares.forEach((middleWare) => {
       this.app.use(middleWare);
     });
   }
 
   private routes(controllers: { forEach: (arg0: (controller: any) => void) => void }) {
-    controllers.forEach(controller => {
-      this.app.use("/", controller.router);
+    controllers.forEach((controller) => {
+      this.app.use('/', controller.router);
     });
   }
 
@@ -80,12 +83,18 @@ class App {
       logger.info(`App is listening on the http://localhost:${this.port}`);
     });
 
-    return "Server is ready";
+    this.WSS = new WebSocketServer({ server: this.server });
+
+    this.WSS.on('listening', (): void => {
+      KafkaConsumer.subscribe();
+    });
+
+    return 'Server is ready';
   }
 
   public stop() {
     this.server.close();
-    return "Stopped";
+    return 'Stopped';
   }
 }
 
