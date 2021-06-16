@@ -2,7 +2,7 @@ import axios from 'axios';
 import logger from './logger';
 
 class APIResolver {
-  public async request(options: object) {
+  public request = async (options: object) => {
     try {
       const response = await axios.request(options);
       return response.data;
@@ -11,7 +11,7 @@ class APIResolver {
       if (error.code === 'ECONNABORTED') return null;
       else throw error;
     }
-  }
+  };
 }
 
 export default new APIResolver();

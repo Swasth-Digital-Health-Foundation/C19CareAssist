@@ -1,7 +1,6 @@
 import * as express from 'express';
 import ApiResolver from '../utils/api-resolver';
 import { GATEWAY_URL, DOCTORS_API_KEY, CONTEXT_APP_URL } from '../utils/secrets';
-import { isAuthenticated } from '../middleware/auth';
 import logger from '../utils/logger';
 import ControllerInterface from './interface';
 
@@ -43,7 +42,7 @@ class SearchController implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, isAuthenticated, this.search, this.setAppointment);
+    this.router.post(this.path, this.search, this.setAppointment);
   }
 
   private search = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
@@ -62,15 +61,14 @@ class SearchController implements ControllerInterface {
         data: request.body,
         timeout: 1000
       });
-      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url;
+      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url || 'https://stagapi.1mgdoctors.com/api/v1/bhs';
       if (!response.locals.providerUrl) {
         throw new Error('Unable to confirm appointment with a doctor - URL not available.');
       }
       next();
     } catch (error) {
       logger.error('Error in search middleware', error);
-      // return response.status(500).json({ code: 500, message: error.message });
-      next(error);
+      return response.status(500).json({ code: 500, message: error.message });
     }
   };
 
@@ -78,7 +76,7 @@ class SearchController implements ControllerInterface {
     try {
       const apiResponse = await ApiResolver.request({
         method: 'POST',
-        url: `${response.locals.doctorSearchUrl}/confirm/service`,
+        url: `${response.locals.providerUrl}/confirm/service`,
         headers: {
           'content-type': 'application/json',
           apiToken: DOCTORS_API_KEY,
