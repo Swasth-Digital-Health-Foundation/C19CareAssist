@@ -3,16 +3,18 @@ import apiResolver from '../utils/api-resolver';
 import { GATEWAY_URL } from '../utils/secrets';
 import authHelper from '../utils/auth-helper';
 import logger from '../utils/logger';
+import Auth from '../services/auth';
 
 class AuthMiddleware {
   private gatewayPublicKey: string;
   retrieveGatewayPublicKey = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!this.gatewayPublicKey) {
-        const apiResponse = await apiResolver.request({
+        /* const apiResponse = await apiResolver.request({
           method: 'GET',
           url: `${GATEWAY_URL}/api/v1/publickey`
-        });
+        }); */
+        const apiResponse = await new Auth().getPublicKey();
         this.gatewayPublicKey = apiResponse.public_key;
       }
       return next();
