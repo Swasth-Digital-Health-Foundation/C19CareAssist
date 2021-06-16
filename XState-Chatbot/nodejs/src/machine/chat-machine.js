@@ -30,13 +30,13 @@ const chatStateMachine = Machine({
       invoke: {
         src: (context) => personService.getPeople(context.user.mobileNumber),
         onDone: [
-          // {
-          //   cond: (context, event) => context.user.locale,
-          //   actions: assign((context, event) => {
-          //     context.persons = event.data;
-          //   }),
-          //   target: '#menu'
-          // },
+          {
+            cond: (context, event) => context.user.locale,
+            actions: assign((context, event) => {
+              context.persons = event.data;
+            }),
+            target: '#menu',
+          },
           {
             actions: assign((context, event) => {
               context.persons = event.data;
@@ -134,7 +134,7 @@ const chatStateMachine = Machine({
           always: [
             {
               cond: (context) => context.intention == 'worried',
-              target: '#registerForIsolationFlow',
+              target: '#selfCareMenu',
             },
             {
               cond: (context) => context.intention == 'selfCare',
@@ -155,10 +155,6 @@ const chatStateMachine = Machine({
             {
               cond: (context) => context.intention == 'registerForIsolation',
               target: '#registerForIsolationFlow',
-            },
-            {
-              cond: (context) => context.intention == 'notWell',
-              target: '#triageFlow',
             },
             {
               target: 'error',
@@ -221,15 +217,20 @@ const chatStateMachine = Machine({
         prompt: {
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.selfCareMenu.prompt.preamble, context.user.locale);
-
             let options, bundle;
-            const subscribedPatients = personService.filterSubscribedPeople(context.persons);
-            if (subscribedPatients && subscribedPatients.length) {
+            if (context.role === 'taskforce') {
+              options = messages.selfCareMenu.prompt.options.taskforceUser.list;
+              bundle = messages.selfCareMenu.prompt.options.taskforceUser.messageBundle;
+            } else {
               options = messages.selfCareMenu.prompt.options.hasLivePatients.list;
               bundle = messages.selfCareMenu.prompt.options.hasLivePatients.messageBundle;
-            } else {
-              options = messages.selfCareMenu.prompt.options.noLivePatients.list;
-              bundle = messages.selfCareMenu.prompt.options.noLivePatients.messageBundle;
+              //const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+              //if (subscribedPatients && subscribedPatients.length) {
+
+              //} else {
+              //  options = messages.selfCareMenu.prompt.options.noLivePatients.list;
+              //  bundle = messages.selfCareMenu.prompt.options.noLivePatients.messageBundle;
+              //}
             }
 
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, bundle, context.user.locale);
@@ -249,6 +250,10 @@ const chatStateMachine = Machine({
             {
               cond: (context) => context.intention == 'addPatient',
               target: '#triageFlow',
+            },
+            {
+              cond: (context) => context.intention != dialog.INTENTION_UNKOWN,
+              target: '#patientList',
             },
             {
               cond: (context) => context.intention == 'recordVitals',

@@ -39,19 +39,16 @@ let messages = {
       options: {
         newUser: ['info', 'infoTesting', 'infoVaccination', 'worried'],
         subscribedUser: ['info', 'infoTesting', 'infoVaccination', 'worried', 'selfCare'],
-        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'notWell', 'registerForIsolation'],
+        taskforceUser: ['info', 'infoTesting', 'infoVaccination', 'worried', 'registerForIsolation'],
         // adminUser: ['info', 'infoTesting', 'infoVaccination', 'registerForIsolation', 'recordPatientVitals'],
         messageBundle: {
           worried: {
-            en_IN: 'I am feeling worried and have COVID related concerns',
+            en_IN: 'I am not feeling well.',
             hi_IN: 'मैं COVID-19 को लेकर बहुत चिंतित हूँ',
             ta_IN: 'நான் கவலைப்படுகிறேன், கொரோனா தொடர்பான சந்தேகங்கள்உள்ளன',
             ma_IN: 'मी चिंताग्रस्त आहे आणि मला कोविडशी संबंधित चिंता आहे',
             kn_IN: 'ನನಗೆ ಚಿಂತೆ ಕಾಡುತ್ತಿದೆ, ಹಾಗೆಯೇ ಕೋವಿಡ್ 19 ಕುರಿತು ಆತಂಕಕ್ಕೆ ಒಳಗಾಗಿದ್ದೇನೆ',
             te_IN: 'కోవిడ్-19 సంబంధిత సమాచారంతో నాలో ఆందోళన నెలకొంది',
-          },
-          notWell: {
-            en_IN: 'I am not feeling well.',
           },
           selfCare: {
             en_IN: 'I want to manage my self-monitoring program',
@@ -142,6 +139,35 @@ let messages = {
         te_IN: 'మీరెలా ముందుకెళ్లాలనుకుంటున్నారు',
       },
       options: {
+        taskforceUser: {
+          list: ['recordVitals', 'downloadReport', 'exitProgram'],
+          messageBundle: {
+            recordVitals: {
+              en_IN: 'Enter vitals',
+              hi_IN: 'वाइटल्स दर्ज करें',
+              ta_IN: 'உயிரணுக்களை உள்ளிடவும்',
+              ma_IN: 'आपल्या तब्यतीची ची माहिती फीड करा',
+              kn_IN: 'ಮಹತ್ವದ ಮಾಹಿತಿ ದಾಖಲಿಸಿ',
+              te_IN: 'వైటల్స్‌ను ఎంటర్ చేయండి',
+            },
+            downloadReport: {
+              en_IN: 'Download vitals report',
+              hi_IN: 'वाइटल्स रिपोर्ट डाउनलोड करें',
+              ta_IN: 'உயிரணுக்களின் அறிக்கையைப் பதிவிறக்குங்கள்',
+              ma_IN: 'आपल्या तब्यतीची चा  अहवाल डाउनलोड करा',
+              kn_IN: 'ಮಾಹಿತಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+              te_IN: 'వైటల్స్‌ రిపోర్టును డౌన్‌లోడ్  చేసుకోండి',
+            },
+            exitProgram: {
+              en_IN: 'Exit self care program',
+              hi_IN: 'आत्म देखभाल प्रोग्राम से बाहर निकलें',
+              ta_IN: 'சுய பாதுகாப்பு திட்டத்திலிருந்து வெளியேறு',
+              ma_IN: 'सेल्फ केअर प्रोग्राममधून बाहेर पडा',
+              kn_IN: 'ಸ್ವಯಂ ಆರೈಕೆ ಕಾರ್ಯಕ್ರಮದಿಂದ ನಿರ್ಗಮಿಸಿ',
+              te_IN: 'ఎగ్జిట్ సెల్ఫ్ కేర్ ప్రోగ్రామ్',
+            },
+          },
+        },
         hasLivePatients: {
           list: ['addPatient', 'recordVitals', 'downloadReport', 'exitProgram'],
           messageBundle: {

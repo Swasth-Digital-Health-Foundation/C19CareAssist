@@ -22,8 +22,8 @@ const triageFlow = {
             dialog.sendMessage(context, dialog.get_message(messages.personName.prompt, context.user.locale));
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           invoke: {
@@ -34,32 +34,32 @@ const triageFlow = {
                 actions: assign((context, event) => {
                   dialog.sendMessage(context, dialog.get_message(messages.personName.error, context.user.locale));
                 }),
-                target: 'waitForUserInput'
+                target: 'waitForUserInput',
               },
               {
                 cond: (context, event) => event.data == 'duplicate',
                 actions: assign((context, event) => {
                   dialog.sendMessage(context, dialog.get_message(messages.personName.duplicateError, context.user.locale));
                 }),
-                target: 'waitForUserInput'
+                target: 'waitForUserInput',
               },
               {
                 cond: (context, event) => event.data,
                 actions: assign((context, event) => {
                   context.slots.triage.person.first_name = event.data;
                 }),
-                target: '#personAge'
+                target: '#personAge',
               },
-            ]
+            ],
           },
           // 2
         },
         waitForUserInput: {
           on: {
-            USER_MESSAGE: 'process'
-          }
-        }
-      }
+            USER_MESSAGE: 'process',
+          },
+        },
+      },
     }, // personName
     personAge: {
       id: 'personAge',
@@ -72,8 +72,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -90,20 +90,20 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.validMessage,
-              target: '#personGender'
+              target: '#personGender',
             },
             {
-              target: 'error'
-            }
-          ]
+              target: 'error',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(messages.personAge.error, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, // personAge
     personGender: {
       id: 'personGender',
@@ -117,8 +117,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -127,23 +127,23 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
                 context.slots.triage.person.gender = context.intention;
               }),
-              target: '#persistPerson'
-            }
-          ]
+              target: '#persistPerson',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     }, // personGender
     persistPerson: {
       id: 'persistPerson',
@@ -153,10 +153,10 @@ const triageFlow = {
           actions: assign((context, event) => {
             context.slots.triage.person = event.data;
           }),
-          target: '#specialSymptoms'
-        }
+          target: '#specialSymptoms',
+        },
         // TODO: handle duplicate person??
-      }
+      },
     },
     specialSymptoms: {
       id: 'specialSymptoms',
@@ -171,8 +171,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -181,31 +181,31 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               cond: (context) => context.intention === true,
               actions: assign((context, event) => {
-                  context.slots.triage.symptoms = context.intention
-                  let message = dialog.get_message(messages.endFlow.specialSymptomsEnd, context.user.locale);
-                  message = message.replace('{{name}}', context.slots.triage.person.first_name);
-                  dialog.sendMessage(context, message);
-                }),
-              target: '#upsertTriageDetails'
+                context.slots.triage.symptoms = context.intention;
+                let message = dialog.get_message(messages.endFlow.specialSymptomsEnd, context.user.locale);
+                message = message.replace('{{name}}', context.slots.triage.person.first_name);
+                dialog.sendMessage(context, message);
+              }),
+              target: '#upsertTriageDetails',
             },
             {
               cond: (context) => context.intention === false,
-              target: '#triageSpo2'
-            }
-          ]
+              target: '#triageSpo2',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     symptoms: {
       id: 'symptoms',
@@ -220,8 +220,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -230,23 +230,23 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
-                context.slots.triage.symptoms = context.intention
+                context.slots.triage.symptoms = context.intention;
               }),
-              target: '#rtpcr'
-            }
-          ]
+              target: '#rtpcr',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     rtpcr: {
       id: 'rtpcr',
@@ -258,8 +258,8 @@ const triageFlow = {
             dialog.sendMessage(context, dialog.get_message(messages.rtpcr.prompt, context.user.locale));
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -268,30 +268,30 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
-                context.slots.triage.rtpcr = context.intention
+                context.slots.triage.rtpcr = context.intention;
               }),
-              target: '#triageEvaluator1'
-            }
-          ]
+              target: '#triageEvaluator1',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     triageEvaluator1: {
       id: 'triageEvaluator1',
       onEntry: assign((context, event) => {
         let triage = context.slots.triage;
-        if(triage.person.age >= 60 && (triage.symptoms || triage.rtpcr == 'positive')) {
-          context.slots.triage.conclusion = 'ageConsultDoctorEnd'
+        if (triage.person.age >= 60 && (triage.symptoms || triage.rtpcr == 'positive')) {
+          context.slots.triage.conclusion = 'ageConsultDoctorEnd';
         }
       }),
       always: [
@@ -302,12 +302,12 @@ const triageFlow = {
             message = message.replace('{{name}}', context.slots.triage.person.first_name);
             dialog.sendMessage(context, message);
           }),
-          target: '#upsertTriageDetails'
+          target: '#upsertTriageDetails',
         },
         {
-          target: '#comorbidity'
-        }
-      ]
+          target: '#comorbidity',
+        },
+      ],
     },
     comorbidity: {
       id: 'comorbidity',
@@ -317,16 +317,14 @@ const triageFlow = {
           onEntry: assign((context, event) => {
             context.grammer = grammers.binaryChoice.grammer;
             let message = '';
-            if (context.slots.triage.person.gender == 'female')
-              message = dialog.get_message(messages.comorbidity.prompt.female, context.user.locale);
-            else
-              message = dialog.get_message(messages.comorbidity.prompt.male, context.user.locale);
+            if (context.slots.triage.person.gender == 'female') message = dialog.get_message(messages.comorbidity.prompt.female, context.user.locale);
+            else message = dialog.get_message(messages.comorbidity.prompt.male, context.user.locale);
             message += dialog.get_message(grammers.binaryChoice.prompt, context.user.locale);
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -335,42 +333,42 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
                 context.slots.triage.isComorbid = context.intention;
               }),
-              target: '#triageEvaluator2'
-            }
-          ]
+              target: '#triageEvaluator2',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     triageEvaluator2: {
       id: 'triageEvaluator2',
       onEntry: assign((context, event) => {
         let triage = context.slots.triage;
-        if(triage.symptoms && triage.isComorbid) {
+        if (triage.symptoms && triage.isComorbid) {
           context.slots.triage.conclusion = 'symptomComorbidConsultDoctorEnd';
-        } else if(triage.rtpcr == 'positive' && triage.isComorbid) {
+        } else if (triage.rtpcr == 'positive' && triage.isComorbid) {
           context.slots.triage.conclusion = 'testComorbidConsultDoctorEnd';
-        } else if(triage.isComorbid) {
+        } else if (triage.isComorbid) {
           context.slots.triage.conclusion = 'precautionEnd';
-        } else if(!triage.symptoms && !triage.isComorbid && triage.rtpcr != 'positive') {
+        } else if (!triage.symptoms && !triage.isComorbid && triage.rtpcr != 'positive') {
           context.slots.triage.conclusion = 'noCovidEnd';
         }
       }),
       always: [
         {
-          cond: (context) => (context.slots.triage.symptoms || context.slots.triage.rtpcr == 'positive'),
-          target: '#subscribe'
+          cond: (context) => context.slots.triage.symptoms || context.slots.triage.rtpcr == 'positive',
+          target: '#subscribe',
         },
         {
           cond: (context) => context.slots.triage.conclusion,
@@ -384,9 +382,9 @@ const triageFlow = {
               dialog.sendMessage(context, mediaMessage);
             }
           }),
-          target: '#upsertTriageDetails'
-        }
-      ]
+          target: '#upsertTriageDetails',
+        },
+      ],
     },
     triageSpo2: {
       id: 'triageSpo2',
@@ -407,8 +405,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -417,7 +415,7 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               cond: (context) => context.intention == 'above95',
@@ -425,39 +423,39 @@ const triageFlow = {
                 context.slots.triage.spo2 = context.intention;
                 // dialog.sendMessage(context, dialog.get_message(messages.triageSpo2.normalSpo2, context.user.locale), false);
               }),
-              target: '#symptoms'
+              target: '#symptoms',
             },
             {
               cond: (context) => context.intention == 'below94',
               actions: assign((context, event) => {
                 context.slots.triage.spo2 = context.intention;
-                context.slots.triage.conclusion = 'lowSpo2End'
+                context.slots.triage.conclusion = 'lowSpo2End';
                 let message = dialog.get_message(messages.endFlow.lowSpo2End, context.user.locale);
                 message = message.replace('{{name}}', context.slots.triage.person.first_name);
                 dialog.sendMessage(context, message);
               }),
-              target: '#upsertTriageDetails'
+              target: '#upsertTriageDetails',
             },
             {
-              cond: (context) => context.intention = 'noOximeter',
+              cond: (context) => (context.intention = 'noOximeter'),
               actions: assign((context, event) => {
                 context.slots.triage.spo2 = context.intention;
                 context.slots.triage.conclusion = 'noOximeterEnd';
-                let message = dialog.get_message(messages.endFlow.noOximeterEnd, context.user.locale)
+                let message = dialog.get_message(messages.endFlow.noOximeterEnd, context.user.locale);
                 message = message.replace('{{name}}', context.slots.triage.person.first_name);
                 dialog.sendMessage(context, message);
               }),
-              target: '#upsertTriageDetails'
-            }
-          ]
+              target: '#upsertTriageDetails',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     triageSpo2Walk: {
       id: 'triageSpo2Walk',
@@ -473,8 +471,8 @@ const triageFlow = {
             dialog.sendMessage(context, message);
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -483,7 +481,7 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               cond: (context) => context.intention == 'none',
@@ -491,7 +489,7 @@ const triageFlow = {
                 context.slots.triage.spo2Walk = context.intention;
                 dialog.sendMessage(context, dialog.get_message(messages.triageSpo2Walk.normalSpo2, context.user.locale), false);
               }),
-              target: '#subscribe'
+              target: '#subscribe',
             },
             {
               actions: assign((context, event) => {
@@ -500,17 +498,17 @@ const triageFlow = {
                 message = message.replace('{{name}}', context.slots.triage.person.first_name);
                 dialog.sendMessage(context, message);
               }),
-              target: '#upsertTriageDetails'
-            }
-          ]
+              target: '#upsertTriageDetails',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     subscribe: {
       id: 'subscribe',
@@ -531,8 +529,8 @@ const triageFlow = {
             }
           }),
           on: {
-            USER_MESSAGE: 'process'
-          }
+            USER_MESSAGE: 'process',
+          },
         },
         process: {
           onEntry: assign((context, event) => {
@@ -541,13 +539,13 @@ const triageFlow = {
           always: [
             {
               cond: (context) => context.intention == dialog.INTENTION_UNKOWN,
-              target: 'error'
+              target: 'error',
             },
             {
               actions: assign((context, event) => {
                 context.slots.triage.subscribe = context.intention;
                 let message;
-                if(context.intention == true) {
+                if (context.intention == true) {
                   message = dialog.get_message(messages.subscribe.doSubscribe, context.user.locale);
                   message = message.replace('{{name}}', context.slots.triage.person.first_name);
                 } else {
@@ -555,28 +553,28 @@ const triageFlow = {
                 }
                 dialog.sendMessage(context, message);
               }),
-              target: '#upsertTriageDetails'
-            }
-          ]
+              target: '#upsertTriageDetails',
+            },
+          ],
         },
         error: {
           onEntry: assign((context, event) => {
             dialog.sendMessage(context, dialog.get_message(dialog.global_messages.error.optionsRetry, context.user.locale), false);
           }),
-          always: 'prompt'
-        }
-      }
+          always: 'prompt',
+        },
+      },
     },
     upsertTriageDetails: {
       id: 'upsertTriageDetails',
       invoke: {
         src: (context) => triageService.upsertTriageDetails(context.slots.triage.person, context.slots.triage),
         onDone: {
-          target: '#endstate'
-        }
-      }
-    }
-  }
-}
+          target: '#endstate',
+        },
+      },
+    },
+  },
+};
 
 module.exports = triageFlow;

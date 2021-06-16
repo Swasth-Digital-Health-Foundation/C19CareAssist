@@ -15,7 +15,12 @@ let messages = {
       // TODO: translations
     },
     postScript: {
-      en_IN: 'Type “Add” to Add new member OR Type “Continue” to record vitals',
+      taskforce: {
+        en_IN: 'Type “Add” to Add new member OR Type “Continue” to record vitals',
+      },
+      citizen: {
+        en_IN: 'Type “Continue” to record vitals',
+      },
     },
     error: {
       en_IN: "I am sorry, I didn't understand. Please enter a valid number (10 characters)",

@@ -12,14 +12,14 @@ const selfCareFlow = {
     initial: 'fetchPersons',
     onEntry: assign((context, event) => {
       context.slots.vitals = {};
-      if (context.taskforce && context.taskforce.patients && context.taskforce.patients[+context.option - 1]) {
-        context.slots.vitals.person = context.taskforce.patients[+context.option - 1];
+      if (context.role === 'taskforce') {
+        context.slots.vitals.person = context.taskforce.selectedPatient;
       }
     }),
     states: {
       fetchPersons: {
         invoke: {
-          src: (context) => personService.getPeople(context.user.mobileNumber || context.person.mobile),
+          src: (context) => personService.getPeople(context.user.mobileNumber),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
@@ -329,7 +329,9 @@ const selfCareFlow = {
       addVitals: {
         id: 'addVitals',
         invoke: {
-          src: (context) => vitalsService.addVitals(context.slots.vitals),
+          src: (context) => {
+            return vitalsService.addVitals(context.slots.vitals);
+          },
           onDone: [
             {
               cond: (context) => {
