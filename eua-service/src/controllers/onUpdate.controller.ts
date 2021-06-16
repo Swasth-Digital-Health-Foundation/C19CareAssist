@@ -1,7 +1,7 @@
 import ControllerInterface from './interface';
 import * as express from 'express';
 import logger from '../utils/logger';
-import { isAuthenticated } from '../middleware/auth';
+import AuthMiddleware from '../middleware/auth';
 
 class OnUpdate implements ControllerInterface {
   private readonly path: string = '/v1/on_update/service';
@@ -12,7 +12,7 @@ class OnUpdate implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, isAuthenticated, this.onUpdate);
+    this.router.post(this.path, AuthMiddleware.retrieveGatewayPublicKey, AuthMiddleware.verifyAuthToken, this.onUpdate);
   }
 
   private onUpdate = (request: express.Request, response: express.Response, next: express.NextFunction) => {
