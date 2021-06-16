@@ -1,65 +1,68 @@
 const dialog = require('../util/dialog.js');
 const roles = require('../../../resources/roles.json');
 
+const people = [
+  {
+    uuid: '366cb14e',
+    gender: '',
+    age: null,
+    first_name: 'Kumar Singh',
+    mobile: '9344290493',
+    mobile_code: '91',
+  },
+  {
+    uuid: '9f9896c6',
+    gender: 'female',
+    age: 12,
+    first_name: 'Jyoti Kumar',
+    mobile: '9344290493',
+    mobile_code: '91',
+  },
+  {
+    uuid: '366cb14e',
+    gender: '',
+    age: null,
+    first_name: 'Kumar Singh',
+    mobile: '9901499745',
+    mobile_code: '91',
+  },
+  {
+    uuid: '9f9896c6',
+    gender: 'female',
+    age: 12,
+    first_name: 'Jyoti Kumar',
+    mobile: '9901499745',
+    mobile_code: '91',
+  },
+  {
+    uuid: '366cb14e',
+    gender: '',
+    age: null,
+    first_name: 'Kumar Singh',
+    mobile: '9123123123',
+    mobile_code: '91',
+  },
+  {
+    uuid: '9f9896c6',
+    gender: 'female',
+    age: 12,
+    first_name: 'Jyoti Kumar',
+    mobile: '9123123123',
+    mobile_code: '91',
+  },
+];
+
 class PersonService {
   async createPerson(person, mobileNumber) {
     console.log('Create person: ' + JSON.stringify(person));
     let uuid = '123'; // Person id returned from backend service
     person.uuid = uuid;
+    people.push(person);
     return person;
   }
 
   async getPersonsForMobileNumber(mobileNumber) {
-    return [
-      {
-        uuid: '366cb14e',
-        gender: '',
-        age: null,
-        first_name: 'Kumar Singh',
-        mobile: '9344290493',
-        mobile_code: '91',
-      },
-      {
-        uuid: '9f9896c6',
-        gender: 'female',
-        age: 12,
-        first_name: 'Jyoti Kumar',
-        mobile: '9344290493',
-        mobile_code: '91',
-      },
-      {
-        uuid: '366cb14e',
-        gender: '',
-        age: null,
-        first_name: 'Kumar Singh',
-        mobile: '9901499745',
-        mobile_code: '91',
-      },
-      {
-        uuid: '9f9896c6',
-        gender: 'female',
-        age: 12,
-        first_name: 'Jyoti Kumar',
-        mobile: '9901499745',
-        mobile_code: '91',
-      },
-      {
-        uuid: '366cb14e',
-        gender: '',
-        age: null,
-        first_name: 'Kumar Singh',
-        mobile: '9123123123',
-        mobile_code: '91',
-      },
-      {
-        uuid: '9f9896c6',
-        gender: 'female',
-        age: 12,
-        first_name: 'Jyoti Kumar',
-        mobile: '9123123123',
-        mobile_code: '91',
-      },
-    ].filter((user) => user.mobile === mobileNumber);
+    return people.filter((user) => user.mobile === mobileNumber);
   }
 
   async getSubscribedPeople(mobileNumber) {
