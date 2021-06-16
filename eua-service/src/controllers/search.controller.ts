@@ -1,8 +1,9 @@
 import * as express from 'express';
-import ApiResolver from '../utils/api-resolver';
-import { GATEWAY_URL, DOCTORS_API_KEY, CONTEXT_APP_URL } from '../utils/secrets';
+import { CONTEXT_APP_URL } from '../utils/secrets';
 import logger from '../utils/logger';
 import ControllerInterface from './interface';
+import Search from '../services/search';
+import Appointment from '../services/appointment';
 
 /**
  * Sanitise the request body so it can be used to hit the confirm service endpoint and set an
@@ -51,16 +52,7 @@ class SearchController implements ControllerInterface {
       if (!accesstoken) {
         throw new Error('Access token not found in the request headers.');
       }
-      const apiReponse = await ApiResolver.request({
-        method: 'POST',
-        url: `${GATEWAY_URL}/api/v1/search/service`,
-        headers: {
-          'content-type': 'application/json',
-          accesstoken,
-        },
-        data: request.body,
-        timeout: 1000
-      });
+      const apiReponse = await new Search().getSearchResults(request.body, accesstoken);
       response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url || 'https://stagapi.1mgdoctors.com/api/v1/bhs';
       if (!response.locals.providerUrl) {
         throw new Error('Unable to confirm appointment with a doctor - URL not available.');
@@ -74,16 +66,9 @@ class SearchController implements ControllerInterface {
 
   private setAppointment = async (request: express.Request, response: express.Response) => {
     try {
-      const apiResponse = await ApiResolver.request({
-        method: 'POST',
-        url: `${response.locals.providerUrl}/confirm/service`,
-        headers: {
-          'content-type': 'application/json',
-          apiToken: DOCTORS_API_KEY,
-        },
-        data: transformData(request.body),
-        timeout: 1000,
-      });
+      const data = transformData(request.body);
+
+      const apiResponse = await new Appointment().getConfirmation(response.locals.providerUrl, data);
       response.send(apiResponse).status(200);
     } catch (error) {
       logger.error('Error in setAppointment middleware', error);
