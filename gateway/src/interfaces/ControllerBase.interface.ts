@@ -1,5 +1,5 @@
 interface ControllerBase {
-  initRoutes(): any
+  initRoutes(): any;
 }
 
-export default ControllerBase
+export default ControllerBase;

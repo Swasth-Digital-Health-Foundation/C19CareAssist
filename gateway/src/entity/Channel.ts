@@ -1,6 +1,6 @@
-import { Entity, Column, ManyToOne, } from 'typeorm';
-import { BaseEntity } from './BaseEntity'
-import { Client } from './Client'
+import { Entity, Column, ManyToOne, } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
+import { Client } from "./Client";
 
 export enum ChannelName {
   PHONE = "phone",

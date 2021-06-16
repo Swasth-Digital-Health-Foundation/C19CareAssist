@@ -6,4 +6,4 @@ class InvalidDestination extends CustomError {}
 
 export {
     InvalidDestination
-}
+};

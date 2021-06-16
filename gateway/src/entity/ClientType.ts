@@ -1,7 +1,7 @@
-import { Entity, Column, ManyToOne, } from 'typeorm';
-import { BaseEntity } from './BaseEntity'
-import { Client } from './Client'
-import { ClientTypeEnum } from '../constants/clent-types';
+import { Entity, Column, ManyToOne, } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
+import { Client } from "./Client";
+import { ClientTypeEnum } from "../constants/clent-types";
 
 
 @Entity()
