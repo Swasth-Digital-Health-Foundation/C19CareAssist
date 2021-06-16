@@ -1,7 +1,7 @@
-import * as cors from 'cors'
-import * as parser from 'body-parser'
-import * as compression from 'compression'
-import { loggerMiddleware } from './logger';
+import * as cors from "cors";
+import * as parser from "body-parser";
+import * as compression from "compression";
+import { loggerMiddleware } from "./logger";
 // import * as Rollbar from 'rollbar';
 
 export default [

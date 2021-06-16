@@ -1,10 +1,10 @@
-const moment = require('moment');
-import APIResolver from '../utils/api-resolver';
-import ClientDAO from '../dao/client';
-import * as _ from 'lodash';
-import logger from '../utils/logger';
-import authHelper from '../utils/auth-helper';
-import Constants from '../constants/constants';
+const moment = require("moment");
+import APIResolver from "../utils/api-resolver";
+import ClientDAO from "../dao/client";
+import * as _ from "lodash";
+import logger from "../utils/logger";
+import authHelper from "../utils/auth-helper";
+import Constants from "../constants/constants";
 class Onboard {
   /**
  * 1. Get all valid HSPs
@@ -24,25 +24,25 @@ class Onboard {
       const baseEndpoint = hsp && hsp.endpoints && hsp.endpoints[0] ? hsp.endpoints[0]!.url : null;
       if (!baseEndpoint) throw new Error(`baseEndpoint missing in hsp ${client.id}`);
       const searchResponse = await APIResolver.request({
-        method: 'POST',
+        method: "POST",
         url: `${baseEndpoint}${Constants.METHOD_SIGNATURES.SEARCH}`,
-        headers: { 'content-type': 'application/json', 'signature': authHelper.generateGatewayToken(hsp!.gateway_jwt_secret, { id: hsp!.id, name: hsp!.name }) },
+        headers: { "content-type": "application/json", "signature": authHelper.generateGatewayToken(hsp!.gateway_jwt_secret, { id: hsp!.id, name: hsp!.name }) },
         data: data,
         timeout: 500
       }).catch(err => {
-        return Promise.resolve(null)
-      })
+        return Promise.resolve(null);
+      });
 
       const services = searchResponse ? searchResponse.services : null;
-      if (!services || !services.length) throw new Error(`services missing in search response`);
-      if(!_.every(services, s => s.speciality && s.provider && s.consultation && s.fulfillment_schedule_type)) throw new Error(`Required parameters are missing in search response`);
+      if (!services || !services.length) throw new Error("services missing in search response");
+      if(!_.every(services, s => s.speciality && s.provider && s.consultation && s.fulfillment_schedule_type)) throw new Error("Required parameters are missing in search response");
       
-      return 'ok';
+      return "ok";
     } catch (error) {
-      logger.error('Error in Onboard.dryRun ', error);
-      throw error
+      logger.error("Error in Onboard.dryRun ", error);
+      throw error;
     }
   }
 }
 
-export default Onboard
+export default Onboard;

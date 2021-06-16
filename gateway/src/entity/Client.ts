@@ -1,9 +1,9 @@
-import { Entity, Column, OneToMany, OneToOne, JoinColumn, } from 'typeorm'
-import { BaseEntity } from './BaseEntity'
-import { Location } from './Location'
-import { Channel } from './Channel'
-import { ClientType } from './ClientType'
-import { Api } from './Api'
+import { Entity, Column, OneToMany, OneToOne, JoinColumn, } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
+import { Location } from "./Location";
+import { Channel } from "./Channel";
+import { ClientType } from "./ClientType";
+import { Api } from "./Api";
 
 @Entity()
 export class Client extends BaseEntity {
@@ -26,7 +26,7 @@ export class Client extends BaseEntity {
   @Column({ length: 100, nullable: false })
   email: string;
 
-  @Column({ type: 'simple-array', default: null })
+  @Column({ type: "simple-array", default: null })
   documents: string[];
 
   @Column({ default: null })
