@@ -12,9 +12,9 @@ const selfCareFlow = {
     initial: 'fetchPersons',
     onEntry: assign((context, event) => {
       context.slots.vitals = {};
-      if (context.role === 'taskforce') {
-        context.slots.vitals.person = context.taskforce.selectedPatient;
-      }
+      //if (context.role === 'taskforce') {
+      context.slots.vitals.person = context.taskforce.selectedPatient;
+      //}
     }),
     states: {
       fetchPersons: {

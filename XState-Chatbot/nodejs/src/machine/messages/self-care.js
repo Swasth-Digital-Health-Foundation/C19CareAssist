@@ -30,7 +30,7 @@ let messages = {
   vitalsSpo2: {
     taskforce: {
       prompt: {
-        en_IN: 'You are recording info for the {{name}} user!  \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below',
+        en_IN: 'You are recording info for the {{name}}!  \n\n1. SpO2 is 95 and above \n2. SpO2 is 94% or below',
       },
     },
     prompt: {

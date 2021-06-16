@@ -1,11 +1,17 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 const config = require('../../env-variables');
 const dialog = require('../util/dialog.js');
+const roles = require('../../../resources/roles.json');
 
 class PersonService {
+  getUserType(mobileNumber) {
+    if (roles[mobileNumber]) {
+      return roles[mobileNumber].roles;
+    }
+    return 'citizen';
+  }
 
   async createPerson(person, mobileNumber) {
-
     person.mobile = mobileNumber;
 
     let encryptedPerson = await this.encryptAndHashPerson(person);
@@ -16,27 +22,27 @@ class PersonService {
         uuid
       }
     }    
-    `
+    `;
     var options = {
       method: 'POST',
       body: JSON.stringify({
         query: query,
         variables: {
-          "object": {
-            "first_name": encryptedPerson.first_name,
-            "age": person.age,
-            "gender": person.gender,
-            "mobile": encryptedPerson.mobile,
-            "mobile_hash": encryptedPerson.mobile_hash,
-            "mobile_code": "91"
-          }
+          object: {
+            first_name: encryptedPerson.first_name,
+            age: person.age,
+            gender: person.gender,
+            mobile: encryptedPerson.mobile,
+            mobile_hash: encryptedPerson.mobile_hash,
+            mobile_code: '91',
+          },
         },
-        operationName: "insert_person"
+        operationName: 'insert_person',
       }),
       headers: {
         'x-hasura-admin-secret': config.hasuraAdminSecret,
-      }
-    }
+      },
+    };
 
     let response = await fetch(config.hasuraUrl, options);
     let data = await response.json();
@@ -63,20 +69,20 @@ class PersonService {
         }        
       }
     }    
-    `
+    `;
     var options = {
       method: 'POST',
       body: JSON.stringify({
         query: query,
         variables: {
-          "mobile_hash": hashedMobile
+          mobile_hash: hashedMobile,
         },
-        operationName: "get_people"
+        operationName: 'get_people',
       }),
       headers: {
         'x-hasura-admin-secret': config.hasuraAdminSecret,
-      }
-    }
+      },
+    };
 
     let response = await fetch(config.hasuraUrl, options);
     let data = await response.json();
@@ -89,100 +95,101 @@ class PersonService {
   }
 
   async getSubscribedPeople(mobileNumber) {
-    let people = await this.getPersonsForMobileNumber(mobileNumber)
+    let people = await this.getPersonsForMobileNumber(mobileNumber);
     const subscribedPeople = this.filterSubscribedPeople(people);
-    return subscribedPeople
+    return subscribedPeople;
   }
 
   filterSubscribedPeople(people) {
     const subscribedPeople = [];
     for (let i = 0; i < people.length; i++) {
-
       if (people[i].c19_triage && people[i].c19_triage.subscribe) {
-        subscribedPeople.push(people[i])
+        subscribedPeople.push(people[i]);
       }
     }
     return subscribedPeople;
   }
 
   async getPeople(mobileNumber) {
-    let people = await this.getPersonsForMobileNumber(mobileNumber)
+    let people = await this.getPersonsForMobileNumber(mobileNumber);
     return people;
   }
 
   async encryptAndHashPerson(person) {
     let objectToEncrypt = {
       first_name: person.first_name,
-      mobile: person.mobile
-    }
+      mobile: person.mobile,
+    };
     let url = config.services.encryptionServiceHost + config.services.encryptionServiceEncryptUrl;
     let headers = {
       'Content-Type': 'application/json',
-    }
+    };
     let options = {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
-        "encryptionRequests": [
+        encryptionRequests: [
           {
-            "tenantId": config.rootTenantId,
-            "type": "Normal",
-            "value": objectToEncrypt
+            tenantId: config.rootTenantId,
+            type: 'Normal',
+            value: objectToEncrypt,
           },
-        ]
-      })
+        ],
+      }),
     };
 
     let encryptedPerson = JSON.parse(JSON.stringify(person));
-  
+
     let response = await fetch(url, options);
     let body = await response.json();
-  
+
     encryptedPerson.first_name = body[0].encrypted.first_name;
     encryptedPerson.mobile = body[0].encrypted.mobile;
     encryptedPerson.mobile_hash = body[0].hashed.mobile;
-  
+
     return encryptedPerson;
   }
-  
+
   async decryptPersons(persons) {
-    let objectToDecrypt = persons.map(person => { return { first_name: person.first_name, mobile: person.mobile }});
-  
+    let objectToDecrypt = persons.map((person) => {
+      return { first_name: person.first_name, mobile: person.mobile };
+    });
+
     let url = config.services.encryptionServiceHost + config.services.encryptionServiceDecryptUrl;
     let headers = {
       'Content-Type': 'application/json',
-    }
+    };
     let options = {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify(objectToDecrypt)
+      body: JSON.stringify(objectToDecrypt),
     };
     let response = await fetch(url, options);
     let body = await response.json();
-  
-    for(let i = 0; i < persons.length; i++) {
+
+    for (let i = 0; i < persons.length; i++) {
       persons[i].first_name = body[i].first_name;
       persons[i].mobile = body[i].mobile;
-    }    
-  
+    }
+
     return persons;
   }
-  
+
   async getHash(value) {
     let url = config.services.encryptionServiceHost + config.services.encryptionServiceHashUrl;
     let headers = {
       'Content-Type': 'application/json',
-    }
+    };
     let options = {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
-        value: value
-      })
+        value: value,
+      }),
     };
     let response = await fetch(url, options);
     let body = await response.json();
-  
+
     return body.value;
   }
 
@@ -190,7 +197,7 @@ class PersonService {
     let message = dialog.get_input(event, false);
     if (event.message.type == 'text' && message.length < 100 && /^[ A-Za-z]+$/.test(message.trim())) {
       const subscribedPeople = this.filterSubscribedPeople(context.persons);
-      const isDuplicate = subscribedPeople.find(person => person.first_name == message);
+      const isDuplicate = subscribedPeople.find((person) => person.first_name == message);
       if (isDuplicate) {
         return 'duplicate';
       } else {
@@ -200,7 +207,6 @@ class PersonService {
       return 'invalid';
     }
   }
-  
 }
 
 module.exports = new PersonService();

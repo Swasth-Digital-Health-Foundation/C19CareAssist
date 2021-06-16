@@ -59,10 +59,10 @@ const taskforceFlow = {
             id: 'fetchUser',
             invoke: {
               src: (context, event) => {
-                if (event.data) {
-                  return personService.getPeople(event.data.mobile);
+                if (context.role == 'taskforce') {
+                  return personService.getPeople(context.taskforce.person.mobile);
                 }
-                return personService.getPeople(event.message.input);
+                return personService.getPeople(event.user.mobileNumber);
               },
               onDone: [
                 {
@@ -77,13 +77,41 @@ const taskforceFlow = {
                 },
                 {
                   cond: (context, event) => {
-                    return event.data && event.data.length === 1;
+                    return event.data && event.data.length === 1 && context.taskforce == 'taskforce';
                   },
                   actions: assign((context, event) => {
-                    const patients = event.data[0];
+                    const patients = event.data;
                     context.taskforce.patients = patients;
+                    context.taskforce.selectedPatient = patients[0];
                   }),
                   target: '#vitalsSpo2',
+                },
+                {
+                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'recordVitals',
+                  actions: assign((context, event) => {
+                    const patients = event.data;
+                    context.taskforce.patients = patients;
+                    context.taskforce.selectedPatient = patients[0];
+                  }),
+                  target: '#vitalsSpo2',
+                },
+                {
+                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'downloadReport',
+                  actions: assign((context, event) => {
+                    const patients = event.data;
+                    context.taskforce.patients = patients;
+                    context.taskforce.selectedPatient = patients[0];
+                  }),
+                  target: '#downloadReport',
+                },
+                {
+                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'exitProgram',
+                  actions: assign((context, event) => {
+                    const patients = event.data;
+                    context.taskforce.patients = patients;
+                    context.taskforce.selectedPatient = patients[0];
+                  }),
+                  target: '#exitProgram',
                 },
                 {
                   target: '#patientName',
@@ -99,7 +127,7 @@ const taskforceFlow = {
             onEntry: assign((context, event) => {
               dialog.sendMessage(context, dialog.get_message(messages.patientList.prompt, context.user.locale));
               let message = context.taskforce.patients.reduce((message, person, i) => `${message}\n${i + 1}. ${person.first_name}`, '');
-              message += `\n${messages.patientList.postScript[context.user.locale]}`;
+              message += `\n${messages.patientList.postScript[context.role][context.user.locale]}`;
               dialog.sendMessage(context, message);
             }),
 
@@ -150,13 +178,27 @@ const taskforceFlow = {
           process: {
             onEntry: assign((context, event) => {
               context.option = dialog.get_input(event, false);
+              context.isValid = +context.option <= context.taskforce.patients.length;
+              if (context.isValid) {
+                context.taskforce.selectedPatient = context.taskforce.patients[+context.option - 1];
+              }
             }),
             always: [
               {
-                cond: (context, event) => {
-                  return +context.option <= context.taskforce.patients.length;
-                },
+                cond: (context, event) => context.isValid && context.intention == 'recordVitals',
                 target: '#vitalsSpo2',
+              },
+              {
+                cond: (context, event) => context.isValid && context.intention == 'downloadReport',
+                target: '#downloadReport',
+              },
+              {
+                cond: (context, event) => context.isValid && context.intention == 'exitProgram',
+                target: '#exitProgram',
+              },
+              {
+                cond: (context, event) => context.isValid,
+                target: '#selfCareMenu',
               },
               {
                 target: 'error',

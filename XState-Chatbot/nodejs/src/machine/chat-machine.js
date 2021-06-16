@@ -224,13 +224,6 @@ const chatStateMachine = Machine({
             } else {
               options = messages.selfCareMenu.prompt.options.hasLivePatients.list;
               bundle = messages.selfCareMenu.prompt.options.hasLivePatients.messageBundle;
-              //const subscribedPatients = personService.filterSubscribedPeople(context.persons);
-              //if (subscribedPatients && subscribedPatients.length) {
-
-              //} else {
-              //  options = messages.selfCareMenu.prompt.options.noLivePatients.list;
-              //  bundle = messages.selfCareMenu.prompt.options.noLivePatients.messageBundle;
-              //}
             }
 
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, bundle, context.user.locale);
@@ -252,12 +245,12 @@ const chatStateMachine = Machine({
               target: '#triageFlow',
             },
             {
-              cond: (context) => context.intention != dialog.INTENTION_UNKOWN,
+              cond: (context) => context.intention != dialog.INTENTION_UNKOWN && context.role == 'citizen',
               target: '#patientList',
             },
             {
               cond: (context) => context.intention == 'recordVitals',
-              target: '#recordVitals',
+              target: '#vitalsSpo2',
             },
             {
               cond: (context) => context.intention == 'downloadReport',
