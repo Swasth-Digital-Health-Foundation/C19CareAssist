@@ -4,7 +4,7 @@ import { GATEWAY_URL } from '../utils/secrets';
 
 class Search {
 
-  getSearchResults = async (data: any, accesstoken: any) => {
+  public getSearchResults = async (data: any, accesstoken: any): Promise<any> => {
     try {
       const apiReponse = await ApiResolver.request({
         method: 'POST',
@@ -13,13 +13,13 @@ class Search {
           'content-type': 'application/json',
           accesstoken,
         },
-        data: data,
+        data,
         timeout: 1000
       });
       return apiReponse;
     }
     catch (error) {
-      logger.error('Error in Search.getSearchResults', error);
+      logger.error(`Error in Search.getSearchResults - ${error}`);
       throw error;
     }
   };
