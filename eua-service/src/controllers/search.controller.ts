@@ -53,7 +53,7 @@ class SearchController implements ControllerInterface {
         throw new Error('Access token not found in the request headers.');
       }
       const apiReponse = await new Search().getSearchResults(request.body, accesstoken);
-      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url || 'https://stagapi.1mgdoctors.com/api/v1/bhs';
+      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url;
       if (!response.locals.providerUrl) {
         throw new Error('Unable to confirm appointment with a doctor - URL not available.');
       }
