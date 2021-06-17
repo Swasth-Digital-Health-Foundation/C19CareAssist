@@ -125,8 +125,8 @@ const taskforceFlow = {
           },
           prompt: {
             onEntry: assign((context, event) => {
-              dialog.sendMessage(context, dialog.get_message(messages.patientList.prompt, context.user.locale));
-              let message = context.taskforce.patients.reduce((message, person, i) => `${message}\n${i + 1}. ${person.first_name}`, '');
+              let message = dialog.get_message(messages.patientList.prompt, context.user.locale);
+              message = context.taskforce.patients.reduce((message, person, i) => `${message}\n${i + 1}. ${person.first_name}`, '');
               message += `\n${messages.patientList.postScript[context.role][context.user.locale]}`;
               dialog.sendMessage(context, message);
             }),

@@ -20,7 +20,6 @@ const chatStateMachine = Machine({
       id: 'start',
       onEntry: assign((context, event) => {
         context.slots = {};
-        context.taskforce = {};
       }),
       on: {
         USER_MESSAGE: '#menuFetchPersons',
@@ -101,6 +100,7 @@ const chatStateMachine = Machine({
       states: {
         prompt: {
           onEntry: assign((context, event) => {
+            context.taskforce = {};
             let message = dialog.get_message(messages.menu.prompt.preamble, context.user.locale);
             let options;
             //TODO: Decrypt mobile number first
