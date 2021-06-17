@@ -20,6 +20,7 @@ const chatStateMachine = Machine({
       id: 'start',
       onEntry: assign((context, event) => {
         context.slots = {};
+        context.taskforce = {};
       }),
       on: {
         USER_MESSAGE: '#menuFetchPersons',
