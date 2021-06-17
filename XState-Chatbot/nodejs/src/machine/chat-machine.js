@@ -218,7 +218,7 @@ const chatStateMachine = Machine({
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.selfCareMenu.prompt.preamble, context.user.locale);
             let options, bundle;
-            if (context.role === 'taskforce') {
+            if (context.role === 'taskforce' && context.taskforce) {
               options = messages.selfCareMenu.prompt.options.taskforceUser.list;
               bundle = messages.selfCareMenu.prompt.options.taskforceUser.messageBundle;
             } else {
@@ -240,6 +240,10 @@ const chatStateMachine = Machine({
             context.intention = dialog.get_intention(context.grammer, event, true);
           }),
           always: [
+            {
+              cond: (context) => context.intention == 'triage',
+              target: '#triageMenu',
+            },
             {
               cond: (context) => context.intention == 'addPatient',
               target: '#triageFlow',

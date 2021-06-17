@@ -169,8 +169,11 @@ let messages = {
           },
         },
         hasLivePatients: {
-          list: ['addPatient', 'recordVitals', 'downloadReport', 'exitProgram'],
+          list: ['triage', 'addPatient', 'recordVitals', 'downloadReport', 'exitProgram'],
           messageBundle: {
+            triage: {
+              en_IN: 'Triage your issue.',
+            },
             addPatient: {
               en_IN: 'Enroll a new patient into the program',
               hi_IN: 'कार्यक्रम में एक नए रोगी को भर्ती करें',

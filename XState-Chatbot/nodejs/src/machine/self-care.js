@@ -5,6 +5,7 @@ const { personService, vitalsService, triageService } = require('./service/servi
 const { messages, grammer } = require('./messages/self-care');
 const config = require('../../src/env-variables');
 const { person } = require('./service/dummy-person-service.js');
+const { context } = require('./chat-machine.js');
 
 const selfCareFlow = {
   recordVitals: {
@@ -358,12 +359,18 @@ const selfCareFlow = {
             },
           },
           process: {
-            onEntry: assign((context, event) => {
-              //TODO: Add user to home Isolation.
-              dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
-            }),
-            always: {
-              target: '#endstate',
+            invoke: {
+              src: (context, event) => {
+                return personService.updatePerson(context.slots.vitals.person, dialog.get_input(event) == 1 ? true : false);
+              },
+              onDone: [
+                {
+                  actions: assign((context, event) => {
+                    dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
+                  }),
+                  target: '#endstate',
+                },
+              ],
             },
           },
         },
@@ -372,16 +379,21 @@ const selfCareFlow = {
   },
   downloadReport: {
     id: 'downloadReport',
-    initial: 'reportFetchPersons',
+    initial: 'showReport',
     onEntry: assign((context, event) => {
       context.slots.report = {};
+      context.slots.report.person = context.taskforce.selectedPatient;
     }),
     states: {
       reportFetchPersons: {
         invoke: {
-          src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
+          //src: (context) => {
+          //  if(context.role == context.taskforce.selectedPatient){
+          //    return context.taskforce.selectedPatient
+          //  }
+          //},
           // TODO: Need to update this: do no include people who have not completed traige flow
-          // src: (context) => personService.getPeople(context.user.mobileNumber),
+          src: (context) => personService.getPeople(context.user.mobileNumber),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
@@ -485,11 +497,26 @@ const selfCareFlow = {
   },
   exitProgram: {
     id: 'exitProgram',
-    initial: 'exitProgramFetchPersons',
+    initial: 'checkUser',
     onEntry: assign((context, event) => {
       context.slots.exitProgram = {};
+      context.slots.exitProgram.person = context.taskforce.selectedPatient;
     }),
     states: {
+      checkUser: {
+        always: [
+          {
+            cond: (context) => !context.slots.exitProgram.person.is_home_isolated,
+            target: '#exitReason',
+          },
+          {
+            actions: assign((context, event) => {
+              dialog.sendMessage(context, 'This member is marked for Home isolation by the task force. Please reach out to task force member at 99999 for more details');
+            }),
+            target: '#endstate',
+          },
+        ],
+      },
       exitProgramFetchPersons: {
         invoke: {
           src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
@@ -635,17 +662,11 @@ const selfCareFlow = {
         invoke: {
           src: (context) => {
             let person = context.slots.exitProgram.person;
-            if (!person.isolated) {
-              return triageService.exitProgram(person, context.slots.exitProgram);
-            }
+            return triageService.exitProgram(person, context.slots.exitProgram);
           },
           onDone: {
             actions: assign((context, event) => {
-              if (person.isolated) {
-                dialog.sendMessage(context, 'This member is marked for Home isolation by the task force. Please reach out to task force member at 99999 for more details');
-              } else {
-                dialog.sendMessage(context, dialog.get_message(messages.exitProgram.unsubscribedSuccessfully, context.user.locale));
-              }
+              dialog.sendMessage(context, dialog.get_message(messages.exitProgram.unsubscribedSuccessfully, context.user.locale));
             }),
             target: '#endstate',
           },

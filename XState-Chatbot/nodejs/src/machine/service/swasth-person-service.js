@@ -51,6 +51,39 @@ class PersonService {
     return person;
   }
 
+  async updatePerson(person, input) {
+    var query = `
+      mutation update_person($uuid: uuid!, $is_home_isolated: Boolean) {
+        update_person(_set: {is_home_isolated: $is_home_isolated}, where: {uuid: {_eq: $uuid}}) {
+          affected_rows
+          returning {
+            uuid
+            is_home_isolated
+          }
+        }
+      }`;
+    var options = {
+      method: 'POST',
+      body: JSON.stringify({
+        query: query,
+        variables: {
+          uuid: person.uuid,
+          is_home_isolated: input,
+        },
+        operationName: 'update_person',
+      }),
+      headers: {
+        'x-hasura-admin-secret': config.hasuraAdminSecret,
+      },
+    };
+
+    let response = await fetch(config.hasuraUrl, options);
+    let data = await response.json();
+
+    person.is_home_isolated = data.data.update_person.is_home_isolated;
+    return person;
+  }
+
   async getPersonsForMobileNumber(mobileNumber) {
     let hashedMobile = await this.getHash(mobileNumber);
 
@@ -64,6 +97,7 @@ class PersonService {
         mobile
         mobile_hash
         mobile_code
+        is_home_isolated
         c19_triage {
           subscribe
         }        
