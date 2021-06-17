@@ -219,7 +219,7 @@ const chatStateMachine = Machine({
           onEntry: assign((context, event) => {
             let message = dialog.get_message(messages.selfCareMenu.prompt.preamble, context.user.locale);
             let options, bundle;
-            if (context.role === 'taskforce' && context.taskforce) {
+            if (context.role === 'taskforce' && context.taskforce.selectedPatient) {
               options = messages.selfCareMenu.prompt.options.taskforceUser.list;
               bundle = messages.selfCareMenu.prompt.options.taskforceUser.messageBundle;
             } else {
