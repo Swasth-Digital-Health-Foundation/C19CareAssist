@@ -105,8 +105,19 @@ const selfCareFlow = {
       },
       vitalsSpo2: {
         id: 'vitalsSpo2',
-        initial: 'prompt',
+        initial: 'checkUser',
         states: {
+          checkUser: {
+            always: [
+              {
+                cond: (context, event) => !context.slots.vitals.person,
+                target: '#noUserFound',
+              },
+              {
+                target: 'prompt',
+              },
+            ],
+          },
           prompt: {
             onEntry: assign((context, event) => {
               context.grammer = grammer.vitalsSpo2;
@@ -386,35 +397,26 @@ const selfCareFlow = {
     }),
     states: {
       reportFetchPersons: {
-        invoke: {
-          //src: (context) => {
-          //  if(context.role == context.taskforce.selectedPatient){
-          //    return context.taskforce.selectedPatient
-          //  }
+        always: [
+          {
+            cond: (context, event) => !context.taskforce.selectedPatient,
+            target: '#reportNoUserFound',
+          },
+          {
+            cond: (context, event) => context.taskforce.selectedPatient,
+            actions: assign((context, event) => {
+              context.slots.report.person = event.data[0];
+            }),
+            target: '#showReport',
+          },
+          //{
+          //  cond: (context, event) => event.data.length > 1,
+          //  actions: assign((context, event) => {
+          //    context.persons = event.data;
+          //  }),
+          //  target: '#reportSelectPerson',
           //},
-          // TODO: Need to update this: do no include people who have not completed traige flow
-          src: (context) => personService.getPeople(context.user.mobileNumber),
-          onDone: [
-            {
-              cond: (context, event) => event.data.length == 0,
-              target: '#reportNoUserFound',
-            },
-            {
-              cond: (context, event) => event.data.length == 1,
-              actions: assign((context, event) => {
-                context.slots.report.person = event.data[0];
-              }),
-              target: '#showReport',
-            },
-            {
-              cond: (context, event) => event.data.length > 1,
-              actions: assign((context, event) => {
-                context.persons = event.data;
-              }),
-              target: '#reportSelectPerson',
-            },
-          ],
-        },
+        ],
       },
       reportNoUserFound: {
         id: 'reportNoUserFound',
@@ -475,21 +477,37 @@ const selfCareFlow = {
       },
       showReport: {
         id: 'showReport',
-        invoke: {
-          src: (context) => triageService.downloadReportForPerson(context.slots.report.person),
-          onDone: {
-            actions: assign((context, event) => {
-              const media = event.data;
-              const split = media.split('/');
-              const fileName = split[split.length - 1];
-              const message = {
-                type: 'media',
-                output: media,
-                caption: fileName,
-              };
-              dialog.sendMessage(context, message);
-            }),
-            target: '#endstate',
+        initial: 'checkUser',
+        states: {
+          checkUser: {
+            always: [
+              {
+                cond: (context, event) => !context.taskforce.selectedPatient,
+                target: '#reportNoUserFound',
+              },
+              {
+                target: 'fetchReport',
+              },
+            ],
+          },
+          fetchReport: {
+            invoke: {
+              src: (context) => triageService.downloadReportForPerson(context.slots.report.person),
+              onDone: {
+                actions: assign((context, event) => {
+                  const media = event.data;
+                  const split = media.split('/');
+                  const fileName = split[split.length - 1];
+                  const message = {
+                    type: 'media',
+                    output: media,
+                    caption: fileName,
+                  };
+                  dialog.sendMessage(context, message);
+                }),
+                target: '#endstate',
+              },
+            },
           },
         },
       },
@@ -505,6 +523,10 @@ const selfCareFlow = {
     states: {
       checkUser: {
         always: [
+          {
+            cond: (context) => !context.slots.exitProgram.person,
+            target: '#exitProgramNoUserFound',
+          },
           {
             cond: (context) => !context.slots.exitProgram.person.is_home_isolated,
             target: '#exitReason',

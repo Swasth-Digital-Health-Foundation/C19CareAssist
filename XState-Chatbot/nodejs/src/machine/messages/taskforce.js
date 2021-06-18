@@ -19,7 +19,7 @@ let messages = {
         en_IN: 'Type “Add” to Add new member OR Type “Continue” to record vitals',
       },
       citizen: {
-        en_IN: 'Type “Continue” to record vitals',
+        en_IN: 'Type “Continue” to select user.',
       },
     },
     error: {

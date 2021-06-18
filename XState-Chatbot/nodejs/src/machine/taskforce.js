@@ -59,7 +59,7 @@ const taskforceFlow = {
             id: 'fetchUser',
             invoke: {
               src: (context, event) => {
-                if (context.role == 'taskforce') {
+                if (context.taskforce.person.mobile) {
                   return personService.getPeople(context.taskforce.person.mobile);
                 }
                 return personService.getPeople(event.user.mobileNumber);
@@ -127,7 +127,11 @@ const taskforceFlow = {
             onEntry: assign((context, event) => {
               let message = dialog.get_message(messages.patientList.prompt, context.user.locale);
               message = context.taskforce.patients.reduce((message, person, i) => `${message}\n${i + 1}. ${person.first_name}`, '');
-              message += `\n${messages.patientList.postScript[context.role][context.user.locale]}`;
+              if (context.taskforce.person.mobile) {
+                message += `\n${messages.patientList.postScript[context.role][context.user.locale]}`;
+              } else {
+                message += `\n${messages.patientList.postScript.citizen[context.user.locale]}`;
+              }
               dialog.sendMessage(context, message);
             }),
 
@@ -300,7 +304,7 @@ const taskforceFlow = {
       addPerson: {
         id: 'addPerson',
         invoke: {
-          src: (context, event) => personService.createPerson(context.taskforce.person),
+          src: (context, event) => personService.createPerson(context.taskforce.person, context.taskforce.person.mobile),
           onDone: [
             {
               actions: assign((context, event) => {

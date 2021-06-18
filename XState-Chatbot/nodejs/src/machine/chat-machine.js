@@ -250,7 +250,7 @@ const chatStateMachine = Machine({
               target: '#triageFlow',
             },
             {
-              cond: (context) => context.intention != dialog.INTENTION_UNKOWN && context.role == 'citizen',
+              cond: (context) => context.intention != dialog.INTENTION_UNKOWN && !context.taskforce.selectedPatient,
               target: '#patientList',
             },
             {
