@@ -66,7 +66,7 @@ let messages = {
   vitalsSpo2Bad: {
     taskforce: {
       en_IN:
-        '*{{name}}, your current oxygen level is well below the normal value. I suggest he/she consult a doctor right away!* Besides medications, he/she may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
+        "*{{name}}'s oxygen level is well below the normal value. I suggest he/she consult a doctor right away!* Besides medications, he/she may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in",
     },
     en_IN:
       '*{{name}}, your current oxygen level is well below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
