@@ -66,4 +66,4 @@ jobs:
         with:
           context: eua-service/
           push: true
-          tags: swasthapp/gateway:${{ github.event.inputs.docker_tag }}
+          tags: swasthapp/eua-service:${{ github.event.inputs.docker_tag }}
