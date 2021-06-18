@@ -18,7 +18,7 @@ class VitalsService {
           object: {
             rt_pcr_status: false,
             spo2: vitals.spo2.toString(),
-            temperature: vitals.temperature.toString(),
+            temperature: vitals.temprature && vitals.temperature.toString(),
             pulse: vitals.pulse,
             breathing_rate: vitals.breathing_rate,
             person_id: vitals.person.uuid,
