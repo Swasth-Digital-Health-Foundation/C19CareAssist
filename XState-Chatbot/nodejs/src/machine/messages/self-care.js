@@ -64,8 +64,12 @@ let messages = {
     },
   },
   vitalsSpo2Bad: {
+    taskforce: {
+      en_IN:
+        '*{{name}}, your current oxygen level is well below the normal value. I suggest he/she consult a doctor right away!* Besides medications, he/she may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
+    },
     en_IN:
-      '*{{name}}, your current oxygen level  is  well  below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
+      '*{{name}}, your current oxygen level is well below the normal value. I suggest you consult a doctor right away!* Besides medications, you may need some additional oxygen support. \n\nTo consult a doctor click here. \nMore information regarding COVID-19 is available here www.liferesources.in',
     hi_IN: '*{{name}}, आपका वर्तमान ऑक्सीजन स्तर सामान्य मूल्य से नीचे है। कृपया तुरंत डॉक्टर से सलाह लें!* \nCOVID-19 और नज़दीकी देखभाल सुविधाओं के बारे में अधिक जानकारी यहां उपलब्ध है www.liferesources.in',
     ta_IN: '*{{name}}.. உங்கள் தற்போதைய ஆக்ஸிஜன் அளவு சாதாரண மதிப்பை விட குறைவாக உள்ளது. தயவுசெய்து உடனே மருத்துவரை அணுகவும்.*\n கொரோனா தொடர்பான தகவல் மற்றும் அருகிலுள்ள பராமரிப்பு வசதிகள் பற்றிய கூடுதல் தகவல்கள் www.liferesources.in என்ற இந்த லிங்கில் காணலாம்',
     ma_IN: '*{{name}}, तुमची सध्याची ऑक्सिजन पातळी सामान्य मूल्यापेक्षा खाली आहे. कृपया त्वरित डॉक्टरांचा सल्ला घ्या!*\nकोविड -१९  आणि जवळील काळजी-सुविधांविषयी अधिक माहिती येथे उपलब्ध आहे. www.liferesources.in',

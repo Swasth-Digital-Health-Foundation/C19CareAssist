@@ -142,7 +142,7 @@ const selfCareFlow = {
               {
                 cond: (context) => context.intention == 'bad',
                 actions: assign((context, event) => {
-                  let message = dialog.get_message(messages.vitalsSpo2Bad, context.user.locale);
+                  let message = dialog.get_message(messages.vitalsSpo2Bad, context.user.locale, context.role);
                   message = message.replace('{{name}}', context.slots.vitals.person.first_name);
                   dialog.sendMessage(context, message);
                 }),
@@ -372,12 +372,12 @@ const selfCareFlow = {
           process: {
             invoke: {
               src: (context, event) => {
-                return personService.updatePerson(context.slots.vitals.person, dialog.get_input(event) == 1 ? true : false);
+                return personService.updatePerson(context.slots.vitals.person, dialog.get_input(event) == 1, true);
               },
               onDone: [
                 {
                   actions: assign((context, event) => {
-                    if (messages.addHomeIsolation.sucessfullyIsolated) {
+                    if (event.data && event.data.is_home_isolated) {
                       dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
                     }
                   }),
