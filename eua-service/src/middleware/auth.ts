@@ -13,7 +13,7 @@ class AuthMiddleware {
       return next();
     } catch (error) {
       logger.error('Failed to retrieve public key from the Gateway', error);
-      return response.json({ statusCode: 401, message: 'invalid token...' }).status(401);
+      return response.json({ code: error.code, message: error.message }).status(error.code);
     }
   };
 
@@ -25,7 +25,7 @@ class AuthMiddleware {
       return next();
     } catch (error) {
       logger.error('Error from verifyAuthToken middleware', error.message);
-      return response.json({ statusCode: 401, message: 'invalid token...' }).status(401);
+      return response.json({ code: error.code, message: error.message }).status(error.code);
     }
   };
 }

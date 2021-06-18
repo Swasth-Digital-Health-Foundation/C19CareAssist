@@ -1,3 +1,4 @@
+import EUAError from '../utils/Error';
 import apiResolver from '../utils/api-resolver';
 import logger from '../utils/logger';
 import { GATEWAY_URL } from '../utils/secrets';
@@ -14,7 +15,7 @@ class Auth {
     }
     catch (error) {
       logger.error('Error in Auth.getPublicKey', error);
-      throw error;
+      throw new EUAError(500, 'Unable to authenticate');
     }
   };
 
