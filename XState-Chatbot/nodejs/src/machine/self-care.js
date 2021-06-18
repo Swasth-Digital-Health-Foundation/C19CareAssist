@@ -379,6 +379,8 @@ const selfCareFlow = {
                   actions: assign((context, event) => {
                     if (event.data && event.data.is_home_isolated) {
                       dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
+                    } else {
+                      dialog.sendMessage(context, 'Person is not being home isolated.');
                     }
                   }),
                   target: '#endstate',

@@ -181,7 +181,7 @@ let messages = {
       en_IN: 'Do you want to add a person in home isolation.\n1. Yes\n2. No',
     },
     sucessfullyIsolated: {
-      en_IN: 'Person has been isolated.',
+      en_IN: 'Person has been home isolated.',
     },
   },
 };
