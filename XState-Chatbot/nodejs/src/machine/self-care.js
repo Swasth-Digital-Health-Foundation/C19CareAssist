@@ -20,7 +20,7 @@ const selfCareFlow = {
     states: {
       fetchPersons: {
         invoke: {
-          src: (context) => personService.getPeople(context.user.mobileNumber),
+          src: (context) => personService.getSubscribedPeople(context.user.mobileNumber),
           onDone: [
             {
               cond: (context, event) => event.data.length == 0,
@@ -377,7 +377,9 @@ const selfCareFlow = {
               onDone: [
                 {
                   actions: assign((context, event) => {
-                    dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
+                    if (messages.addHomeIsolation.sucessfullyIsolated) {
+                      dialog.sendMessage(context, dialog.get_message(messages.addHomeIsolation.sucessfullyIsolated, context.user.locale, context.role));
+                    }
                   }),
                   target: '#endstate',
                 },
@@ -628,7 +630,7 @@ const selfCareFlow = {
           prompt: {
             onEntry: assign((context, event) => {
               context.grammer = grammer.exitReason;
-              dialog.sendMessage(context, dialog.get_message(messages.exitProgram.exitReason.prompt, context.user.locale));
+              dialog.sendMessage(context, dialog.get_message(messages.exitProgram.exitReason.prompt, context.user.locale, context.role));
             }),
             on: {
               USER_MESSAGE: 'process',
@@ -684,7 +686,7 @@ const selfCareFlow = {
         invoke: {
           src: (context) => {
             let person = context.slots.exitProgram.person;
-            return triageService.exitProgram(person, context.slots.exitProgram);
+            return personService.updatePerson(person, null, false);
           },
           onDone: {
             actions: assign((context, event) => {

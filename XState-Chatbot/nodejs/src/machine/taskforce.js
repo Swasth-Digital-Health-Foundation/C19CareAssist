@@ -60,9 +60,9 @@ const taskforceFlow = {
             invoke: {
               src: (context, event) => {
                 if (context.taskforce.person.mobile) {
-                  return personService.getPeople(context.taskforce.person.mobile);
+                  return personService.getSubscribedPeople(context.taskforce.person.mobile);
                 }
-                return personService.getPeople(event.user.mobileNumber);
+                return personService.getSubscribedPeople(event.user.mobileNumber);
               },
               onDone: [
                 {
@@ -87,7 +87,7 @@ const taskforceFlow = {
                   target: '#vitalsSpo2',
                 },
                 {
-                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'recordVitals',
+                  cond: (context, event) => event.data && event.data.length <= 1 && context.intention == 'recordVitals',
                   actions: assign((context, event) => {
                     const patients = event.data;
                     context.taskforce.patients = patients;
@@ -96,7 +96,7 @@ const taskforceFlow = {
                   target: '#vitalsSpo2',
                 },
                 {
-                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'downloadReport',
+                  cond: (context, event) => event.data && event.data.length <= 1 && context.intention == 'downloadReport',
                   actions: assign((context, event) => {
                     const patients = event.data;
                     context.taskforce.patients = patients;
@@ -105,7 +105,7 @@ const taskforceFlow = {
                   target: '#downloadReport',
                 },
                 {
-                  cond: (context, event) => event.data && event.data.length === 1 && context.intention == 'exitProgram',
+                  cond: (context, event) => event.data && event.data.length <= 1 && context.intention == 'exitProgram',
                   actions: assign((context, event) => {
                     const patients = event.data;
                     context.taskforce.patients = patients;

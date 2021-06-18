@@ -30,13 +30,13 @@ const chatStateMachine = Machine({
       invoke: {
         src: (context) => personService.getPeople(context.user.mobileNumber),
         onDone: [
-          {
-            cond: (context, event) => context.user.locale,
-            actions: assign((context, event) => {
-              context.persons = event.data;
-            }),
-            target: '#menu',
-          },
+          //{
+          //  cond: (context, event) => context.user.locale,
+          //  actions: assign((context, event) => {
+          //    context.persons = event.data;
+          //  }),
+          //  target: '#menu',
+          //},
           {
             actions: assign((context, event) => {
               context.persons = event.data;
@@ -111,12 +111,12 @@ const chatStateMachine = Machine({
             } else if (userType == 'admin') {
               //TODO: Add code for admin
             } else {
-              const subscribedPatients = personService.filterSubscribedPeople(context.persons);
-              if (subscribedPatients && subscribedPatients.length) {
-                options = messages.menu.prompt.options.subscribedUser;
-              } else {
-                options = messages.menu.prompt.options.newUser;
-              }
+              //const subscribedPatients = personService.filterSubscribedPeople(context.persons);
+              //if (subscribedPatients && subscribedPatients.length) {
+              //  options = messages.menu.prompt.options.subscribedUser;
+              //} else {
+              options = messages.menu.prompt.options.newUser;
+              //}
             }
             let { prompt, grammer } = dialog.constructListPromptAndGrammer(options, messages.menu.prompt.options.messageBundle, context.user.locale);
             context.grammer = grammer;

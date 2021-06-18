@@ -172,7 +172,7 @@ let messages = {
           list: ['triage', 'addPatient', 'recordVitals', 'downloadReport', 'exitProgram'],
           messageBundle: {
             triage: {
-              en_IN: 'Triage your issue.',
+              en_IN: 'Enter self triage of your health',
             },
             addPatient: {
               en_IN: 'Enroll a new patient into the program',

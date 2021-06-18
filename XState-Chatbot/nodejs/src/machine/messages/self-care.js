@@ -141,6 +141,9 @@ let messages = {
     },
     exitReason: {
       prompt: {
+        taskforce: {
+          en_IN: 'Please tell me why you want to exit the member from the self management program? \n1. Member has recovered now\n2. On doctor’s recommendation\n3. Wrong data entry',
+        },
         en_IN: 'Please tell me why you want to exit the self management program? \n1. I have recovered now\n2. My doctor’s recommendation\n3. I didn’t find the program useful',
         hi_IN: ' कृपया हमें बताएं कि आप self management कार्यक्रम का अंत क्यों करना चाहते हैं? \n1. मैं अब ठीक हो गया हूँ \n2. मेरे डॉक्टर की सलाह पर \n3. मुझे इस कार्यक्रम से सहायता नहीं मिली',
         ta_IN: 'சுய மேலாண்மை நிகழ்விலிருந்து ஏன் வெளியேறுகிறீர்கள் என்பதை தயவு செய்து கூறுங்கள்? \n1. நான் தற்போது குணமாகிவிட்டேன் \n2. எனது மருத்துவரின் பரிந்துரை \n3. இந்த நிகழ்வு பயனுள்ளதாக நான் நினைக்கவில்லை',
