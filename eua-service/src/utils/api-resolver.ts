@@ -1,15 +1,18 @@
 import axios from 'axios';
+import EUAError from './Error';
 import logger from './logger';
 
 class APIResolver {
   public request = async (options: any) => {
     try {
       const response = await axios.request(options);
+      if (response.status !== 200) {
+        throw new EUAError(response.status, response.data.message);
+      }
       return response.data;
     } catch (error) {
       logger.error(`Error in API Resolver - ${error}`);
-      if (error.code === 'ECONNABORTED') return null;
-      else throw error;
+      throw error;
     }
   };
 }

@@ -1,6 +1,7 @@
 import logger from '../utils/logger';
 import { DOCTORS_API_KEY } from '../utils/secrets';
 import ApiResolver from '../utils/api-resolver';
+import EUAError from '../utils/Error';
 
 class Appointment {
 
@@ -22,7 +23,7 @@ class Appointment {
     }
     catch (error) {
       logger.error('Error in Confirm.confirmAppointment', error);
-      throw error;
+      throw new EUAError(500, 'Unable to set & confirm the appointment with the HSP');
     }
   };
 }

@@ -4,6 +4,7 @@ import logger from '../utils/logger';
 import ControllerInterface from './interface';
 import Search from '../services/search';
 import Appointment from '../services/appointment';
+import EUAError from '../utils/Error';
 
 /**
  * Sanitise the request body so it can be used to hit the confirm service endpoint and set an
@@ -50,17 +51,17 @@ class SearchController implements ControllerInterface {
     try {
       const { accesstoken } = request.headers;
       if (!accesstoken) {
-        throw new Error('Access token not found in the request headers.');
+        throw new EUAError(400, 'Access token not found in the request headers.');
       }
       const apiReponse = await new Search().getSearchResults(request.body, accesstoken);
       response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url;
       if (!response.locals.providerUrl) {
-        throw new Error('Unable to confirm appointment with a doctor - URL not available.');
+        throw new EUAError(500, 'Unable to confirm appointment with a doctor - URL not available.');
       }
       next();
     } catch (error) {
       logger.error('Error in search middleware', error);
-      return response.status(500).json({ code: 500, message: error.message });
+      return response.status(error.code || 500).json({ code: error.code, message: error.message });
     }
   };
 
@@ -72,7 +73,7 @@ class SearchController implements ControllerInterface {
       response.send(apiResponse).status(200);
     } catch (error) {
       logger.error('Error in setAppointment middleware', error);
-      response.status(500).json({ code: 500, message: error.message });
+      response.status(error.code || 500).json({ code: error.code, message: error.message });
     }
   };
 }
