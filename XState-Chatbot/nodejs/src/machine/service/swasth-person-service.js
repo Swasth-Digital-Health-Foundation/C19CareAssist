@@ -83,7 +83,7 @@ class PersonService {
     let response = await fetch(config.hasuraUrl, options);
     let data = await response.json();
 
-    person.is_home_isolated = data.data.update_person.is_home_isolated;
+    person.is_home_isolated = data.data.update_person.returning[0].is_home_isolated;
     return person;
   }
 
