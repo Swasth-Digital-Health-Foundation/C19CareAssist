@@ -8,7 +8,7 @@ class AuthMiddleware {
   retrieveGatewayPublicKey = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!this.gatewayPublicKey) {
-        this.gatewayPublicKey = await new Auth().getPublicKey();
+        this.gatewayPublicKey = await Auth.getPublicKey();
       }
       return next();
     } catch (error) {

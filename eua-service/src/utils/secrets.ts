@@ -14,3 +14,5 @@ export const API_TOKEN_PUBLICKEY = process.env.API_TOKEN_PUBLICKEY || '';
 export const GATEWAY_URL = process.env.GATEWAY_URL || '';
 export const DOCTORS_API_KEY = process.env.DOCTORS_API_KEY || '';
 export const CONTEXT_APP_URL = process.env.CONTEXT_APP_URL || '';
+export const GATEWAY_LOGIN_USERNAME = process.env.GATEWAY_LOGIN_USERNAME || '';
+export const GATEWAY_LOGIN_PASSWORD = process.env.GATEWAY_LOGIN_PASSWORD || '';

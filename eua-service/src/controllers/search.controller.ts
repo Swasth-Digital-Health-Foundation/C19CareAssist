@@ -3,6 +3,7 @@ import { CONTEXT_APP_URL } from '../utils/secrets';
 import logger from '../utils/logger';
 import ControllerInterface from './interface';
 import Search from '../services/search';
+import Auth from '../services/auth';
 import Appointment from '../services/appointment';
 import EUAError from '../utils/Error';
 
@@ -47,14 +48,28 @@ class SearchController implements ControllerInterface {
     this.router.post(this.path, this.search, this.setAppointment);
   }
 
+  private getSearchData = async (requestBody: any, accesstoken: any) => {
+    try {
+      let apiReponse = await Search.getSearchResults(requestBody, accesstoken);
+      if (!apiReponse) {
+        accesstoken = await Auth.login();
+        apiReponse = await Search.getSearchResults(requestBody, accesstoken);
+      }
+      return apiReponse;
+    } catch (error) {
+      logger.error(`Error while fetching search data or logging in - ${error}`);
+      throw error;
+    }
+  };
+
   private search = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
       const { accesstoken } = request.headers;
       if (!accesstoken) {
         throw new EUAError(400, 'Access token not found in the request headers.');
       }
-      const apiReponse = await new Search().getSearchResults(request.body, accesstoken);
-      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url;
+      const searchData = await this.getSearchData(request.body, accesstoken);
+      response.locals.providerUrl = searchData.services?.[0]?.provider?.api?.url;
       if (!response.locals.providerUrl) {
         throw new EUAError(500, 'Unable to confirm appointment with a doctor - URL not available.');
       }
