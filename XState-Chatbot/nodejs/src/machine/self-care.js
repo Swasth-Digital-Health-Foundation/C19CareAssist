@@ -530,7 +530,7 @@ const selfCareFlow = {
             target: '#exitProgramNoUserFound',
           },
           {
-            cond: (context) => !context.slots.exitProgram.person.is_home_isolated,
+            cond: (context) => !context.slots.exitProgram.person.is_home_isolated || context.role == 'taskforce',
             target: '#exitReason',
           },
           {
