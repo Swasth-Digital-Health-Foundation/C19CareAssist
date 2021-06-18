@@ -6,9 +6,6 @@ class APIResolver {
   public request = async (options: any) => {
     try {
       const response = await axios.request(options);
-      if (response.status !== 200) {
-        throw new EUAError(response.status, response.data.message);
-      }
       return response.data;
     } catch (error) {
       logger.error(`Error in API Resolver - ${error}`);
