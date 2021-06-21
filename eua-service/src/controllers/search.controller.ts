@@ -5,6 +5,7 @@ import ControllerInterface from './interface';
 import Search from '../services/search';
 import Appointment from '../services/appointment';
 import EUAError from '../utils/error';
+import Schema from '../utils/schema';
 
 /**
  * Sanitise the request body so it can be used to hit the confirm service endpoint and set an
@@ -44,8 +45,18 @@ class SearchController implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, this.search, this.setAppointment);
+    this.router.post(this.path, this.validateRequestBody, this.search, this.setAppointment);
   }
+
+  public validateRequestBody = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+    try {
+      await Schema.searchRequestSchema.validateAsync(request.body, { abortEarly: false });
+      next();
+    } catch (error) {
+      logger.error(`Error in validateRequestBody middleware - ${error}`);
+      return response.status(400).json({ code: 400, message: error.details });
+    }
+  };
 
   private search = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
@@ -61,7 +72,7 @@ class SearchController implements ControllerInterface {
       next();
     } catch (error) {
       logger.error('Error in search middleware', error);
-      return response.status(error.code || 500).json({ code: error.code, message: error.message });
+      return response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };
 
@@ -73,7 +84,7 @@ class SearchController implements ControllerInterface {
       response.send(apiResponse).status(200);
     } catch (error) {
       logger.error('Error in setAppointment middleware', error);
-      response.status(error.code || 500).json({ code: error.code, message: error.message });
+      response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };
 }
