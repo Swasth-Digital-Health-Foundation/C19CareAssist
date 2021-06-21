@@ -1,7 +1,7 @@
 import logger from '../utils/logger';
 import { DOCTORS_API_KEY } from '../utils/secrets';
 import ApiResolver from '../utils/api-resolver';
-import EUAError from '../utils/Error';
+import EUAError from '../utils/error';
 
 class Appointment {
 
