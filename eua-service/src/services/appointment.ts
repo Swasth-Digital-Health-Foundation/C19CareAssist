@@ -16,7 +16,7 @@ class Appointment {
           apiToken: DOCTORS_API_KEY,
         },
         data: data,
-        timeout: 1000,
+        timeout: 5000,
       });
 
       return apiResponse;

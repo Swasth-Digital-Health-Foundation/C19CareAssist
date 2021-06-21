@@ -15,7 +15,7 @@ class Search {
           accesstoken,
         },
         data,
-        timeout: 1000
+        timeout: 5000
       });
       if (apiResponse.statusCode && apiResponse.statusCode !== 200) {
         throw new EUAError(apiResponse.statusCode, apiResponse.message);
