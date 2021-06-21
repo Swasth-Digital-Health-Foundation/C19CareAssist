@@ -1,7 +1,7 @@
 import logger from '../utils/logger';
 import ApiResolver from '../utils/api-resolver';
 import { GATEWAY_URL } from '../utils/secrets';
-import EUAError from '../utils/Error';
+import EUAError from '../utils/error';
 
 class Search {
 

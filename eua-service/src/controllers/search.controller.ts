@@ -4,7 +4,7 @@ import logger from '../utils/logger';
 import ControllerInterface from './interface';
 import Search from '../services/search';
 import Appointment from '../services/appointment';
-import EUAError from '../utils/Error';
+import EUAError from '../utils/error';
 
 /**
  * Sanitise the request body so it can be used to hit the confirm service endpoint and set an

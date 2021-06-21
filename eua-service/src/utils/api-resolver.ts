@@ -1,5 +1,4 @@
 import axios from 'axios';
-import EUAError from './Error';
 import logger from './logger';
 
 class APIResolver {

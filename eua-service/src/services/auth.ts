@@ -1,4 +1,4 @@
-import EUAError from '../utils/Error';
+import EUAError from '../utils/error';
 import apiResolver from '../utils/api-resolver';
 import logger from '../utils/logger';
 import { GATEWAY_URL } from '../utils/secrets';
