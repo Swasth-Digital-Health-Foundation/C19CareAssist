@@ -14,7 +14,7 @@ class AuthService {
       return apiResponse.public_key;
     }
     catch (error) {
-      logger.error('Error in Auth.getPublicKey', error);
+      logger.error(`Error in Auth.getPublicKey - ${error}`);
       throw new HSPError(500, 'Unable to authenticate');
     }
   };

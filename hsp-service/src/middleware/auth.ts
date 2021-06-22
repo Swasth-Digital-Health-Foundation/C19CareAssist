@@ -12,7 +12,7 @@ class Auth {
       }
       return next();
     } catch (error) {
-      logger.error('Failed to retrieve public key from the Gateway', error);
+      logger.error(`Failed to retrieve public key from the Gateway - ${error}`);
       return response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };
@@ -26,7 +26,7 @@ class Auth {
       AuthHelper.verifyApiToken(apitoken, this.gatewayPublicKey);
       return next();
     } catch (error) {
-      logger.error('Error from verifyAuthToken middleware', error.message);
+      logger.error(`Error from verifyAuthToken middleware - ${error.message}`);
       return response.status(error.code || 401).json({ code: error.code || 401, message: error.message });
     }
   };

@@ -27,7 +27,6 @@ describe('Authorization middleware -> retrieveGatewayPublicKey', () => {
     expect(AuthMiddleware.gatewayPublicKey).toBe(undefined);
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toBeCalledWith({ code: 500, message: 'Unable to authenticate' });
-
   });
 
   it('should set gatewayPublicKey variable value as returned by the gateway API call', async () => {
