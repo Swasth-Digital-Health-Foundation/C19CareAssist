@@ -4,7 +4,7 @@ import logger from '../utils/logger';
 import AuthHelper from '../utils/auth-helper';
 import AuthService from '../services/auth';
 class Auth {
-  private gatewayPublicKey: string;
+  public gatewayPublicKey: string;
   retrieveGatewayPublicKey = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!this.gatewayPublicKey) {
