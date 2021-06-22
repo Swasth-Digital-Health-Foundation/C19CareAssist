@@ -7,8 +7,9 @@ import logger from './utils/logger';
 import { PORT, NODE_ENV } from './utils/secrets';
 
 class App {
-  private readonly app: Application;
+  public readonly app: Application;
   private readonly port: number;
+  private server: any;
 
   constructor() {
     this.app = express();
@@ -30,13 +31,17 @@ class App {
     });
   };
 
-  private start = async () => {
-    this.app.listen(this.port, () => {
+  public start = async () => {
+    this.server = this.app.listen(this.port, () => {
       logger.info(`App is listening on the http://localhost:${this.port}`);
     });
 
     return 'Server is ready';
   };
+
+  public stop() {
+    this.server.close();
+  }
 }
 
 export default new App();

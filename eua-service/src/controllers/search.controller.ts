@@ -71,7 +71,7 @@ class SearchController implements ControllerInterface {
       }
       next();
     } catch (error) {
-      logger.error('Error in search middleware', error);
+      logger.error(`Error in search middleware - ${error}`);
       return response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };
@@ -83,7 +83,7 @@ class SearchController implements ControllerInterface {
       const apiResponse = await new Appointment().getConfirmation(response.locals.providerUrl, data);
       response.send(apiResponse).status(200);
     } catch (error) {
-      logger.error('Error in setAppointment middleware', error);
+      logger.error(`Error in setAppointment middleware - ${error}`);
       response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };

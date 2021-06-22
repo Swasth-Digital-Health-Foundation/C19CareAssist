@@ -14,7 +14,7 @@ class Auth {
       return apiResponse.public_key;
     }
     catch (error) {
-      logger.error('Error in Auth.getPublicKey', error);
+      logger.error(`Error in Auth.getPublicKey - ${ error}`);
       throw new EUAError(500, 'Unable to authenticate');
     }
   };

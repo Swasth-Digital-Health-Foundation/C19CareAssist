@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import authHelper from '../utils/auth-helper';
 import logger from '../utils/logger';
 import Auth from '../services/auth';
+import EUAError from '../utils/error';
 
 class AuthMiddleware {
   private gatewayPublicKey: string;
@@ -12,20 +13,25 @@ class AuthMiddleware {
       }
       return next();
     } catch (error) {
-      logger.error('Failed to retrieve public key from the Gateway', error);
-      return response.json({ code: error.code, message: error.message }).status(error.code);
+      logger.error(`Failed to retrieve public key from the Gateway - ${error}`);
+      return response.status(error.code).json({ code: error.code, message: error.message });
     }
   };
 
   verifyAuthToken = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
-      let { apitoken } = request.headers;
-      apitoken = apitoken ? apitoken.toString() : '';
-      authHelper.verifyApiToken(apitoken, this.gatewayPublicKey);
+      const { apitoken } = request.headers;
+      if (!apitoken) {
+        throw new EUAError(400, 'api token not provided');
+      }
+      authHelper.verifyApiToken(apitoken.toString(), this.gatewayPublicKey);
       return next();
     } catch (error) {
-      logger.error('Error from verifyAuthToken middleware', error.message);
-      return response.json({ code: error.code, message: error.message }).status(error.code);
+      logger.error(`Error from verifyAuthToken middleware - ${error}`);
+      if (!error.code || error.code === 'string') {
+        return response.status(401).json({code: 401, message: 'Unauthorized request'});
+      }
+      return response.status(error.code).json({ code: error.code, message: error.message });
     }
   };
 }
