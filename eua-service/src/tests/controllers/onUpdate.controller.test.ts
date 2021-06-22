@@ -9,7 +9,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 const app = App.app;
 let updateReq: any;
 
-describe('getSearchResultsForController()', () => {
+describe('OnUpdateControllerTests()', () => {
   updateReq = { 
     message: { 
       type: 'consultation',
