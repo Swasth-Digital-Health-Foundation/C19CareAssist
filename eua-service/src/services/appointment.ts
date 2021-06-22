@@ -22,7 +22,7 @@ class Appointment {
       return apiResponse;
     }
     catch (error) {
-      logger.error('Error in Confirm.confirmAppointment', error);
+      logger.error(`Error in Confirm.confirmAppointment - ${error}`);
       throw new EUAError(500, 'Unable to set & confirm the appointment with the HSP');
     }
   };
