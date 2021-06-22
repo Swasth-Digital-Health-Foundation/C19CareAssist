@@ -30,7 +30,11 @@
       "error",
       2
     ],
-    "prefer-template": "error"
+    "prefer-template": "error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ]
   },
   "env": {
     "node": true,
