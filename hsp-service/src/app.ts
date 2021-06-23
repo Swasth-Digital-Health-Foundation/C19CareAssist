@@ -7,7 +7,7 @@ import logger from './utils/logger';
 import { PORT, NODE_ENV } from './utils/secrets';
 
 class App {
-  readonly app: Application;
+  public readonly app: Application;
   private readonly port: number;
 
   constructor() {
