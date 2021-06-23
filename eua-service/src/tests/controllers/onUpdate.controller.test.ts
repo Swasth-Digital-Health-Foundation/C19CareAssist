@@ -25,7 +25,7 @@ describe('OnUpdateControllerTests()', () => {
     const searchResponse = { 
       public_key: gatewayPublicKey
     };
-    mockedAxios.request.mockResolvedValue({ status: 200, data :searchResponse });
+    await mockedAxios.request.mockResolvedValue({ status: 200, data :searchResponse });
     await request(app)
       .post(path)
       .set('apitoken', apiToken)
@@ -33,11 +33,11 @@ describe('OnUpdateControllerTests()', () => {
       .expect(200);
   });
 
-  it.only('should return the appropriate response when the API call is unsuccessful', async () => {
+  it('should return the appropriate response when the API call is unsuccessful', async () => {
     const searchResponse = { 
       message: onUpdateSuccessResponse
     };
-    mockedAxios.request.mockResolvedValue({ status: 200, data :searchResponse });
+    await mockedAxios.request.mockResolvedValue({ status: 200, data :searchResponse });
     const res = await request(app)
       .post(path)
       .send(updateReq)
