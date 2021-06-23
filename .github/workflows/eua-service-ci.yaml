@@ -1,0 +1,69 @@
+name: eua-service-ci
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_branch_or_tag:
+        description: 'git_branch_or_tag'
+        required: true
+        default: 'false'
+      docker_tag:
+        description: 'docker_tag'
+        required: true
+        default: 'false'
+
+jobs:
+  Build-and-Push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (Default)
+        if: ${{ github.event.inputs.git_branch_or_tag == 'false' }}
+        uses: actions/checkout@v2
+
+      - name: Checkout (git_branch_or_tag)
+        if: ${{ github.event.inputs.git_branch_or_tag != 'false' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.git_branch_or_tag }}
+  
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Preparing Required Vars
+        run : |
+          echo "short_SHA=$(/usr/bin/git log -1 --format='%H' | cut -c 1-7)" >> $GITHUB_ENV   
+          echo "git_checkout_branch=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+
+      - name: Print variables
+        run: | 
+          echo ${{ env.git_checkout_branch }}
+          echo ${{ env.short_SHA }} 
+          echo ${{ github.ref }}
+          echo ${{ github.sha }}         
+          
+      - name: Build and push( Branch and SHA )
+        if: ${{ github.event.inputs.docker_tag == 'false' && github.event.inputs.git_branch_or_tag == 'false' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: eua-service/
+          push: true
+          tags: swasthapp/eua-service:${{ env.git_checkout_branch }}-${{ env.short_SHA }} 
+
+      - name: Build and push ( Branch and SHA )
+        if: ${{ github.event.inputs.docker_tag == 'false' && github.event.inputs.git_branch_or_tag != 'false' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: eua-service/
+          push: true
+          tags: swasthapp/eua-service:${{ github.event.inputs.git_branch_or_tag }}-${{ env.short_SHA }}       
+
+      - name: Build and push ( Docker Tag )
+        if: ${{ github.event.inputs.docker_tag != 'false' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: eua-service/
+          push: true
+          tags: swasthapp/eua-service:${{ github.event.inputs.docker_tag }}
