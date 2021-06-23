@@ -11,8 +11,8 @@ const app = App.app;
 describe('Search controller tests', () => {
   const path = '/v1/search/service';
 
-  it('should return the appropriate response when the API call is unsuccessful', async () => {
-    mockedAxios.request.mockRejectedValue('Unable to retrieve gateway public key and verify apitoken..');
+  it('should return the error when unable to verify apitoken', async () => {
+    mockedAxios.request.mockRejectedValue('Unable to retrieve gateway public key and verify apitoken..'); // mock API call to retrieve gateway public key
     await request(app)
       .post(path)
       .set('apitoken', SearchTestData.apiToken)
@@ -22,8 +22,8 @@ describe('Search controller tests', () => {
       .expect(500);
   });
 
-  it('should return the appropriate response when the API call is successful', async () => {
-    mockedAxios.request.mockResolvedValue({ status: 200, data: { public_key: SearchTestData.gatewayPublicKey } });
+  it('should return the appropriate response when apitoken is successfully verified', async () => {
+    mockedAxios.request.mockResolvedValue({ status: 200, data: { public_key: SearchTestData.gatewayPublicKey } }); // mock API call to retrieve gateway public key
     await request(app)
       .post(path)
       .set('apitoken', SearchTestData.apiToken)
