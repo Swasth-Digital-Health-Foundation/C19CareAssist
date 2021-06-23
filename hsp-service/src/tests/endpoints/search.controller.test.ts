@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import axios from 'axios';
 import App from '../../app';
-import SearchTestData from '../utils/search.controller.data';
+import TestData from '../testdata';
 
 
 jest.mock('axios');
@@ -15,7 +15,7 @@ describe('Search controller tests', () => {
     mockedAxios.request.mockRejectedValue('Unable to retrieve gateway public key and verify apitoken..'); // mock API call to retrieve gateway public key
     await request(app)
       .post(path)
-      .set('apitoken', SearchTestData.apiToken)
+      .set('apitoken', TestData.apiToken)
       .send({})
       .expect('Content-Type', /json/)
       .expect({ code: 500, message: 'Unable to authenticate' })
@@ -23,13 +23,13 @@ describe('Search controller tests', () => {
   });
 
   it('should return the appropriate response when apitoken is successfully verified', async () => {
-    mockedAxios.request.mockResolvedValue({ status: 200, data: { public_key: SearchTestData.gatewayPublicKey } }); // mock API call to retrieve gateway public key
+    mockedAxios.request.mockResolvedValue({ status: 200, data: { public_key: TestData.gatewayPublicKey } }); // mock API call to retrieve gateway public key
     await request(app)
       .post(path)
-      .set('apitoken', SearchTestData.apiToken)
+      .set('apitoken', TestData.apiToken)
       .send({})
       .expect('Content-Type', /json/)
-      .expect(SearchTestData.response)
+      .expect(TestData.response)
       .expect(200);
   });
 });
