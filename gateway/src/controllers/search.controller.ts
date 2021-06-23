@@ -5,6 +5,7 @@ import ControllerBase from '../interfaces/ControllerBase.interface';
 import { isAuthenticated } from '../middleware/auth';
 import Search from '../services/search';
 import logger from '../utils/logger';
+import { v4 as uuidv4 } from 'uuid';
 
 class SearchController implements ControllerBase {
   public path = '/api/v1/search';
@@ -25,7 +26,7 @@ class SearchController implements ControllerBase {
       if (!doctorUrl) {
         throw new Error('Unable to confirm a doctor - doctor search did not return the API URL.');
       }
-      KafkaProducer.publish(JSON.stringify({ ...data, doctorUrl }));
+      KafkaProducer.publish(JSON.stringify({ ...data, doctorUrl, id: uuidv4() }));
       res.send('ok').status(200);
     } catch (e) {
       logger.error('Error in SearchController.search ', e);
