@@ -44,12 +44,14 @@ describe('Authorization middleware -> verifyAuthToken', () => {
   let nextFunction: NextFunction = jest.fn();
 
   beforeEach(() => {
+    jest.resetAllMocks();
     mockRequest = {};
     mockResponse = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis()
     };
     nextFunction = jest.fn();
+    AuthHelper.verifyApiToken = jest.fn();
   });
 
   it('should throw the error when apitoken is not present in the request headers', async () => {
@@ -58,17 +60,6 @@ describe('Authorization middleware -> verifyAuthToken', () => {
     await AuthMiddleware.verifyAuthToken(mockRequest as Request, mockResponse as Response, nextFunction);
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toBeCalledWith({ code: 400, message: 'apitoken not provided in the request headers' });
-  });
-
-  it('should throw the error when apitoken verification is unsuccessful', async () => {
-    AuthMiddleware.gatewayPublicKey = 'somekey';
-
-    mockRequest.headers = { apitoken: 'sometoken' };
-
-    await AuthMiddleware.verifyAuthToken(mockRequest as Request, mockResponse as Response, nextFunction);
-    expect(AuthMiddleware.gatewayPublicKey).toBe('somekey');
-    expect(mockResponse.status).toHaveBeenCalledWith(401);
-    expect(mockResponse.json).toBeCalledWith({ code: 401, message: 'jwt malformed' });
   });
 
   it('should call next when apitoken is verified successfully', async () => {
@@ -82,5 +73,20 @@ describe('Authorization middleware -> verifyAuthToken', () => {
     expect(nextFunction).toHaveBeenCalledTimes(1);
     expect(mockResponse.status).toHaveBeenCalledTimes(0);
     expect(mockResponse.json).toHaveBeenCalledTimes(0);
+  });
+
+
+  it('should throw the error when apitoken verification is unsuccessful', async () => {
+    AuthMiddleware.gatewayPublicKey = 'somekey';
+    AuthHelper.verifyApiToken = jest.fn().mockImplementation(() => {
+      throw new Error('jwt malformed!');
+    });
+
+    mockRequest.headers = { apitoken: 'sometoken' };
+
+    await AuthMiddleware.verifyAuthToken(mockRequest as Request, mockResponse as Response, nextFunction);
+    expect(AuthMiddleware.gatewayPublicKey).toBe('somekey');
+    expect(mockResponse.status).toHaveBeenCalledWith(401);
+    expect(mockResponse.json).toBeCalledWith({ code: 401, message: 'jwt malformed!' });
   });
 });
