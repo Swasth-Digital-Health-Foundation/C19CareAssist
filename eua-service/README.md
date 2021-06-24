@@ -1,6 +1,6 @@
 # EUA Service
 
-Contract / Example service for a customer backend application.
+Contract / Example service for an end user backend application.
 
 ## Setup local environment
 
