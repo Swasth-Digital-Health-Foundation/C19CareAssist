@@ -33,6 +33,14 @@ class SearchController implements ControllerInterface {
   initRoutes(): void {
     this.router.post(this.path, Auth.retrieveGatewayPublicKey, Auth.verifyAuthToken, this.search.bind(this));
   }
+
+  /**
+   * Method to handle search request
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns a response with a list of health providers
+   */
   search(request: express.Request, response: express.Response, next: express.NextFunction) {
     response.send(this.stubbedResponse);
     return next();

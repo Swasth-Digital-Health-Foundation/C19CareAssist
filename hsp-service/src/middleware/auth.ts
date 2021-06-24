@@ -5,6 +5,14 @@ import AuthHelper from '../utils/auth-helper';
 import AuthService from '../services/auth';
 class Auth {
   public gatewayPublicKey: string;
+
+  /**
+   * Retrieves public key from gateway
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns public key
+   */
   retrieveGatewayPublicKey = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!this.gatewayPublicKey) {
@@ -17,6 +25,13 @@ class Auth {
     }
   };
 
+  /**
+   * Verifies the api token
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns true if api token is valid
+   */
   verifyAuthToken = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       const { apitoken } = request.headers;

@@ -4,6 +4,11 @@ import logger from '../utils/logger';
 import { GATEWAY_URL } from '../utils/secrets';
 
 class AuthService {
+
+  /**
+   * Method to hit gateway to get the public key
+   * @returns public key
+   */
   getPublicKey = async (): Promise<string> => {
     try {
       const apiResponse = await apiResolver.request({

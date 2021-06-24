@@ -51,6 +51,13 @@ class ConfirmController implements ControllerInterface {
     this.router.post(this.path, Auth.retrieveGatewayPublicKey, Auth.verifyAuthToken, this.confirm.bind(this));
   }
 
+  /**
+   * Method to handle confirm appointment request
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns 
+   */
   confirm(request: express.Request, response: express.Response, next: express.NextFunction) {
     response.send(this.stubbedResponse);
     return next();

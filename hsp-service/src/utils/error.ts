@@ -1,3 +1,6 @@
+/**
+ * Custom error class
+ */
 class HSPError extends Error {
   public message;
   public code;

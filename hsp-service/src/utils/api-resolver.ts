@@ -2,6 +2,12 @@ import axios from 'axios';
 import logger from './logger';
 
 class APIResolver {
+
+  /**
+   * Util to handle API operations
+   * @param options 
+   * @returns API response
+   */
   public request = async (options: any) => {
     try {
       const response = await axios.request(options);
