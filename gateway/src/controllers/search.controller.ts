@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 class SearchController implements ControllerBase {
   public path = '/api/v1/search';
+  private topic = 'teststream';
   public router = express.Router();
 
   constructor() {
@@ -16,17 +17,12 @@ class SearchController implements ControllerBase {
   }
 
   public initRoutes() {
-    this.router.post(`${this.path}/service`, isAuthenticated, this.search);
+    this.router.post(`${this.path}/service`, this.search);
   }
 
   private search = async (req: Request, res: Response) => {
     try {
-      const data: any = await new Search().getResults(req.body);
-      const doctorUrl = data.services?.[0]?.provider?.api?.url;
-      if (!doctorUrl) {
-        throw new Error('Unable to confirm a doctor - doctor search did not return the API URL.');
-      }
-      KafkaProducer.publish(JSON.stringify({ ...data, doctorUrl, id: uuidv4() }));
+      KafkaProducer.publish(this.topic ,JSON.stringify({ ...req.body, id: uuidv4() }));
       res.send('ok').status(200);
     } catch (e) {
       logger.error('Error in SearchController.search ', e);
