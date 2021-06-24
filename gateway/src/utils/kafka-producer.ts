@@ -19,12 +19,16 @@ class KafkaProducer {
     this.topic = topic;
     this.client = new KafkaClient({ kafkaHost: this.kafkaHost });
     this.producer = new HighLevelProducer(this.client);
-/*     var topicsToCreate = [{
-      topic: 'teststream',
+   /*  var topicsToCreate = [{
+      topic: 'teststream2',
       partitions: 1,
-      replicationFactor: 2
+      replicationFactor: 1
     }]
     this.client.createTopics(topicsToCreate, (error, result) => {
+
+      if (error) {
+        logger.error(error);
+      }
       // result is an array of any errors if a given topic could not be created
     }) */
     this.producer.on('ready', (): void => {
@@ -54,4 +58,4 @@ class KafkaProducer {
   }
 }
 
-export default new KafkaProducer();
+export default KafkaProducer;

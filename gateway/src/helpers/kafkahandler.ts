@@ -16,6 +16,10 @@ class KafkaHandler {
                     throw new Error('Error from Search.getResults');
                 }
             }        // add more topics
+            else if (kafkaMessage.topic === KafkaTopics.test) {
+                logger.info("Test stream 2");
+                logger.debug(`Consumed message - ${JSON.stringify(message)}`);
+            }
         }
         catch(error){
             logger.error('Error in kafkahandler' + error);
