@@ -1,4 +1,4 @@
-# HSP Service
+# EUA Service
 
 Contract / Example service for a customer backend application.
 
