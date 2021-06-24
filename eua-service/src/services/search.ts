@@ -5,6 +5,12 @@ import EUAError from '../utils/error';
 
 class Search {
 
+  /**
+   * Method to send search request to gateway
+   * @param data 
+   * @param accesstoken 
+   * @returns search response from gateway
+   */
   public getSearchResults = async (data: any, accesstoken: any): Promise<any> => {
     try {
       const apiResponse = await ApiResolver.request({

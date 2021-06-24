@@ -5,8 +5,13 @@ import EUAError from '../utils/error';
 
 class Appointment {
 
+  /**
+   * Method to get appointment confirmation from HSP
+   * @param url 
+   * @param data 
+   * @returns 
+   */
   getConfirmation = async (url: string, data: any) => {
-
     try {
       const apiResponse = await ApiResolver.request({
         method: 'POST',

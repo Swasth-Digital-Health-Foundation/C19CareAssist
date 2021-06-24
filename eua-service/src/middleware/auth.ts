@@ -6,6 +6,14 @@ import EUAError from '../utils/error';
 
 class AuthMiddleware {
   private gatewayPublicKey: string;
+
+  /**
+   * Method to retrieve public key from gateway
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns 
+   */
   retrieveGatewayPublicKey = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       if (!this.gatewayPublicKey) {
@@ -18,6 +26,13 @@ class AuthMiddleware {
     }
   };
 
+  /**
+   * Method to verify api token
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns 
+   */
   verifyAuthToken = async (request: Request, response: Response, next: NextFunction): Promise<void | Response> => {
     try {
       const { apitoken } = request.headers;

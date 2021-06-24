@@ -48,6 +48,13 @@ class SearchController implements ControllerInterface {
     this.router.post(this.path, this.validateRequestBody, this.search, this.setAppointment);
   }
 
+  /**
+   * Method to validate search request body
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns 
+   */
   public validateRequestBody = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
       await Schema.searchRequestSchema.validateAsync(request.body, { abortEarly: false });
@@ -58,6 +65,13 @@ class SearchController implements ControllerInterface {
     }
   };
 
+  /**
+   * Method to handle search requests 
+   * @param request 
+   * @param response 
+   * @param next 
+   * @returns 
+   */
   private search = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
       const { accesstoken } = request.headers;
@@ -76,6 +90,11 @@ class SearchController implements ControllerInterface {
     }
   };
 
+  /**
+   * Method to confirm doctor appointments
+   * @param request 
+   * @param response 
+   */
   private setAppointment = async (request: express.Request, response: express.Response) => {
     try {
       const data = transformData(request.body);
