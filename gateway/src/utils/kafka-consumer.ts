@@ -1,4 +1,3 @@
-import { Search } from '@overnightjs/core';
 import { KafkaClient, ConsumerGroup, Offset, ConsumerGroupOptions, Message } from 'kafka-node';
 import kafkahandler from '../helpers/kafkahandler'
 import logger from './logger';
@@ -31,7 +30,7 @@ class KafkaConsumer {
       if (error) {
         return console.error(error);
       }
-      logger.debug("Offets"+ JSON.stringify(offsets));
+      logger.debug("Offsets"+ JSON.stringify(offsets));
       const min1 = Math.min.apply(null, offsets[this.topics[0]][0]);
       const min2 = Math.min.apply(null, offsets[this.topics[1]][0]);
       this.consumerGroup.setOffset(this.topics[0], 0, min1);

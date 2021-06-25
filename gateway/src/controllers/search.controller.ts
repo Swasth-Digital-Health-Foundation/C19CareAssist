@@ -23,7 +23,6 @@ class SearchController implements ControllerBase {
   private search = async (req: Request, res: Response) => {
     try {
       new KafkaProducer().publish(this.topic ,JSON.stringify({ ...req.body, id: uuidv4() }));
-      new KafkaProducer().publish('teststream2' ,JSON.stringify({ ...req.body, id: uuidv4() }));
       res.send('ok').status(200);
     } catch (e) {
       logger.error('Error in SearchController.search ', e);

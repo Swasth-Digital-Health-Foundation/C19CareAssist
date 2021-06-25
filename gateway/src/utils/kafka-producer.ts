@@ -13,24 +13,10 @@ class KafkaProducer {
     
   }
 
-  
-
   public publish = (topic: string, message: string) => {
     this.topic = topic;
     this.client = new KafkaClient({ kafkaHost: this.kafkaHost });
     this.producer = new HighLevelProducer(this.client);
-   /*  var topicsToCreate = [{
-      topic: 'teststream2',
-      partitions: 1,
-      replicationFactor: 1
-    }]
-    this.client.createTopics(topicsToCreate, (error, result) => {
-
-      if (error) {
-        logger.error(error);
-      }
-      // result is an array of any errors if a given topic could not be created
-    }) */
     this.producer.on('ready', (): void => {
       this.client.refreshMetadata([this.topic], (error: Error): void => {
         if (error) {
@@ -44,7 +30,7 @@ class KafkaProducer {
               logger.error('Error in kafkaProducer.kafka. Error publishing data to kafka topic' + error.message)
               throw error;
             }
-            logger.info('producer.ts - ' + JSON.stringify(result));
+            logger.debug('producer.ts - ' + JSON.stringify(result));
             // process.exit(1);
           },
         );
