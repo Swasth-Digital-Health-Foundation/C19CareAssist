@@ -19,15 +19,15 @@ class TriageService {
         query: query,
         variables: {
           object: {
-            person_id: "5a25de14-eb82-4c2e-92a1-7c86bfb3c674",
-            patient_id: vitals.patient_id,
-            fever: vitals.fever,
-            tachycardia: vitals.tachycardia,
-            hypotension: vitalshypotension,
-            breathelessnes: vitals.breathelessnes,
-            hypoxia: vitals.hypoxia,
-            spo2: vitalsService.spo2,
-            comorbidities: vitals.comorbidities
+            person_id: "5a25de14-eb82-4c2e-92a1-7c86bfb3c673",
+            patient_id: "RI12345T0",
+            fever: "yes",
+            tachycardia: "yes",
+            hypotension: "yes",
+            breathelessnes: "yes",
+            hypoxia: "yes",
+            spo2: "good",
+            comorbidities: "true"
           },
         },
         operationName: "insert_triage",
@@ -39,6 +39,7 @@ class TriageService {
 
     let response = await fetch(config.hasuraUrl, options);
     let data = await response.json();
+    console.log("data__________",data);
     return data.data.insert_c19_insert_triage_one.uuid;
   }
 
