@@ -5,7 +5,7 @@ const config = require('../env-variables');
 // const path = require("path");
 
 class TriageService {
-  async addVitals(vitals) {
+  async addTriage(triage) {
     var query = `
     mutation insert_triage($object: c19_triage_insert_input!) {
       insert_c19_triage_one(object: $object) {
@@ -19,15 +19,15 @@ class TriageService {
         query: query,
         variables: {
           object: {
-            person_id: "5a25de14-eb82-4c2e-92a1-7c86bfb3c673",
-            patient_id: "RI12345T0",
-            fever: "yes",
-            tachycardia: "yes",
-            hypotension: "yes",
-            breathelessnes: "yes",
-            hypoxia: "yes",
-            spo2: "good",
-            comorbidities: "true"
+            person_id: "70c4bf93-5f64-4a75-b5f8-c0cd271f26bf",
+            patient_id: triage.patient_id,
+            fever: triage.fever,
+            tachycardia: triage.techycardia,
+            hypotension: triage.hypotension,
+            breathelessnes: triage.breathelessnes,
+            hypoxia: triage.hypoxia,
+            spo2: triage.spo2,
+            comorbidities: triage.comorbidities
           },
         },
         operationName: "insert_triage",
@@ -39,8 +39,7 @@ class TriageService {
 
     let response = await fetch(config.hasuraUrl, options);
     let data = await response.json();
-    console.log("data__________",data);
-    return data.data.insert_c19_insert_triage_one.uuid;
+    return data;
   }
 
   async upsertTriageDetails(person, triage) {
