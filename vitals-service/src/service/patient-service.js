@@ -4,8 +4,8 @@ const config = require('../env-variables');
 
 class PersonService {
   async createPerson(person) {
-    let encryptedPerson = await this.encryptAndHashPerson(person);
-
+    if (person)
+      let encryptedPerson = await this.encryptAndHashPerson(person);
     var query = `
     mutation insert_person($object: person_insert_input!) {
       insert_person_one(object: $object) {
@@ -19,10 +19,10 @@ class PersonService {
         query: query,
         variables: {
           object: {
-            first_name: "test11",
+            first_name: encryptedPerson.first_name,
             patient_id: person.patient_id,
             age: person.age,
-            gender: person.sex,
+            gender: person.gender,
             mobile: encryptedPerson.mobile,
             mobile_hash: encryptedPerson.mobile_hash,
             mobile_code: "91",
@@ -105,6 +105,7 @@ class PersonService {
   async encryptAndHashPerson(person) {
     let objectToEncrypt = {
       mobile: person.mobile,
+      first_name: "test001",
     };
     let url =
       config.services.encryptionServiceHost +
@@ -156,7 +157,7 @@ class PersonService {
     let body = await response.json();
 
     for (let i = 0; i < persons.length; i++) {
-      // persons[i].first_name = body[i].first_name;
+      //persons[i].first_name = body[i].first_name;
       persons[i].mobile = body[i].mobile;
     }
 
