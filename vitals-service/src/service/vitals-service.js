@@ -16,7 +16,6 @@ class VitalsService {
         query: query,
         variables: {
           object: {
-            person_id: "261242b9-f9ba-4029-9516-19fc4ebde0b0",
             patient_id: vitals.patient_id,
             fever: vitals.fever,
             tachycardia: vitals.tachycardia,

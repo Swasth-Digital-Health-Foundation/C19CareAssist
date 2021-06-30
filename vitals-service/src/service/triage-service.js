@@ -19,7 +19,6 @@ class TriageService {
         query: query,
         variables: {
           object: {
-            person_id: "70c4bf93-5f64-4a75-b5f8-c0cd271f26bf",
             patient_id: triage.patient_id,
             fever: triage.fever,
             tachycardia: triage.techycardia,
