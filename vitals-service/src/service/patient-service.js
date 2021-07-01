@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const config = require('../env-variables');
+const dtmfConfig = require("../utils/config.json");
 // const dialog = require('../util/dialog.js');
 
 class PersonService {
@@ -21,11 +22,11 @@ class PersonService {
             first_name: encryptedPerson.first_name,
             patient_id: person.patient_id,
             age: person.age,
-            gender: person.gender,
+            gender: dtmfConfig.gender[person.gender],
             mobile: encryptedPerson.mobile,
             mobile_hash: encryptedPerson.mobile_hash,
             mobile_code: "91",
-            comorbidity: person.comorbidity,
+            comorbidity: dtmfConfig.dtmf[person.comorbidity],
             status: person.status,
           },
         },

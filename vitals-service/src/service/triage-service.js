@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const config = require('../env-variables');
+const dtmfConfig = require("../utils/config.json");
+
 // const pdfCreator = require('pdf-creator-node');
 // const fs = require('fs');
 // const path = require("path");
@@ -20,13 +22,13 @@ class TriageService {
         variables: {
           object: {
             patient_id: triage.patient_id,
-            fever: triage.fever,
-            tachycardia: triage.techycardia,
-            hypotension: triage.hypotension,
-            breathelessnes: triage.breathelessnes,
-            hypoxia: triage.hypoxia,
-            spo2: triage.spo2,
-            comorbidities: triage.comorbidities
+            fever: dtmfConfig.dtmf[triage.fever],
+            tachycardia: dtmfConfig.dtmf[triage.techycardia],
+            hypotension: dtmfConfig.dtmf[triage.hypotension],
+            breathelessnes: dtmfConfig.dtmf[triage.breathelessnes],
+            hypoxia: dtmfConfig.dtmf[triage.hypoxia],
+            spo2: dtmfConfig.spo2[triage.spo2],
+            comorbidities: dtmfConfig.dtmf[triage.comorbidities],
           },
         },
         operationName: "insert_triage",

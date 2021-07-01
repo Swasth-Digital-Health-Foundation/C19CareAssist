@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const config = require('../env-variables');
+const dtmfConfig = require('../utils/config.json');
 
 class VitalsService {
   async addVitals(vitals) {
@@ -17,15 +18,16 @@ class VitalsService {
         variables: {
           object: {
             patient_id: vitals.patient_id,
-            fever: vitals.fever,
-            tachycardia: vitals.tachycardia,
-            hypotension: vitals.hypotension,
-            breathelessnes: vitals.breathelessnes,
-            hypoxia: vitals.hypoxia,
-            spo2: vitals.spo2,
-            pronation: vitals.pronation,
-            program: vitals.program,
-            added_mobile: vitals.added_mobile
+            fever: dtmfConfig.dtmf[vitals.fever],
+            tachycardia: dtmfConfig.dtmf[vitals.tachycardia],
+            hypotension: dtmfConfig.dtmf[vitals.hypotension],
+            breathelessnes: dtmfConfig.dtmf[vitals.breathelessnes],
+            hypoxia: dtmfConfig.dtmf[vitals.hypoxia],
+            spo2: dtmfConfig.spo2[vitals.spo2],
+            pronation: dtmfConfig.dtmf[vitals.pronation],
+            program: dtmfConfig.program[vitals.program],
+            added_mobile: vitals.added_mobile,
+            time_report: dtmfConfig.time_report[vitals.time_report],
           },
         },
         operationName: "insert_vitals",

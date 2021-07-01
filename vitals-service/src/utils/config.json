@@ -1,0 +1,28 @@
+{
+  "dtmf": {
+    "1": "yes",
+    "2": "no"
+  },
+  "gender": {
+    "1": "male",
+    "2": "female"
+  },
+  "program": {
+    "1": "HM",
+    "2": "CC"
+  },
+  "time_report": {
+    "1": "9am",
+    "2": "12pm",
+    "3": "6pm"
+  },
+  "spo2": {
+    "1": "NC",
+    "2": "NRB",
+    "3": "others"
+  },
+  "status": {
+    "1": "active",
+    "2": "inactive"
+  }
+}
