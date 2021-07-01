@@ -14,12 +14,14 @@
   "time_report": {
     "1": "9am",
     "2": "12pm",
-    "3": "6pm"
+    "3": "6pm",
+    "4": "overnight"
   },
   "spo2": {
-    "1": "NC",
-    "2": "NRB",
-    "3": "others"
+    "1": "room Air",
+    "2": "nasal Canula",
+    "3": "ace Mask",
+    "4": "Non Rebreather"
   },
   "status": {
     "1": "active",

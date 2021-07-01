@@ -27,7 +27,7 @@ class TriageService {
             hypotension: dtmfConfig.dtmf[triage.hypotension],
             breathelessnes: dtmfConfig.dtmf[triage.breathelessnes],
             hypoxia: dtmfConfig.dtmf[triage.hypoxia],
-            spo2: dtmfConfig.spo2[triage.spo2],
+            spo2: dtmfConfig.spo2[triage.spo2] ? dtmfConfig.spo2[triage.spo2] : "",
             comorbidities: dtmfConfig.dtmf[triage.comorbidities],
           },
         },
