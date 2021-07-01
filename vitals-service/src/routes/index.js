@@ -1,31 +1,23 @@
-const express = require('express'),
-    router = express.Router(),
-    config = require('../env-variables');
+const express = require("express"),
+  router = express.Router(),
+  config = require("../env-variables");
+const { patientAdd, patientSearch } = require("../routes/patient.routes");
+const { vitalAdd } = require("../routes/vitals.routes");
+const { triageAdd } = require("../routes/triage.routes");
 
-router.post('/patient/add', async (req, res) =>  {
+router.post("/patients/create", patientAdd);
 
-});
+router.get("/patients/search", patientSearch);
 
-router.post('/patient/search', async (req, res) =>  {
+router.post("/patients/vital/add", vitalAdd);
 
-});
+router.post("/patients/triage/add", triageAdd);
 
-router.post('/vital/add', async (req, res) =>  {
+// TODO 
+router.post("/vital/update", async (req, res) => {});
 
-});
+router.post("/trigger/vital", async (req, res) => {});
 
-router.post('/vital/update', async (req, res) =>  {
-
-});
-
-router.post('/trigger/vital', async (req, res) => {
-
-});
-
-router.post('/trigger/vital', async (req, res) => {
-
-});
-
-router.get('/health', (req, res) => res.sendStatus(200));
+router.get("/health", (req, res) => res.sendStatus(200));
 
 module.exports = router;
