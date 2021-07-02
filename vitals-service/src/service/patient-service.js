@@ -1,11 +1,12 @@
 const fetch = require("node-fetch");
 const config = require('../env-variables');
 const dtmfConfig = require("../utils/config.json");
-// const dialog = require('../util/dialog.js');
+const utils = require("../utils/utils");
 
 class PersonService {
   async createPerson(person) {
     let encryptedPerson = await this.encryptAndHashPerson(person);
+    let patient_id = utils.validatePatient(person.patient_id);
     var query = `
     mutation insert_person($object: person_insert_input!) {
       insert_person_one(object: $object) {
@@ -20,7 +21,7 @@ class PersonService {
         variables: {
           object: {
             first_name: encryptedPerson.first_name,
-            patient_id: person.patient_id,
+            patient_id: patient_id,
             age: person.age,
             gender: dtmfConfig.gender[person.gender],
             mobile: encryptedPerson.mobile,
@@ -87,6 +88,10 @@ class PersonService {
     return subscribedPeople;
   }
 
+  validatePatient(num) {
+    return num.length <= 10 ? num.padStart(10,'0') : num.slice(0,10)
+  }
+
   filterSubscribedPeople(people) {
     const subscribedPeople = [];
     for (let i = 0; i < people.length; i++) {
@@ -104,10 +109,10 @@ class PersonService {
 
   async encryptAndHashPerson(person) {
     if (person) {
-        var objectToEncrypt = {
-          mobile: person.mobile,
-          first_name: person.first_name,
-        }
+      var objectToEncrypt = {
+        mobile: person.mobile,
+        first_name: person.first_name,
+      };
     }
     let url =
       config.services.encryptionServiceHost +

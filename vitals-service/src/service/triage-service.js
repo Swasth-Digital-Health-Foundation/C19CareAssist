@@ -1,11 +1,7 @@
 const fetch = require("node-fetch");
 const config = require('../env-variables');
 const dtmfConfig = require("../utils/config.json");
-
-// const pdfCreator = require('pdf-creator-node');
-// const fs = require('fs');
-// const path = require("path");
-
+const utils = require("../utils/utils");
 class TriageService {
   async addTriage(triage) {
     var query = `
@@ -21,13 +17,15 @@ class TriageService {
         query: query,
         variables: {
           object: {
-            patient_id: triage.patient_id,
+            patient_id: utils.validatePatient(triage.patient_id),
             fever: dtmfConfig.dtmf[triage.fever],
             tachycardia: dtmfConfig.dtmf[triage.techycardia],
             hypotension: dtmfConfig.dtmf[triage.hypotension],
-            breathelessnes: dtmfConfig.dtmf[triage.breathelessnes],
+            breathlessnes: dtmfConfig.dtmf[triage.breathlessnes],
             hypoxia: dtmfConfig.dtmf[triage.hypoxia],
-            spo2: dtmfConfig.spo2[triage.spo2] ? dtmfConfig.spo2[triage.spo2] : "",
+            spo2: dtmfConfig.spo2[triage.spo2]
+              ? dtmfConfig.spo2[triage.spo2]
+              : "",
             comorbidities: dtmfConfig.dtmf[triage.comorbidities],
           },
         },
