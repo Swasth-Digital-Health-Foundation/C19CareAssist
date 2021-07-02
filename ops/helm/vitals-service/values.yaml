@@ -1,0 +1,37 @@
+# Common Labels
+labels:
+  app: "vitals-service"
+
+# Ingress Configs
+ingress:
+  enabled: true
+  path: "vitals-service"
+
+# Container Configs
+image:
+  repository: "rushang7/vitals-service"
+  tag: "1.0.0"
+replicas: "1"
+hasuraUrl: "http://hge-pro:8080/v1/graphql"
+encryptionServiceHost: "http://egov-enc-service:8080"     
+resources: |
+  requests:
+    cpu: 200m
+    memory: 1Gi
+  limits:
+    cpu: 750m  
+    memory: 1Gi
+
+# Additional Container Envs
+env: |
+  - name: HASURA_ADMIN_SECRET
+    valueFrom:
+      secretKeyRef:
+        key: HASURA_GRAPHQL_ADMIN_SECRET
+        name: secrets
+  - name: HASURA_URL
+    value: {{ .Values.hasuraUrl }}
+  - name: ROOT_TENANTID
+    value: "in"
+  - name: ENCRYPTION_SERVICE_HOST
+    value: {{ .Values.encryptionServiceHost }}
