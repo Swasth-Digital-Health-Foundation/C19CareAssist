@@ -3,8 +3,8 @@ const { isEmpty } = require("lodash");
 exports.patientAdd = async (req, res) => {
   try {
     let data = await patientService.createPerson(req.body);
-      if (isEmpty(data)) return res.status(200).send({ "patientAdded": 0 });
-      return res.status(200).send({ "patientAdded": 1 });
+      if (isEmpty(data)) return res.status(200).send({ status: "Fail to Add Patient" });
+      return res.send({ status: "success" });
   } catch (err) {
 
   }

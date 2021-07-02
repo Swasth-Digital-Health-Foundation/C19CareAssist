@@ -14,8 +14,8 @@ const envVariables = {
 
   hasuraAdminSecret:
     process.env.HASURA_ADMIN_SECRET ||
-    "STtP4MjPkFw5NaejTmmvfhxvmNBYm5c68zNb66eArjA6FbfcnAn5GqcMkrbHQ6j5",
-  hasuraUrl: process.env.HASURA_URL || "http://localhost:8012/v1/graphql",
+    "",
+  hasuraUrl: process.env.HASURA_URL || "",
 
   services: {
     encryptionServiceHost:
