@@ -45,7 +45,7 @@ class SearchController implements ControllerInterface {
   }
 
   initRoutes(): void {
-    this.router.post(this.path, this.validateRequestBody, this.search, this.setAppointment);
+    this.router.post(this.path, this.validateRequestBody, this.setAppointment);
   }
 
   /**
@@ -66,44 +66,39 @@ class SearchController implements ControllerInterface {
   };
 
   /**
-   * Method to handle search requests 
-   * @param request 
-   * @param response 
-   * @param next 
-   * @returns 
-   */
-  private search = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-    try {
-      const { accesstoken } = request.headers;
-      if (!accesstoken) {
-        throw new EUAError(400, 'Access token not found in the request headers.');
-      }
-      const apiReponse = await new Search().getSearchResults(request.body, accesstoken);
-      response.locals.providerUrl = apiReponse.services?.[0]?.provider?.api?.url;
-      if (!response.locals.providerUrl) {
-        throw new EUAError(500, 'Unable to confirm appointment with a doctor - URL not available.');
-      }
-      next();
-    } catch (error) {
-      logger.error(`Error in search middleware - ${error}`);
-      return response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
-    }
-  };
-
-  /**
    * Method to confirm doctor appointments
    * @param request 
    * @param response 
    */
   private setAppointment = async (request: express.Request, response: express.Response) => {
-    try {
-      const data = transformData(request.body);
 
-      const apiResponse = await new Appointment().getConfirmation(response.locals.providerUrl, data);
-      response.send(apiResponse).status(200);
+    try {
+      const { accesstoken } = request.headers;
+      if (!accesstoken) {
+        throw new EUAError(400, 'Access token not found in the request headers.');
+      }
+      const gatewayResponse = await new Search().getSearchResults(request.body, accesstoken);
+      if(gatewayResponse.services?.length !== 0){
+        const providerUrl = gatewayResponse.services?.[0]?.provider?.api?.url;
+        if (!providerUrl) {
+          throw new EUAError(500, 'Unable to confirm appointment with a doctor - URL not available.');
+        }
+
+        try {
+          const data = transformData(request.body);
+    
+          const apiResponse = await new Appointment().getConfirmation(providerUrl, data);
+          response.send(apiResponse).status(200);
+        } catch (error) {
+          logger.error(`Error in setAppointment middleware - ${error}`);
+          response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
+        }
+      } else {
+        response.send(gatewayResponse).status(200);
+      }
     } catch (error) {
-      logger.error(`Error in setAppointment middleware - ${error}`);
-      response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
+      logger.error(`Error in search middleware - ${error}`);
+      return response.status(error.code || 500).json({ code: error.code || 500, message: error.message });
     }
   };
 }
