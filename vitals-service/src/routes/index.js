@@ -16,7 +16,16 @@ router.post("/patients/triage/add", triageAdd);
 // TODO 
 router.post("/vital/update", async (req, res) => {});
 
-router.post("/trigger/vital", async (req, res) => {});
+router.post("/trigger/patient", async (req, res) => {
+  console.log(JSON.stringify(req.body));
+  return res.send({ status: "success" });
+});
+
+
+router.post("/trigger/vital", async (req, res) => {
+  console.log(JSON.stringify(req.body));
+  return res.send({ status: "success" });
+});
 
 router.get("/health", (req, res) => res.sendStatus(200));
 
