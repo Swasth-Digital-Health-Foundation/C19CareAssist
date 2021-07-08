@@ -12,9 +12,7 @@ const envVariables = {
   dateFormat: process.env.DATEFORMAT || "DD/MM/YYYY",
   timeZone: process.env.TIMEZONE || "Asia/Kolkata",
 
-  hasuraAdminSecret:
-    process.env.HASURA_ADMIN_SECRET ||
-    "",
+  hasuraAdminSecret: process.env.HASURA_ADMIN_SECRET || "",
   hasuraUrl: process.env.HASURA_URL || "",
 
   services: {
@@ -31,6 +29,18 @@ const envVariables = {
       process.env.KAFKA_BOOTSTRAP_SERVER || "localhost:9092",
 
     kafkaConsumerEnabled: process.env.KAFKA_CONSUMER_ENABLED || true,
+  },
+  googleService: {
+    spreadsheetId:
+      process.env.GOOGLE_SHEET_ID ||
+      "1WXuhd0zC7Ly-8Smjkzpg8QVG8CPtc6Zv-tXmptVnPgw",
+    scopes:
+      process.env.SCOPES || "https://www.googleapis.com/auth/spreadsheets",
+    client_email:
+      process.env.CLIENT_EMAIL ||
+      "swasth@my-project-58821-sheet.iam.gserviceaccount.com",
+    private_key: process.env.PRIVATE_KEY || " ",
+    value_input_option: process.env.VALUE_INPUT_OPTION || "RAW",
   },
 };
 

@@ -7,5 +7,7 @@ exports.triageAdd = async (req, res) => {
     return res.send({
       status: "success",
     });
-  } catch {}
+  } catch (err) {
+    console.log(err);
+  }
 };

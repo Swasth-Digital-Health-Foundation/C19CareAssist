@@ -18,6 +18,10 @@ const app = express();
     app.use(bodyParser.urlencoded({ limit: '10mb', extended: true, parameterLimit: 50000 }));
     // app.use(cookieParser());
     app.use(envVariables.contextPath, require('./routes'));
+    app.use(function (err, req, res, next) {
+      console.error(err.stack);
+      res.status(500).send({"error" : err.stack});
+    });
     module.exports = app;
     return app;
 }

@@ -6,7 +6,7 @@ exports.patientAdd = async (req, res) => {
       if (isEmpty(data)) return res.status(200).send({ status: "Fail to Add Patient" });
       return res.send({ status: "success" });
   } catch (err) {
-
+    console.log(err)
   }
 };
 
@@ -18,6 +18,6 @@ exports.patientSearch = async (req, res) => {
       return res.send({ "isRegistered": 1});
     }
   } catch (err){
-    
+    console.log(err);
   }
 };
