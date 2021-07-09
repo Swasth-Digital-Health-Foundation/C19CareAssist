@@ -26,5 +26,9 @@
   "status": {
     "1": "active",
     "2": "inactive"
+  },
+  "sheetName": {
+    "person": "patients",
+    "c19_vitals": "vitals"
   }
 }
