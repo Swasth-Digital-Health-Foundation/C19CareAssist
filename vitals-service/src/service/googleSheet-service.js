@@ -24,10 +24,14 @@ class googleSheetManager {
   }
 
   authorize() {
+    //decode base64
+    let buffer = new Buffer(envVariables.googleService.private_key, "base64");
+    let private_key = buffer.toString("ascii");
+
     const authClient = new google.auth.JWT(
       envVariables.googleService.client_email,
       null,
-      keys.private_key,
+      private_key,
       envVariables.googleService.scopes
     );
     return authClient;
