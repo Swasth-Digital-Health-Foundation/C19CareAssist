@@ -4,6 +4,7 @@ const envVariables = {
   serviceId: process.env.NAME || "vitals-service",
   ver: process.env.VERSION || "0.0.1",
 
+  env: process.env.ENV || "development",
   port: process.env.SERVICE_PORT || 8080,
   contextPath: process.env.CONTEXT_PATH || "/vitals-service",
 

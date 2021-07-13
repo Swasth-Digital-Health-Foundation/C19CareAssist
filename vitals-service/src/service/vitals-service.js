@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const config = require('../env-variables');
 const dtmfConfig = require('../utils/config.json');
 const utils = require("../utils/utils");
+const logger = require("../utils/logger");
 
 class VitalsService {
   async addVitals(vitals) {
@@ -23,7 +24,7 @@ class VitalsService {
             fever: dtmfConfig.dtmf[vitals.fever],
             tachycardia: dtmfConfig.dtmf[vitals.tachycardia],
             hypotension: dtmfConfig.dtmf[vitals.hypotension],
-            breathlessnes: dtmfConfig.dtmf[vitals.breathlessnes],
+            breathlessness: dtmfConfig.dtmf[vitals.breathlessness],
             hypoxia: dtmfConfig.dtmf[vitals.hypoxia],
             spo2: dtmfConfig.spo2[vitals.spo2]
               ? dtmfConfig.spo2[vitals.spo2]

@@ -2,10 +2,11 @@ const fetch = require("node-fetch");
 const config = require('../env-variables');
 const dtmfConfig = require("../utils/config.json");
 const utils = require("../utils/utils");
+const logger = require("../utils/logger");
+
 
 class PersonService {
   async createPerson(person) {
-    let encryptedPerson = await this.encryptAndHashPerson(person);
     let patient_id = utils.validatePatient(person.patient_id);
     var query = `
     mutation insert_person($object: person_insert_input!) {
@@ -20,15 +21,10 @@ class PersonService {
         query: query,
         variables: {
           object: {
-            first_name: encryptedPerson.first_name,
             patient_id: patient_id,
             age: person.age,
             gender: dtmfConfig.gender[person.gender],
-            mobile: encryptedPerson.mobile,
-            mobile_hash: encryptedPerson.mobile_hash,
-            mobile_code: "91",
             comorbidity: dtmfConfig.dtmf[person.comorbidity],
-            status: person.status,
           },
         },
         operationName: "insert_person",
