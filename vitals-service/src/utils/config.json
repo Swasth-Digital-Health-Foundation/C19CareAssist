@@ -4,8 +4,8 @@
     "2": "no"
   },
   "gender": {
-    "1": "male",
-    "2": "female"
+    "1": "Male",
+    "2": "Female"
   },
   "program": {
     "1": "HM",
@@ -18,14 +18,14 @@
     "4": "overnight"
   },
   "spo2": {
-    "1": "room Air",
-    "2": "nasal Canula",
-    "3": "ace Mask",
+    "1": "Room Air",
+    "2": "Nasal Canula",
+    "3": "Ace Mask",
     "4": "Non Rebreather"
   },
   "status": {
-    "1": "active",
-    "2": "inactive"
+    "1": "Active",
+    "2": "Inactive"
   },
   "sheetName": {
     "person": "patients",

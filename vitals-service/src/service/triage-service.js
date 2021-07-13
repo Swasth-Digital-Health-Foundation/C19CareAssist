@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const config = require('../env-variables');
 const dtmfConfig = require("../utils/config.json");
 const utils = require("../utils/utils");
+const logger = require("../utils/logger");
 class TriageService {
   async addTriage(triage) {
     var query = `
@@ -21,7 +22,7 @@ class TriageService {
             fever: dtmfConfig.dtmf[triage.fever],
             tachycardia: dtmfConfig.dtmf[triage.techycardia],
             hypotension: dtmfConfig.dtmf[triage.hypotension],
-            breathlessnes: dtmfConfig.dtmf[triage.breathlessnes],
+            breathlessness: dtmfConfig.dtmf[triage.breathlessness],
             hypoxia: dtmfConfig.dtmf[triage.hypoxia],
             spo2: dtmfConfig.spo2[triage.spo2]
               ? dtmfConfig.spo2[triage.spo2]

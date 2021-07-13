@@ -1,13 +1,14 @@
 const { google } = require("googleapis");
 const sheets = google.sheets("v4");
-const envVariables = require('../env-variables')
+const envVariables = require('../env-variables');
+const logger = require("../utils/logger");
 
 class googleSheetManager {
   async saveDataToSheet(sheetData) {
-    const authClient = await this.authorize();
+    const authClient = this.authorize();
     const request = {
       spreadsheetId: envVariables.googleService.spreadsheetId,
-      range: `${sheetData.sheetName}!A1`,
+      range: `${sheetData.sheetName}`,
       valueInputOption: envVariables.googleService.value_input_option,
       resource: {
         values: [sheetData.data],
@@ -17,14 +18,14 @@ class googleSheetManager {
 
     try {
       const response = await sheets.spreadsheets.values.append(request);
+      logger.info(`Spreadsheet Details: ${response.data}`)
       return response.data;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   }
 
   authorize() {
-    //decode base64
     let buffer = new Buffer(envVariables.googleService.private_key, "base64");
     let private_key = buffer.toString("ascii");
 
