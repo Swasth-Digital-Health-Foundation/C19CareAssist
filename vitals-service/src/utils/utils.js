@@ -38,7 +38,7 @@ exports.formateData = (params) => {
         dataArray[2] = params.event.data.new.fever || "N/A";
         dataArray[3] = params.event.data.new.tachycardia || "N/A";
         dataArray[4] = params.event.data.new.hypotension || "N/A";
-        dataArray[5] = params.event.data.new.breathlessnes || "N/A";
+        dataArray[5] = params.event.data.new.breathlessness || "N/A";
         dataArray[6] = params.event.data.new.hypoxia || "N/A";
         dataArray[7] = params.event.data.new.spo2 || "N/A";
         dataArray[8] = params.event.data.new.pronation || "N/A";
