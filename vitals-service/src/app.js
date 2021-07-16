@@ -1,3 +1,5 @@
+const logger = require('./utils/logger');
+
 const express = require('express'),
   bodyParser = require('body-parser'),
   envVariables = require('./env-variables'),
@@ -27,4 +29,4 @@ const app = express();
 }
 
 const app = createAppServer();
-app.listen(port, () => console.log(`Vitals-Server is running on port ${envVariables.port} with contextPath: ${envVariables.contextPath}`));
+app.listen(port, () => logger.info(`Vitals-Server is running on port ${envVariables.port} with contextPath: ${envVariables.contextPath}`));
