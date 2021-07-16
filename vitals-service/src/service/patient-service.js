@@ -41,7 +41,7 @@ class PersonService {
 
   async getPersons(queryData) {
     let hashedMobile = await this.getHash(queryData.mobile);
-    let patient_id = queryData.patient_id || "";
+    let patient_id = utils.validatePatient(queryData.patient_id) || "";
     var query = `
     query get_people($patient_id: String!, $mobile_hash: String!) {
       person(where: {_or:[ {patient_id: {_eq: $patient_id}}, {mobile_hash: {_eq: $mobile_hash}}]}) {

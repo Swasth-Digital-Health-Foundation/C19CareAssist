@@ -23,7 +23,7 @@ exports.formateData = (params) => {
   try {
       if (config.sheetName[params.table.name] === "patients") {
         dataArray[0] = params.event.data.new.patient_id || "N/A";
-        dataArray[1] = params.event.data.new.age || "N/A";
+        dataArray[1] = parseInt(params.event.data.new.age) || "N/A";
         dataArray[2] = params.event.data.new.gender || "N/A";
         dataArray[3] = params.event.data.new.comorbidity || "N/A";
         dataArray[4] =
