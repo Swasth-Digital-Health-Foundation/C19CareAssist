@@ -5,6 +5,7 @@ const logger = require("../utils/logger");
 
 class googleSheetManager {
   async saveDataToSheet(sheetData) {
+    logger.info(`Sheet Data: ${JSON.stringify(sheetData.data)}`)
     const authClient = this.authorize();
     const request = {
       spreadsheetId: envVariables.googleService.spreadsheetId,
@@ -18,7 +19,7 @@ class googleSheetManager {
 
     try {
       const response = await sheets.spreadsheets.values.append(request);
-      logger.info(`Spreadsheet Details: ${response.data}`)
+      logger.info(`Spreadsheet Details: ${JSON.stringify(response.data)}`)
       return response.data;
     } catch (err) {
       logger.error(err);
