@@ -16,19 +16,14 @@ ADD
 ALTER TABLE
   "public"."person"
 ALTER COLUMN
-  "mobile" text NULL;
+"mobile" DROP NOT NULL;
 
 ALTER TABLE
   "public"."person"
 ALTER COLUMN
-  "mobile" text NULL;
+"mobile_hash" DROP NOT NULL;
 
 ALTER TABLE
   "public"."person"
 ALTER COLUMN
-  "mobile_hash" text NULL;
-
-ALTER TABLE
-  "public"."person"
-ALTER COLUMN
-  "first_name" text NULL;
+"first_name" DROP NOT NULL;

@@ -1,7 +1,7 @@
 ALTER TABLE
   "public"."c19_triage"
 ALTER COLUMN
-  "person_id" text NULL;
+"person_id" DROP NOT NULL;
 
 ALTER TABLE
   "public"."c19_triage"

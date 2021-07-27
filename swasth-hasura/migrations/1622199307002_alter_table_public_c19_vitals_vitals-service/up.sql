@@ -51,4 +51,4 @@ ADD
 ALTER TABLE
   "public"."c19_vitals"
 ALTER COLUMN
-  "person_id" text NULL;
+"person_id" DROP NOT NULL;
