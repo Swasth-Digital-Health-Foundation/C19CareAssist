@@ -1,34 +1,29 @@
 ALTER TABLE
-  "public"."person"
+"person"
 ADD
   COLUMN "status" text DEFAULT 'Active';
 
 ALTER TABLE
-  "public"."person"
+"person"
 ADD
   COLUMN "patient_id" text NULL;
 
 ALTER TABLE
-  "public"."person"
+"person"
 ADD
   COLUMN "comorbidity" text NULL;
 
 ALTER TABLE
-  "public"."person"
+"person"
 ALTER COLUMN
-  "mobile" text NULL;
+"mobile" DROP NOT NULL;
 
 ALTER TABLE
-  "public"."person"
+"person"
 ALTER COLUMN
-  "mobile" text NULL;
+"mobile_hash" DROP NOT NULL;
 
 ALTER TABLE
-  "public"."person"
+"person"
 ALTER COLUMN
-  "mobile_hash" text NULL;
-
-ALTER TABLE
-  "public"."person"
-ALTER COLUMN
-  "first_name" text NULL;
+"first_name" DROP NOT NULL;
