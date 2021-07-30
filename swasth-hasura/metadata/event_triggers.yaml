@@ -10,8 +10,8 @@
       update:
         columns: '*'
     retry_conf:
-      num_retries: 0
-      interval_sec: 10
+      num_retries: 3
+      interval_sec: 30
       timeout_sec: 60
     webhook: https://vitals-service:8080/vitals-service/trigger/patient
 - table:
@@ -26,7 +26,7 @@
       update:
         columns: '*'
     retry_conf:
-      num_retries: 0
-      interval_sec: 10
+      num_retries: 3
+      interval_sec: 30
       timeout_sec: 60
     webhook: https://vitals-service:8080/vitals-service/trigger/vital
