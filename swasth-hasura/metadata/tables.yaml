@@ -12,6 +12,22 @@
   - name: person
     using:
       foreign_key_constraint_on: person_id
+  event_triggers:
+  - name: vital_trigger
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      num_retries: 3
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: http://vitals-service:8080/vitals-service/trigger/vital
+    headers:
+    - name: x-auth-token
+      value_from_env: API_TOKEN
 - table:
     schema: public
     name: o2_provider
@@ -150,6 +166,22 @@
         table:
           schema: public
           name: c19_vitals
+  event_triggers:
+  - name: patient_trigger
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      num_retries: 3
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: http://vitals-service:8080/vitals-service/trigger/patient
+    headers:
+    - name: x-auth-token
+      value_from_env: API_TOKEN
 - table:
     schema: public
     name: person_details
