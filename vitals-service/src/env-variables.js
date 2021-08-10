@@ -16,6 +16,9 @@ const envVariables = {
   hasuraAdminSecret: process.env.HASURA_ADMIN_SECRET || "",
   hasuraUrl: process.env.HASURA_URL || "",
 
+  ivrUrl: process.env.IVR_URL || "",
+  ivrApiKey: process.env.IVR_API_KEY || "",
+
   services: {
     encryptionServiceHost:
       process.env.ENCRYPTION_SERVICE_HOST || "http://localhost:8013",
@@ -24,24 +27,13 @@ const envVariables = {
     encryptionServiceHashUrl: "/egov-enc-service/crypto/v1/_hash",
   },
 
-  kafka: {
-    // Unused
-    kafkaBootstrapServer:
-      process.env.KAFKA_BOOTSTRAP_SERVER || "localhost:9092",
-
-    kafkaConsumerEnabled: process.env.KAFKA_CONSUMER_ENABLED || true,
-  },
   googleService: {
-    spreadsheetId:
-      process.env.GOOGLE_SHEET_ID ||
-      "1WXuhd0zC7Ly-8Smjkzpg8QVG8CPtc6Zv-tXmptVnPgw",
-    scopes:
-      process.env.SCOPES || "https://www.googleapis.com/auth/spreadsheets",
-    client_email:
-      process.env.CLIENT_EMAIL ||
-      "swasth@my-project-58821-sheet.iam.gserviceaccount.com",
+    spreadsheetId: process.env.GOOGLE_SHEET_ID || "",
+    ivr_spreadsheetId: process.env.GOOGLE_IVR_SHEET_ID || "",
+    scopes: process.env.SCOPES || "",
+    client_email: process.env.CLIENT_EMAIL || "",
     private_key: process.env.PRIVATE_KEY || " ",
-    value_input_option: process.env.VALUE_INPUT_OPTION || "RAW",
+    value_input_option: process.env.VALUE_INPUT_OPTION || "",
   },
 };
 

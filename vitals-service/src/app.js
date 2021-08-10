@@ -1,9 +1,11 @@
-const logger = require('./utils/logger');
+const logger = require("./utils/logger");
 
 const express = require('express'),
   bodyParser = require('body-parser'),
   envVariables = require('./env-variables'),
   port = envVariables.port;
+  ivrService = require("../src/service/ivr-service");
+  CronJob = require("cron").CronJob;
 
 const createAppServer = () => {
 const app = express();
@@ -28,5 +30,27 @@ const app = express();
     return app;
 }
 
+/**
+ * 
+ * Cron Job Starts Every Day at 11:59:59pm;
+ *  
+ */
+const job = new CronJob(
+  "59 59 23 * * *",
+  async () => {
+    logger.info(`Cron job start successfully! at ${new Date()}`);
+    const result = await ivrService.main();
+    if (result) {
+      logger.info(`Cron job completed successfully! at ${new Date()}`);
+    }
+  },
+  () => {
+    /* This function is executed when the job stops */
+    logger.info(`Cron job failed at ${new Date()}`);
+    job.start();
+  }
+);
+
+job.start();
 const app = createAppServer();
 app.listen(port, () => logger.info(`Vitals-Server is running on port ${envVariables.port} with contextPath: ${envVariables.contextPath}`));
