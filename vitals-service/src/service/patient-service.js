@@ -60,7 +60,7 @@ class PersonService {
         query: query,
         variables: {
           patient_id: patient_id,
-          mobile_hash: hashedMobile || ""
+          mobile_hash: hashedMobile || "",
         },
         operationName: "get_people",
       }),
@@ -78,6 +78,35 @@ class PersonService {
     return persons;
   }
 
+  async geUniqtPatients() {
+    let dateRange = utils.dateRange();
+    const operationsDoc = `
+      query get_patient( $from: timestamptz!, $to: timestamptz!) {
+        person(distinct_on: patient_id,where: {created_at: {_gte: $from, _lte: $to}}) {
+          patient_id
+        }
+      }
+    `;
+    var options = {
+      method: "POST",
+      body: JSON.stringify({
+        query: operationsDoc,
+        variables: {
+          from: dateRange.from + "+00:00",
+          to: dateRange.to + "+00:00",
+        },
+        operationName: "get_patient",
+      }),
+      headers: {
+        "x-hasura-admin-secret": config.hasuraAdminSecret,
+      },
+    };
+    let response = await fetch(config.hasuraUrl, options);
+    let data = await response.json();
+    let patients = data.data.person;
+    return patients;
+  }
+
   async getSubscribedPeople(mobileNumber) {
     let people = await this.getPersonsForMobileNumber(mobileNumber);
     const subscribedPeople = this.filterSubscribedPeople(people);
@@ -85,7 +114,7 @@ class PersonService {
   }
 
   validatePatient(num) {
-    return num.length <= 10 ? num.padStart(10,'0') : num.slice(0,10)
+    return num.length <= 10 ? num.padStart(10, "0") : num.slice(0, 10);
   }
 
   filterSubscribedPeople(people) {

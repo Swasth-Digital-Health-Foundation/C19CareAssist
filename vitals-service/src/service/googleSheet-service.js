@@ -8,7 +8,8 @@ class googleSheetManager {
     logger.info(`Sheet Data: ${JSON.stringify(sheetData.data)}`)
     const authClient = this.authorize();
     const request = {
-      spreadsheetId: envVariables.googleService.spreadsheetId,
+      spreadsheetId:
+        sheetData.spreadsheetId || envVariables.googleService.spreadsheetId,
       range: `${sheetData.sheetName}`,
       valueInputOption: envVariables.googleService.value_input_option,
       resource: {
@@ -27,7 +28,8 @@ class googleSheetManager {
   }
 
   authorize() {
-    let buffer = new Buffer(envVariables.googleService.private_key, "base64");
+    //Decode Base64 Code
+    let buffer = Buffer.from(envVariables.googleService.private_key, "base64");
     let private_key = buffer.toString("ascii");
 
     const authClient = new google.auth.JWT(
