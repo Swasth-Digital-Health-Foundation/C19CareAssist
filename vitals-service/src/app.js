@@ -50,7 +50,7 @@ const job = new CronJob(
     job.start();
   }
 );
-
+logger.info("Cron Job is running")
 job.start();
 const app = createAppServer();
 app.listen(port, () => logger.info(`Vitals-Server is running on port ${envVariables.port} with contextPath: ${envVariables.contextPath}`));
