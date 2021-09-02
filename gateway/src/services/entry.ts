@@ -194,7 +194,7 @@ class Entry {
       return {
         access_token: authHelper.generateAccessToken({ id: client!.id, name: client!.name, types: client!.types }),
         refresh_token: authHelper.generateRefreshToken({ id: client!.id, name: client!.name, types: client!.types }),
-        ...client!
+        api_token: authHelper.generateApiToken({ id: client!.id, name: client!.name, types: client!.types }),
       };
     } else {
       throw (new Error("username and password does not match"));
